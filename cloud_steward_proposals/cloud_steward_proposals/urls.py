@@ -15,9 +15,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, re_path, include
+from proposals.views import ClientPageViewSet
+from rest_framework.routers import DefaultRouter
+from django.views.generic import TemplateView
+
+# API Router
+router = DefaultRouter()
+router.register(r'pages', ClientPageViewSet, basename='clientpage')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('proposals.urls')),
+    
+    # API Endpoints
+    path('api/', include(router.urls)),
+
+    # Serve React's index.html for unmatched routes (React handles frontend routing)
+    re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name="index.html")),
 ]

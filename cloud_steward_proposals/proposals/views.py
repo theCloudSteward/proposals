@@ -1,20 +1,17 @@
 # proposals/views.py
-from rest_framework import viewsets, status
 from rest_framework.response import Response
-from django.utils import timezone
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from django.shortcuts import get_object_or_404
 from .models import ClientPage
 from .serializers import ClientPageSerializer
 
-class ClientPageViewSet(viewsets.ViewSet):
-    def retrieve(self, request, slug=None):
-        try:
-            page = ClientPage.objects.get(slug=slug)
-        except ClientPage.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+class ClientPageViewSet(ReadOnlyModelViewSet):
+    queryset = ClientPage.objects.all()
+    serializer_class = ClientPageSerializer
+    lookup_field = 'slug'
 
-        # If expired, treat it as a 404
-        if page.expires_at < timezone.now():
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = ClientPageSerializer(page)
+    # Corrected retrieve method without @action
+    def retrieve(self, request, slug=None, *args, **kwargs):
+        client_page = get_object_or_404(ClientPage, slug=slug)
+        serializer = self.get_serializer(client_page)
         return Response(serializer.data)

@@ -44,7 +44,7 @@ function ClientPage() {
 
   // Fetch data for the current slug
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/pages/${slug}/`)
+    fetch(`http://137.184.196.174:8000/api/pages/${slug}/`)
       .then((res) => {
         if (res.status === 404) {
           setNotFound(true);

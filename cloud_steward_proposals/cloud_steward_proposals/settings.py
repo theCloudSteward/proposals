@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-4*$_=kqk@e)lt=w)!swb_3kto%j=n6og1crkqjiuzk*_@vj*b3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["137.184.196.174", "137.184.196.174:8000"]
+ALLOWED_HOSTS = ["137.184.196.174", "proposals.thecloudsteward.com", "www.proposals.thecloudsteward.com"]
 
 
 # Application definition
@@ -129,7 +129,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = '/var/www/proposals_static'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, '../frontend/build/static'),
 ]

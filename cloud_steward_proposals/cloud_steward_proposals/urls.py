@@ -26,10 +26,8 @@ router.register(r'pages', ClientPageViewSet, basename='clientpage')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    # API Endpoints
-    path('api/', include(router.urls)),
-
-    # Serve React's index.html for unmatched routes (React handles frontend routing)
-    re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name="index.html")),
+    path('api/', include('proposals.urls')),  # your existing API urls
 ]
+
+# Clearly serve React's index.html for all other routes
+urlpatterns += [re_path(r'^.*$', TemplateView.as_view(template_name='index.html'))]

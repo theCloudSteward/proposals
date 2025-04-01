@@ -1,33 +1,16 @@
-"""
-URL configuration for cloud_steward_proposals project.
+# cloud_steward_proposals/urls.py
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, re_path, include
-from proposals.views import ClientPageViewSet
-from rest_framework.routers import DefaultRouter
 from django.views.generic import TemplateView
 
-# API Router
-router = DefaultRouter()
-router.register(r'pages', ClientPageViewSet, basename='clientpage')
-
 urlpatterns = [
+    # 1) Admin route (must come first to avoid overshadow by catch-all)
     path('admin/', admin.site.urls),
-    path('api/', include('proposals.urls')),  # your existing API urls
-]
 
-# Clearly serve React's index.html for all other routes
-urlpatterns += [re_path(r'^.*$', TemplateView.as_view(template_name='index.html'))]
+    # 2) Include your proposals app routes (the REST/DRF endpoints)
+    path('api/', include('proposals.urls')),
+
+    # 3) Catch-all for React (serves index.html for any other path)
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
+]

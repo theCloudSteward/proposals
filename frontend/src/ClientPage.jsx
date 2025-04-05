@@ -9,6 +9,9 @@ import ProjectDetails from "./components/ProjectDetails";
 import SubscriptionPlans from "./components/SubscriptionPlans";
 import Summary from "./components/Summary";
 
+// Import the CheckoutButton component
+import CheckoutButton from "./components/CheckoutButton";
+
 function ClientPage() {
   const { slug } = useParams();
   const [data, setData] = useState(null);
@@ -96,6 +99,12 @@ function ClientPage() {
     monthlyCost = activePlan.monthlyPrice;
   }
 
+  const finalOption =
+    selectedOption === "project-only"
+      ? "project-only"
+      : "project+subscription";
+
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
       <Helmet>
@@ -127,6 +136,14 @@ function ClientPage() {
           monthlyCost={monthlyCost}
           activePlan={activePlan}
         />
+
+        {/* 
+          The CheckoutButton uses `slug` and the current `selectedOption`
+          to call your Stripe session endpoint and redirect the user.
+        */}
+        <div className="mt-6 mb-10 text-center">
+          <CheckoutButton slug={slug} option={finalOption} />
+        </div>
       </main>
     </div>
   );

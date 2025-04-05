@@ -1,16 +1,12 @@
-# cloud_steward_proposals/urls.py
-
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.generic import TemplateView
+from proposals.views import create_checkout_session, get_checkout_session_details
 
 urlpatterns = [
-    # 1) Admin route (must come first to avoid overshadow by catch-all)
     path('admin/', admin.site.urls),
-
-    # 2) Include your proposals app routes (the REST/DRF endpoints)
+    path('api/create-checkout-session/', create_checkout_session, name='create-checkout-session'),
+    path('api/order/success/', get_checkout_session_details, name='order-success'),
     path('api/', include('proposals.urls')),
-
-    # 3) Catch-all for React (serves index.html for any other path)
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
+    re_path(r'^(?!api/|c/success).*$', TemplateView.as_view(template_name='index.html')),
 ]

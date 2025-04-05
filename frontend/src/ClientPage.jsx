@@ -19,7 +19,7 @@ function ClientPage() {
       monthlyPrice: 299,
       discountPercent: 20, // 20% discount on project price
       features: [
-        "USA-based tech support",
+        "INDIA-based tech support",
         "Free ongoing maintenance for all Cloud Steward scripts",
         "Resolve script errors within hours",
         "100% uptime for Cloud Steward scripts",

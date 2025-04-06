@@ -10,6 +10,7 @@ def generate_slug():
     return uuid.uuid4().hex[:8]
 
 class ClientPage(models.Model):
+    auto_link = models.URLField(blank=True, editable=False)
     slug = models.SlugField(unique=True, default=generate_slug)
     company_name = models.CharField(max_length=200, blank=True)
     client_name = models.CharField(max_length=200, blank=True)
@@ -35,6 +36,10 @@ class ClientPage(models.Model):
     def __str__(self):
         return f"{self.client_name} - {self.project_name}"
 
-    @property
-    def auto_link(self):
-        return f"https://proposals.thecloudsteward.com/{self.slug}"
+    def save(self, *args, **kwargs):
+        # Ensure the slug exists
+        if not self.slug:
+            self.slug = generate_slug()
+        # Set the auto_link field based on the slug
+        self.auto_link = f"https://proposals.thecloudsteward.com/{self.slug}"
+        super().save(*args, **kwargs)

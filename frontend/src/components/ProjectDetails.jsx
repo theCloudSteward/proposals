@@ -8,9 +8,7 @@ function ProjectDetails({
   selectedOption
 }) {
   return (
-    <section className="py-12" style={{ backgroundColor: '#596E5C' }}>
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="bg-white shadow-md rounded p-6 mb-10">
+      <div className="max-w-5xl mx-auto px-4 py-8">
           <h2 className="text-2xl font-bold mb-4 text-gray-800">
             {data.project_name}
           </h2>
@@ -54,8 +52,6 @@ function ProjectDetails({
             </button>
           </div>
         </div>
-      </div>
-    </section>
   );
 }
 

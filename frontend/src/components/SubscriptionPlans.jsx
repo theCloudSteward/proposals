@@ -12,7 +12,7 @@ function SubscriptionPlans({
   const premiumPrice = originalProjectPrice * 1.5;  // 50% more than original
 
   return (
-      <div className="max-w-5xl mx-auto px-4">
+      <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Tier 1: Basic */}
           <div className="bg-white shadow-md rounded p-6 flex flex-col items-center">

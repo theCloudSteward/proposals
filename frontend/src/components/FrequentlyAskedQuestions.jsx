@@ -74,15 +74,15 @@ function FrequentlyAskedQuestions({
                     onClick={() => toggleAccordion(index)}
                     className="w-full text-left py-3 px-4 bg-gray-100 rounded-t focus:outline-none flex justify-between items-center"
                   >
-                    <span className="text-lg font-medium text-white">
+                    <span className="text-lg font-medium text-black">
                       {faq.question}
                     </span>
-                    <span className="text-white">
+                    <span className="text-black">
                       {openIndex === index ? '-' : '+'}
                     </span>
                   </button>
                   {openIndex === index && (
-                    <div className="p-4 bg-gray-50 rounded-b text-white">
+                    <div className="p-4 bg-gray-50 rounded-b text-black">
                       {faq.answer}
                     </div>
                   )}

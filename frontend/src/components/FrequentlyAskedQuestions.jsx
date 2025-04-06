@@ -38,25 +38,6 @@ function FrequentlyAskedQuestions({
   return (
     <section className="py-12" style={{ backgroundColor: '#383838' }}>
       <div className="max-w-5xl mx-auto px-4 text-white">
-          <h2 className="text-2xl font-bold mb-4 text-white">
-            {data.project_name}
-          </h2>
-          <p className="text-white mb-2">
-            <strong>Client:</strong> {data.client_name}
-          </p>
-          <p className="text-white mb-2">
-            <strong>Company:</strong> {data.company_name}
-          </p>
-          <p className="text-white mb-2">
-            <strong>Regular Project Price:</strong> $
-            {originalProjectPrice.toFixed(2)}
-          </p>
-
-          <div
-            className="prose mb-6 text-white"
-            dangerouslySetInnerHTML={{ __html: data.project_details }}
-          />
-
           {/* FAQ Layout */}
           <div className="flex flex-col md:flex-row md:space-x-6">
             {/* Left Side: FAQ Header */}

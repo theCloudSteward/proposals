@@ -30,24 +30,20 @@ function ProjectDetails({
             dangerouslySetInnerHTML={{ __html: data.project_details }}
           />
 
-          {/* Project-Only Card */}
-          <div className="bg-gray-100 p-4 rounded shadow-inner flex flex-col items-center md:flex-row md:justify-between">
-            <div>
-              <h3 className="text-xl font-semibold text-gray-800">
-                Project Only
-              </h3>
-              <p className="text-gray-600">
-                Pay once for the project, no monthly fees.
-              </p>
-            </div>
-            <div className="mt-4 md:mt-0">
-              <p className="text-2xl font-bold text-gray-800">
-                ${originalProjectPrice.toFixed(2)}
-              </p>
-            </div>
+          {/* Project-Only Text Directly on Page */}
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800">
+              Project Only
+            </h3>
+            <p className="text-gray-600">
+              Pay once for the project, no monthly fees.
+            </p>
+            <p className="text-2xl font-bold text-gray-800 mt-4">
+              ${originalProjectPrice.toFixed(2)}
+            </p>
             <button
               onClick={() => setSelectedOption('project-only')}
-              className={`mt-4 md:mt-0 ml-0 md:ml-4 py-2 px-4 rounded transition-colors border 
+              className={`mt-4 py-2 px-4 rounded transition-colors border 
                 ${
                   isProjectOnly
                     ? 'bg-[#435B45] border-[#435B45] text-white hover:bg-[#3A513C]'

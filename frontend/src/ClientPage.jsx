@@ -7,7 +7,10 @@ import { Helmet } from "react-helmet";
 import ClientHeader from "./components/ClientHeader";
 import ProjectDetails from "./components/ProjectDetails";
 import SubscriptionPlans from "./components/SubscriptionPlans";
-import Summary from "./components/Summary";
+import PlanComparison from "./components/PlanComparison";
+import SingleProjectOption from "./components/SingleProjectOption";
+import FrequentlyAskedQuestions from "./components/FrequentlyAskedQuestions";
+import Footer from "./components/Footer";
 
 // Import the CheckoutButton component
 import CheckoutButton from "./components/CheckoutButton";
@@ -69,7 +72,7 @@ function ClientPage() {
   if (notFound) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 font-sans">
-        <h1 className="text-3xl font-bold text-red-600">
+        <h1 className="text-3xl">
           This page does not exist or has expired.
         </h1>
       </div>
@@ -79,7 +82,7 @@ function ClientPage() {
   if (!data) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans">
-        <p className="text-lg text-gray-700">Loading...</p>
+        <p className="text-lg text-gray-700 font-bold">Loading...</p>
       </div>
     );
   }
@@ -98,11 +101,6 @@ function ClientPage() {
     finalProjectPrice = originalProjectPrice * (1 - discount);
     monthlyCost = activePlan.monthlyPrice;
   }
-
-  const finalOption =
-    selectedOption === "project-only"
-      ? "project-only"
-      : "project+subscription";
 
 
   return (
@@ -129,21 +127,33 @@ function ClientPage() {
           setSelectedOption={setSelectedOption}
         />
 
-        <Summary
-          isProjectOnly={isProjectOnly}
+        <PlanComparison
+          data={data}
           originalProjectPrice={originalProjectPrice}
-          finalProjectPrice={finalProjectPrice}
-          monthlyCost={monthlyCost}
-          activePlan={activePlan}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
         />
+
+        <SingleProjectOption
+          originalProjectPrice={originalProjectPrice}
+          setSelectedOption={setSelectedOption}
+          isProjectOnly={isProjectOnly}
+        />
+
+        <FrequentlyAskedQuestions
+          data={data}
+          originalProjectPrice={originalProjectPrice}
+        />
+
+        <Footer/>
 
         {/* 
           The CheckoutButton uses `slug` and the current `selectedOption`
           to call your Stripe session endpoint and redirect the user.
         */}
-        <div className="mt-6 mb-10 text-center">
+        {/* <div className="mt-6 mb-10 text-center">
           <CheckoutButton slug={slug} option={finalOption} />
-        </div>
+        </div> */}
       </main>
     </div>
   );

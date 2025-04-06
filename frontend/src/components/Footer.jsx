@@ -10,7 +10,7 @@ function Footer() {
   };
 
   return (
-    <footer className="py-6" style={{ backgroundColor: '#596E5C' }}>
+    <footer className="py-6" style={{ backgroundColor: '#383838' }}>
       <div className="max-w-5xl mx-auto px-4 flex justify-center">
         <button
           onClick={scrollToTop}

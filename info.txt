@@ -1,0 +1,15 @@
+# 1. Build React
+cd ~/proposal.thecloudsteward/proposals/frontend
+npm run build
+
+# 2. Collect Django static files
+cd ~/proposal.thecloudsteward/proposals/cloud_steward_proposals
+source ../../venv/bin/activate
+python manage.py collectstatic --noinput
+deactivate
+
+# 3. Restart Gunicorn & Nginx
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+
+# Done! Your project has been rebuilt and fully restarted.

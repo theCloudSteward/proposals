@@ -12,12 +12,6 @@ function SubscriptionPlans({
   const premiumPrice = originalProjectPrice * 1.5;  // 50% more than original
 
   return (
-    <section
-      className="py-12"
-      style={{
-        background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)',
-      }}
-    >
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Tier 1: Basic */}
@@ -96,7 +90,6 @@ function SubscriptionPlans({
           </div>
         </div>
       </div>
-    </section>
   );
 }
 

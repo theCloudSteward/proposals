@@ -6,7 +6,6 @@ function SingleProjectOption({
   setSelectedOption,
 }) {
   return (
-    <section className="py-12" style={{ backgroundColor: '#596E5C' }}>
       <div className="max-w-5xl mx-auto px-4">
         <div className="bg-white shadow-md rounded p-6 mb-10">
           {/* Project-Only Card */}
@@ -38,7 +37,6 @@ function SingleProjectOption({
           </div>
         </div>
       </div>
-    </section>
   );
 }
 

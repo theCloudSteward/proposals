@@ -12,9 +12,6 @@ function PlanComparison({
   const premiumPrice = originalProjectPrice * 1.5; // 50% more than original
 
   return (
-    <section
-      className="py-12"
-    >
       <div className="max-w-5xl mx-auto px-4">
         <div className="bg-white shadow-md rounded p-6 mb-10">
           <h2 className="text-2xl font-bold mb-4 text-gray-800">
@@ -144,7 +141,6 @@ function PlanComparison({
           </div>
         </div>
       </div>
-    </section>
   );
 }
 

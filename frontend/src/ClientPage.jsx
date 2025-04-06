@@ -120,25 +120,33 @@ function ClientPage() {
           isProjectOnly={isProjectOnly}
         />
 
-        <SubscriptionPlans
-          subscriptionPlans={SUBSCRIPTION_PLANS}
-          originalProjectPrice={originalProjectPrice}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
+        <section
+          className="py-12"
+          style={{
+            background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)',
+          }}
+        >
+          <SubscriptionPlans
+            subscriptionPlans={SUBSCRIPTION_PLANS}
+            originalProjectPrice={originalProjectPrice}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
 
-        <PlanComparison
-          data={data}
-          originalProjectPrice={originalProjectPrice}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
+          <PlanComparison
+            data={data}
+            originalProjectPrice={originalProjectPrice}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
 
-        <SingleProjectOption
-          originalProjectPrice={originalProjectPrice}
-          setSelectedOption={setSelectedOption}
-          isProjectOnly={isProjectOnly}
-        />
+          <SingleProjectOption
+            originalProjectPrice={originalProjectPrice}
+            setSelectedOption={setSelectedOption}
+            isProjectOnly={isProjectOnly}
+          />
+        </section>
+
 
         <FrequentlyAskedQuestions
           data={data}

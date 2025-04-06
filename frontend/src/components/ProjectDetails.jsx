@@ -12,15 +12,18 @@ function ProjectDetails({data}) {
           <p className="mb-2 font-bold">
             <strong>Contact:</strong> {data.client_name}
           </p>
-          <div
-            className="prose mb-6 text-gray-800"
-            dangerouslySetInnerHTML={{ __html: data.project_summary }}
-          />
           <div>
-            <h3 className="mb-2 font-bold">Objectives</h3>
+            <h3 className="mb-2 font-bold"><strong>Project Description</strong></h3>
             <div
               className="prose mb-6 text-gray-800"
               dangerouslySetInnerHTML={{ __html: data.project_summary }}
+            />
+          </div>
+          <div>
+            <h3 className="mb-2 font-bold"><strong>Objectives</strong></h3>
+            <div
+              className="prose mb-6 text-gray-800"
+              dangerouslySetInnerHTML={{ __html: data.project_objectives }}
             />
           </div>
       </div>

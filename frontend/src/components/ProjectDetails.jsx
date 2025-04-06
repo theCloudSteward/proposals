@@ -23,8 +23,10 @@ function ProjectDetails({data}) {
             <h3 className="mb-2 font-bold"><strong>Objectives</strong></h3>
             <div
               className="prose mb-6 text-gray-800"
-              dangerouslySetInnerHTML={{ __html: data.project_objectives }}
-            />
+              style={{ whiteSpace: 'pre-line' }} // This honors line breaks in plain text
+            >
+              {data.project_objectives}
+            </div>
           </div>
       </div>
   );

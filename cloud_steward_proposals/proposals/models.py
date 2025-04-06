@@ -1,13 +1,18 @@
-# proposals/models.py
+import uuid
 from django.db import models
 from django.utils import timezone
 
 def thirty_days_from_now():
     return timezone.now() + timezone.timedelta(days=30)
 
+def generate_slug():
+    # Generate an 8-character hexadecimal string.
+    # You could also use the full uuid if you prefer.
+    return uuid.uuid4().hex[:8]
+
 class ClientPage(models.Model):
-    # For each custom page, store a unique slug or token
-    slug = models.SlugField(unique=True)
+    # The slug field will use generate_slug() to set a default value.
+    slug = models.SlugField(unique=True, default=generate_slug)
     client_name = models.CharField(max_length=200, blank=True)
     company_name = models.CharField(max_length=200, blank=True)
     project_name = models.CharField(max_length=200, blank=True)
@@ -17,5 +22,5 @@ class ClientPage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(default=thirty_days_from_now)
 
-def __str__(self):
-    return f"{self.client_name} - {self.project_name}"
+    def __str__(self):
+        return f"{self.client_name} - {self.project_name}"

@@ -37,24 +37,23 @@ function FrequentlyAskedQuestions({
 
   return (
     <section className="py-12" style={{ backgroundColor: '#383838' }}>
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="bg-white shadow-md rounded p-6 mb-10">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
+      <div className="max-w-5xl mx-auto px-4 text-white">
+          <h2 className="text-2xl font-bold mb-4 text-white">
             {data.project_name}
           </h2>
-          <p className="text-gray-700 mb-2">
+          <p className="text-white mb-2">
             <strong>Client:</strong> {data.client_name}
           </p>
-          <p className="text-gray-700 mb-2">
+          <p className="text-white mb-2">
             <strong>Company:</strong> {data.company_name}
           </p>
-          <p className="text-gray-700 mb-2">
+          <p className="text-white mb-2">
             <strong>Regular Project Price:</strong> $
             {originalProjectPrice.toFixed(2)}
           </p>
 
           <div
-            className="prose mb-6 text-gray-800"
+            className="prose mb-6 text-white"
             dangerouslySetInnerHTML={{ __html: data.project_details }}
           />
 
@@ -62,7 +61,7 @@ function FrequentlyAskedQuestions({
           <div className="flex flex-col md:flex-row md:space-x-6">
             {/* Left Side: FAQ Header */}
             <div className="md:w-1/3 mb-6 md:mb-0">
-              <h3 className="text-2xl font-semibold text-gray-800">
+              <h3 className="text-2xl font-semibold text-white">
                 Frequently Asked Questions
               </h3>
             </div>
@@ -75,15 +74,15 @@ function FrequentlyAskedQuestions({
                     onClick={() => toggleAccordion(index)}
                     className="w-full text-left py-3 px-4 bg-gray-100 rounded-t focus:outline-none flex justify-between items-center"
                   >
-                    <span className="text-lg font-medium text-gray-800">
+                    <span className="text-lg font-medium text-white">
                       {faq.question}
                     </span>
-                    <span className="text-gray-600">
+                    <span className="text-white">
                       {openIndex === index ? '-' : '+'}
                     </span>
                   </button>
                   {openIndex === index && (
-                    <div className="p-4 bg-gray-50 rounded-b text-gray-700">
+                    <div className="p-4 bg-gray-50 rounded-b text-white">
                       {faq.answer}
                     </div>
                   )}
@@ -92,7 +91,6 @@ function FrequentlyAskedQuestions({
             </div>
           </div>
         </div>
-      </div>
     </section>
   );
 }

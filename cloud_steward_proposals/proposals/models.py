@@ -7,7 +7,6 @@ def thirty_days_from_now():
     return timezone.now() + timezone.timedelta(days=30)
 
 def generate_slug():
-    # Generate an 8-character hexadecimal string.
     return uuid.uuid4().hex[:8]
 
 class ClientPage(models.Model):
@@ -35,3 +34,7 @@ class ClientPage(models.Model):
 
     def __str__(self):
         return f"{self.client_name} - {self.project_name}"
+
+    @property
+    def auto_link(self):
+        return f"https://proposals.thecloudsteward.com/{self.slug}"

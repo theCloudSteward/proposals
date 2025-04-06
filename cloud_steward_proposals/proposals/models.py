@@ -10,8 +10,8 @@ def generate_slug():
     return uuid.uuid4().hex[:8]
 
 class ClientPage(models.Model):
-    auto_link = models.URLField(blank=True, editable=False)
     slug = models.SlugField(unique=True, default=generate_slug)
+    auto_link = models.URLField(blank=True, editable=False)
     company_name = models.CharField(max_length=200, blank=True)
     client_name = models.CharField(max_length=200, blank=True)
     project_name = models.CharField(max_length=200, blank=True)

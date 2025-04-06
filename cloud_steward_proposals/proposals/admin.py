@@ -5,8 +5,9 @@ from .models import ClientPage
 class ClientPageAdmin(admin.ModelAdmin):
     list_display = (
         'slug',
-        'company_name',
+        'auto_link',
         'client_name',
+        'company_name',
         'project_name',
         'project_notes',
         'project_summary',
@@ -18,5 +19,5 @@ class ClientPageAdmin(admin.ModelAdmin):
         'tier_3_subscription_price',
         'is_consultant',
         'created_at',
-        'expires_at'
+        'expires_at',
     )

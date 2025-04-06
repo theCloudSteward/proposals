@@ -14,11 +14,6 @@ function PlanComparison({
   return (
     <section
       className="py-12"
-      style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
     >
       <div className="max-w-5xl mx-auto px-4">
         <div className="bg-white shadow-md rounded p-6 mb-10">

@@ -16,13 +16,32 @@ function SubscriptionPlans({
     <section
       className="py-12"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        background: 'rgb(253,240,249)',
+        background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)',
       }}
     >
       <div className="max-w-5xl mx-auto px-4">
         <div className="bg-white shadow-md rounded p-6 mb-10">
+          {/* Project Details Section */}
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">
+            {data.project_name}
+          </h2>
+          <p className="text-gray-700 mb-2">
+            <strong>Client:</strong> {data.client_name}
+          </p>
+          <p className="text-gray-700 mb-2">
+            <strong>Company:</strong> {data.company_name}
+          </p>
+          <p className="text-gray-700 mb-2">
+            <strong>Regular Project Price:</strong> $
+            {originalProjectPrice.toFixed(2)}
+          </p>
+
+          <div
+            className="prose mb-6 text-gray-800"
+            dangerouslySetInnerHTML={{ __html: data.project_details }}
+          />
+
           {/* Tier 1: Basic */}
           <div className="bg-gray-100 p-4 rounded shadow-inner flex flex-col items-center md:flex-row md:justify-between mb-6">
             <div>

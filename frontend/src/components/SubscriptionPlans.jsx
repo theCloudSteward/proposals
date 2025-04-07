@@ -19,12 +19,12 @@ function SubscriptionPlans({
             <div>
               <h3 className="text-xl font-semibold text-gray-800">Basic</h3>
               <p className="text-gray-600">
-                Core project features, one-time payment.
+                A Fresh Start
               </p>
             </div>
             <div className="mt-4">
               <p className="text-2xl font-bold text-gray-800">
-                ${basicPrice.toFixed(2)}
+                ${data.tier_1_subscription_price.toFixed(2)}
               </p>
             </div>
             <button
@@ -35,7 +35,7 @@ function SubscriptionPlans({
                   : 'bg-white text-gray-800 hover:bg-gray-200'
               }`}
             >
-              {selectedOption === 'basic' ? 'Selected' : 'Select'}
+              {selectedOption === 'basic' ? 'Selected' : 'Subscribe'}
             </button>
           </div>
 
@@ -44,12 +44,12 @@ function SubscriptionPlans({
             <div>
               <h3 className="text-xl font-semibold text-gray-800">Standard</h3>
               <p className="text-gray-600">
-                Full project scope, no monthly fees.
+                Full System Maintenance
               </p>
             </div>
             <div className="mt-4">
               <p className="text-2xl font-bold text-gray-800">
-                ${standardPrice.toFixed(2)}
+                ${data.tier_2_subscription_price.toFixed(2)}
               </p>
             </div>
             <button
@@ -60,7 +60,7 @@ function SubscriptionPlans({
                   : 'bg-white text-gray-800 hover:bg-gray-200'
               }`}
             >
-              {selectedOption === 'standard' ? 'Selected' : 'Select'}
+              {selectedOption === 'standard' ? 'Selected' : 'Subscribe'}
             </button>
           </div>
 
@@ -69,12 +69,12 @@ function SubscriptionPlans({
             <div>
               <h3 className="text-xl font-semibold text-gray-800">Premium</h3>
               <p className="text-gray-600">
-                Enhanced features, priority support, one-time payment.
+                VIP Support
               </p>
             </div>
             <div className="mt-4">
               <p className="text-2xl font-bold text-gray-800">
-                ${premiumPrice.toFixed(2)}
+                ${data.tier_1_subscription_price.toFixed(2)}
               </p>
             </div>
             <button
@@ -85,7 +85,7 @@ function SubscriptionPlans({
                   : 'bg-white text-gray-800 hover:bg-gray-200'
               }`}
             >
-              {selectedOption === 'premium' ? 'Selected' : 'Select'}
+              {selectedOption === 'premium' ? 'Selected' : 'Subscribe'}
             </button>
           </div>
         </div>

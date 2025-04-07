@@ -9,7 +9,7 @@ function ProjectDetails({data}) {
           <h3 className="mb-2 font-bold">
             <strong>Prepared for:</strong> {data.company_name}
           </h3>
-          <p className="mb-14 font-bold">
+          <p className="mb-9 font-bold">
             <strong>Contact:</strong> {data.client_name}
           </p>
           <div>

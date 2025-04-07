@@ -109,62 +109,61 @@ function ClientPage() {
         <title>{pageTitle}</title>
       </Helmet>
 
-      <ClientHeader />
-
-      <main className="flex-grow">
-        <ProjectDetails
-          data={data}
-          originalProjectPrice={originalProjectPrice}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-          isProjectOnly={isProjectOnly}
-        />
-
-        <section
-          className="py-12"
-          style={{
-            background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)',
-          }}
-        >
-          <SubscriptionPlans
-            data={data}
-            subscriptionPlans={SUBSCRIPTION_PLANS}
-            originalProjectPrice={originalProjectPrice}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-          />
-
-          <PlanComparison
+      <section
+        className="py-12"
+        style={{
+          background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)',
+        }}
+      >
+        <ClientHeader />
+        <main className="flex-grow">
+          <ProjectDetails
             data={data}
             originalProjectPrice={originalProjectPrice}
             selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-          />
-
-          <SingleProjectOption
-            data={data}
-            originalProjectPrice={originalProjectPrice}
             setSelectedOption={setSelectedOption}
             isProjectOnly={isProjectOnly}
           />
-        </section>
+
+            <SubscriptionPlans
+              data={data}
+              subscriptionPlans={SUBSCRIPTION_PLANS}
+              originalProjectPrice={originalProjectPrice}
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
+            />
+
+            <PlanComparison
+              data={data}
+              originalProjectPrice={originalProjectPrice}
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
+            />
+
+            <SingleProjectOption
+              data={data}
+              originalProjectPrice={originalProjectPrice}
+              setSelectedOption={setSelectedOption}
+              isProjectOnly={isProjectOnly}
+            />
 
 
-        <FrequentlyAskedQuestions
-          data={data}
-          originalProjectPrice={originalProjectPrice}
-        />
+          <FrequentlyAskedQuestions
+            data={data}
+            originalProjectPrice={originalProjectPrice}
+          />
 
-        <Footer/>
+          <Footer/>
 
-        {/* 
-          The CheckoutButton uses `slug` and the current `selectedOption`
-          to call your Stripe session endpoint and redirect the user.
-        */}
-        {/* <div className="mt-6 mb-10 text-center">
-          <CheckoutButton slug={slug} option={finalOption} />
-        </div> */}
-      </main>
+          {/* 
+            The CheckoutButton uses `slug` and the current `selectedOption`
+            to call your Stripe session endpoint and redirect the user.
+          */}
+          {/* <div className="mt-6 mb-10 text-center">
+            <CheckoutButton slug={slug} option={finalOption} />
+          </div> */}
+        </main>
+      </section>
     </div>
   );
 }

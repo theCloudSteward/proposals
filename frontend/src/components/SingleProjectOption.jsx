@@ -7,7 +7,7 @@ function SingleProjectOption({
   setSelectedOption,
 }) {
   return (
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto my-10 py-10">
         <h2 className="max-w-5xl mx-auto text-center px-4 font-bold mb-4">Project Only?</h2>
         <div className="bg-white bg-opacity-50 shadow-md rounded p-6 mb-10">
           {/* Project-Only Card */}

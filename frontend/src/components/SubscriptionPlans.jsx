@@ -57,7 +57,7 @@ function SubscriptionCard({
         <div className="w-full text-center my-6">
           <p className="text-3xl font-bold text-gray-800">
             ${price}
-            <span className="text-lg text-gray-500">/month</span>
+            <span className="text-base text-gray-500">/month</span>
           </p>
         </div>
         {children}
@@ -99,11 +99,12 @@ function SubscriptionPlans({
             <div className="mt-4 w-full text-left">
               <div className="flex items-center">
                 <span className="mr-2 text-xl">➕</span>
-                <span className="text-sm font-bold">$800 Single-Time Payment for Project 
+                <span className="text-sm font-bold">
+                  $800 One-Time Payment for Project 
                 </span>
-              </div>
-              <div class="rounded-sm bg-opacity-70 bg-red-500 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
-                20% Discount
+                <div class="rounded-sm bg-opacity-80 bg-red-600 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
+                  20% Discount
+                </div>
               </div>
               <hr className="my-2 border-gray-300" />
               <div className="flex items-center">

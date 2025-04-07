@@ -4,7 +4,7 @@ function ProjectDetails({ data }) {
   return (
     <div className="w-full mb-10">
       <div className="px-4 py-8 bg-white bg-opacity-40 shadow-lg rounded-b-lg">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <h1 className="text-2xl font-bold mb-4">{data.project_name}</h1>
           <h3 className="mb-2 font-bold">
             <strong>Prepared for:</strong> {data.company_name}

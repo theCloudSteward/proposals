@@ -7,23 +7,33 @@ function SubscriptionCard({
   option,
   selectedOption,
   setSelectedOption,
-  children, // for extra details (only for Basic)
+  children, // extra details (for Basic card)
 }) {
-  // This state will control the background position of the header
+  // Default background position is centered
   const [bgPos, setBgPos] = useState('50% 50%');
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    // Calculate percentage coordinates relative to the card
+    // Calculate cursor position as percentages
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
-    setBgPos(`${x}% ${y}%`);
+    // Amplify the effect relative to center (50%, 50%)
+    const factor = 1.5; // Increase this value for a larger effect
+    const offsetX = 50 + (x - 50) * factor;
+    const offsetY = 50 + (y - 50) * factor;
+    setBgPos(`${offsetX}% ${offsetY}%`);
+  };
+
+  const handleMouseLeave = () => {
+    // Reset to centered gradient when mouse leaves
+    setBgPos('50% 50%');
   };
 
   return (
     <div
       className="group bg-white bg-opacity-40 shadow-md rounded-xl overflow-hidden flex flex-col items-center transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Header with shifting gradient */}
       <div
@@ -47,10 +57,10 @@ function SubscriptionCard({
         <div className="w-full text-center my-6">
           <p className="text-3xl font-bold text-gray-800">
             ${price}
-            <span className="text-xl text-gray-600">/month</span>
+            <span className="text-lg text-gray-500">/month</span>
           </p>
         </div>
-        {children /* extra details if provided */}
+        {children}
         <button
           onClick={() => setSelectedOption(option)}
           className={`my-8 py-2 px-4 rounded transition-colors border ${
@@ -89,7 +99,11 @@ function SubscriptionPlans({
             <div className="mt-4 w-full text-left">
               <div className="flex items-center">
                 <span className="mr-2 text-lg">➕</span>
-                <span className="text-sm font-bold">$800 Single-Time Payment for Project (20% Off)</span>
+                <span className="text-sm">$800 Single-Time Payment for Project 
+                  <span class="rounded-md bg-red-600 py-0.5 px-2.5 border border-transparent text-sm text-white transition-all shadow-sm">
+                    20% Discount
+                  </span>
+                </span>
               </div>
               <hr className="my-2 border-gray-300" />
               <div className="flex items-center">

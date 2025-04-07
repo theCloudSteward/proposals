@@ -20,7 +20,7 @@ class ClientPage(models.Model):
     project_objectives = models.TextField(blank=True)
     project_only_price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     project_with_subscription_price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
-    tier_1_subscription_price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True, default=Decimal('249'))
+    tier_1_subscription_price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True, default=Decimal('295'))
     tier_2_subscription_price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True, default=Decimal('649'))
     tier_3_subscription_price = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True, default=Decimal('1475'))
     is_consultant = models.BooleanField(default=False)

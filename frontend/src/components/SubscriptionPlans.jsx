@@ -13,10 +13,10 @@ function SubscriptionPlans({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
           {/* Tier 1: Basic */}
-          <div className="bg-white bg-opacity-40 shadow-md rounded-l overflow-hidden flex flex-col items-center">
-            {/* Gradient Header Box (fills width and touches top) */}
+          <div className="group bg-white bg-opacity-40 shadow-md rounded-xl overflow-hidden flex flex-col items-center transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:brightness-105">
+            {/* Gradient Header Box (full width and at top) */}
             <div 
-              className="w-full"
+              className="w-full transition-all duration-300 group-hover:brightness-125"
               style={{ background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)' }}
             >
               <div className="p-3 text-center">
@@ -26,11 +26,11 @@ function SubscriptionPlans({
             </div>
             {/* Content container */}
             <div className="w-full p-6 flex flex-col items-center">
-              {/* Price placed at the very top */}
-              <div className="w-full text-center">
+              {/* Price placed at the very top of the content */}
+              <div className="w-full text-center my-6">
                 <p className="text-3xl font-bold text-gray-800">
                   ${data.tier_1_subscription_price}
-                  <span className="text-l text-gray-600">/month</span>
+                  <span className="text-xl text-gray-600">/month</span>
                 </p>
               </div>
               {/* Extra details for Basic card */}
@@ -64,10 +64,10 @@ function SubscriptionPlans({
           </div>
           
           {/* Tier 2: Standard */}
-          <div className="bg-white bg-opacity-60 shadow-md rounded-l overflow-hidden flex flex-col items-center">
+          <div className="group bg-white bg-opacity-60 shadow-md rounded-xl overflow-hidden flex flex-col items-center transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:brightness-105">
             {/* Gradient Header Box */}
             <div 
-              className="w-full"
+              className="w-full transition-all duration-300 group-hover:brightness-125"
               style={{ background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)' }}
             >
               <div className="p-3 text-center">
@@ -81,7 +81,7 @@ function SubscriptionPlans({
               <div className="w-full text-center">
                 <p className="text-3xl font-bold text-gray-800">
                   ${data.tier_2_subscription_price}
-                  <span className="text-l text-gray-600">/month</span>
+                  <span className="text-xl text-gray-600">/month</span>
                 </p>
               </div>
               <button
@@ -98,10 +98,10 @@ function SubscriptionPlans({
           </div>
           
           {/* Tier 3: Premium */}
-          <div className="bg-white bg-opacity-40 shadow-md rounded-l overflow-hidden flex flex-col items-center">
+          <div className="group bg-white bg-opacity-40 shadow-md rounded-xl overflow-hidden flex flex-col items-center transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:brightness-105">
             {/* Gradient Header Box */}
             <div 
-              className="w-full"
+              className="w-full transition-all duration-300 group-hover:brightness-125"
               style={{ background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)' }}
             >
               <div className="p-3 text-center">
@@ -115,7 +115,7 @@ function SubscriptionPlans({
               <div className="w-full text-center">
                 <p className="text-3xl font-bold text-gray-800">
                   ${data.tier_3_subscription_price}
-                  <span className="text-l text-gray-600">/month</span>
+                  <span className="text-xl text-gray-600">/month</span>
                 </p>
               </div>
               <button

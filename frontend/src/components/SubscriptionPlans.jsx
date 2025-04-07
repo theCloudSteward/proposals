@@ -102,7 +102,7 @@ function SubscriptionPlans({
                 <span className="text-sm font-bold">
                   $800 One-Time Payment for Project 
                 </span>
-                <div class="rounded-sm items-center bg-opacity-60 bg-red-700 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
+                <div class="rounded-md items-center bg-opacity-60 bg-red-700 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
                   20% Off
                 </div>
               </div>

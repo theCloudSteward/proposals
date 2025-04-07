@@ -110,7 +110,7 @@ function ClientPage() {
 
       {/* Gradient section that covers the top of the page */}
       <section
-        className="min-h-screen py-12"
+        className="min-h-screen"
         style={{
           background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)',
         }}

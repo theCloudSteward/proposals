@@ -31,7 +31,7 @@ function SubscriptionCard({
 
   return (
     <div
-      className="group bg-white bg-opacity-40 shadow-md rounded-xl overflow-hidden flex flex-col items-center transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+      className="group bg-white bg-opacity-40 hover:bg-opacity-60 shadow-md rounded-xl overflow-hidden flex flex-col items-center transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -100,10 +100,10 @@ function SubscriptionPlans({
               <div className="flex items-center">
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">$800 Single-Time Payment for Project 
-                  <span class="rounded-sm bg-opacity-40 bg-red-500 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
-                    20% Discount
-                  </span>
                 </span>
+              </div>
+              <div class="rounded-sm bg-opacity-70 bg-red-500 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
+                20% Discount
               </div>
               <hr className="my-2 border-gray-300" />
               <div className="flex items-center">

@@ -18,17 +18,11 @@ class ClientPage(models.Model):
     project_notes = models.TextField(blank=True)
     project_summary = models.TextField(blank=True)
     project_objectives = models.TextField(blank=True)
-    project_only_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    project_with_subscription_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    tier_1_subscription_price = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, null=True, default=Decimal('249.00')
-    )
-    tier_2_subscription_price = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, null=True, default=Decimal('649.00')
-    )
-    tier_3_subscription_price = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, null=True, default=Decimal('1475.00')
-    )
+    project_only_price = models.DecimalField(max_digits=10, blank=True, null=True)
+    project_with_subscription_price = models.DecimalField(max_digits=10, blank=True, null=True)
+    tier_1_subscription_price = models.DecimalField(max_digits=10, blank=True, null=True, default='249.00')
+    tier_2_subscription_price = models.DecimalField(max_digits=10, blank=True, null=True, default='649.00')
+    tier_3_subscription_price = models.DecimalField(max_digits=10, blank=True, null=True, default='1475.00')
     is_consultant = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(default=thirty_days_from_now)

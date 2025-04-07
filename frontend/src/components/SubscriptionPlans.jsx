@@ -7,8 +7,8 @@ function SubscriptionPlans({
   selectedOption
 }) {
   return (
-      <div>
-        <h2 className="text-2xl font-bold mb-4">Membership Pricing</h2>
+      <div className="mb-4">
+        <h2 className="max-w-5xl mx-auto px-4 font-bold mb-4">Membership Pricing</h2>
         <div className="max-w-5xl mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Tier 1: Basic */}

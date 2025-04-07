@@ -3,13 +3,13 @@ import React from 'react';
 function ProjectDetails({data}) {
   return (
       <div className="max-w-5xl mx-auto px-4 py-8">
-          <h2 className="text-2xl font-bold mb-4">
+          <h1 className="text-2xl font-bold mb-4">
             {data.project_name}
-          </h2>
+          </h1>
           <h3 className="mb-2 font-bold">
             <strong>Prepared for:</strong> {data.company_name}
           </h3>
-          <p className="mb-9 font-bold">
+          <p className="mb-8 font-bold">
             <strong>Contact:</strong> {data.client_name}
           </p>
           <div>

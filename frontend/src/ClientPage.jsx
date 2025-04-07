@@ -102,15 +102,15 @@ function ClientPage() {
     monthlyCost = activePlan.monthlyPrice;
   }
 
-
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+    <div className="min-h-screen flex flex-col font-sans">
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
 
+      {/* Gradient section that covers the top of the page */}
       <section
-        className="py-12"
+        className="min-h-screen py-12"
         style={{
           background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)',
         }}
@@ -124,45 +124,35 @@ function ClientPage() {
             setSelectedOption={setSelectedOption}
             isProjectOnly={isProjectOnly}
           />
-
-            <SubscriptionPlans
-              data={data}
-              subscriptionPlans={SUBSCRIPTION_PLANS}
-              originalProjectPrice={originalProjectPrice}
-              selectedOption={selectedOption}
-              setSelectedOption={setSelectedOption}
-            />
-
-            <PlanComparison
-              data={data}
-              originalProjectPrice={originalProjectPrice}
-              selectedOption={selectedOption}
-              setSelectedOption={setSelectedOption}
-            />
-
-            <SingleProjectOption
-              data={data}
-              originalProjectPrice={originalProjectPrice}
-              setSelectedOption={setSelectedOption}
-              isProjectOnly={isProjectOnly}
-            />
-
-
-          <FrequentlyAskedQuestions
+          <SubscriptionPlans
+            data={data}
+            subscriptionPlans={SUBSCRIPTION_PLANS}
+            originalProjectPrice={originalProjectPrice}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
+          <PlanComparison
             data={data}
             originalProjectPrice={originalProjectPrice}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
           />
-
-          <Footer/>
-
-          {/* 
-            The CheckoutButton uses `slug` and the current `selectedOption`
-            to call your Stripe session endpoint and redirect the user.
-          */}
-          {/* <div className="mt-6 mb-10 text-center">
-            <CheckoutButton slug={slug} option={finalOption} />
-          </div> */}
+          <SingleProjectOption
+            data={data}
+            originalProjectPrice={originalProjectPrice}
+            setSelectedOption={setSelectedOption}
+            isProjectOnly={isProjectOnly}
+          />
         </main>
+      </section>
+
+      {/* Section that stops the gradient */}
+      <section className="bg-white">
+        <FrequentlyAskedQuestions
+          data={data}
+          originalProjectPrice={originalProjectPrice}
+        />
+        <Footer />
       </section>
     </div>
   );

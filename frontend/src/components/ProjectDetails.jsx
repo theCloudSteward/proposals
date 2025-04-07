@@ -2,7 +2,7 @@ import React from 'react';
 
 function ProjectDetails({ data }) {
   return (
-    <div className="w-full px-4 py-8 bg-white bg-opacity-50 shadow-lg rounded-b-lg mb-10">
+    <div className="w-full px-4 py-8 bg-white bg-opacity-25 shadow-lg rounded-b-lg mb-10">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-2xl font-bold mb-4">
           {data.project_name}

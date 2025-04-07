@@ -89,7 +89,7 @@ function SubscriptionPlans({
             <div className="mt-4 w-full text-left">
               <div className="flex items-center">
                 <span className="mr-2 text-lg">➕</span>
-                <span className="text-sm">$800 Single-Time Payment for Project (20% Off)</span>
+                <span className="text-sm font-bold">$800 Single-Time Payment for Project (20% Off)</span>
               </div>
               <hr className="my-2 border-gray-300" />
               <div className="flex items-center">

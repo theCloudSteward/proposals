@@ -21,7 +21,7 @@ function SubscriptionPlans({
               </div>
               <div className="mt-4">
                 <p className="text-2xl font-bold text-gray-800">
-                  ${data.tier_1_subscription_price.toFixed(2)}
+                  ${data.tier_1_subscription_price}
                 </p>
               </div>
               <button
@@ -46,7 +46,7 @@ function SubscriptionPlans({
               </div>
               <div className="mt-4">
                 <p className="text-2xl font-bold text-gray-800">
-                  ${data.tier_2_subscription_price.toFixed(2)}
+                  ${data.tier_2_subscription_price}
                 </p>
               </div>
               <button
@@ -71,7 +71,7 @@ function SubscriptionPlans({
               </div>
               <div className="mt-4">
                 <p className="text-2xl font-bold text-gray-800">
-                  ${data.tier_1_subscription_price.toFixed(2)}
+                  ${data.tier_1_subscription_price}
                 </p>
               </div>
               <button

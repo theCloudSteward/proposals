@@ -102,16 +102,16 @@ function SubscriptionPlans({
                 <span className="text-sm font-bold">
                   $800 One-Time Payment for Project 
                 </span>
-                <div class="rounded-sm bg-opacity-80 bg-red-600 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
-                  20% Discount
+                <div class="rounded-sm items-center bg-opacity-60 bg-red-700 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
+                  20% Off
                 </div>
               </div>
-              <hr className="my-2 border-gray-300" />
+              <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
                 <span className="text-sm">Maintain 100% Uptime for All Cloud Steward Customizations</span>
               </div>
-              <hr className="my-2 border-gray-300" />
+              <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
                 <span className="text-sm">Resolve Cloud Steward Script Errors within Hours for Free</span>

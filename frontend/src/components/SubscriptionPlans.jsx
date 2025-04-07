@@ -84,7 +84,7 @@ function SubscriptionPlans({
 }) {
   return (
     <div className="my-10 py-10">
-      <h2 className="max-w-5xl mx-auto text-center px-4 font-bold mb-4">Membership Pricing</h2>
+      <h2 className="max-w-5xl mx-auto text-center px-4 font-bold mb-8">Membership Pricing</h2>
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Basic Card with extra details */}

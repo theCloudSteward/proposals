@@ -7,8 +7,8 @@ function PlanComparison({
   selectedOption
 }) {
   return (
-    <div className="mb-6">
-      <h2 className="max-w-5xl items-center mx-auto px-4 font-bold mb-4">Plan Comparison</h2>
+    <div className="pb-6">
+      <h2 className="max-w-5xl mx-auto text-center px-4 font-bold mb-4">Compare Plans</h2>
       <div className="max-w-5xl mx-auto px-4">
         <div className="bg-white bg-opacity-50 shadow-md rounded p-6 mb-10">
           {/* Plan Comparison Table */}

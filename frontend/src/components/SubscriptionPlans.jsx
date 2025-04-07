@@ -6,11 +6,6 @@ function SubscriptionPlans({
   setSelectedOption,
   selectedOption
 }) {
-  // Example tier prices (adjust as needed)
-  const basicPrice = originalProjectPrice * 0.8;    // 20% less than original
-  const standardPrice = originalProjectPrice;       // Same as original
-  const premiumPrice = originalProjectPrice * 1.5;  // 50% more than original
-
   return (
       <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -127,6 +127,7 @@ function ClientPage() {
           }}
         >
           <SubscriptionPlans
+            data={data}
             subscriptionPlans={SUBSCRIPTION_PLANS}
             originalProjectPrice={originalProjectPrice}
             selectedOption={selectedOption}

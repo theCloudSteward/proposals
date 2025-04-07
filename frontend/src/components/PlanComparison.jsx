@@ -10,7 +10,7 @@ function PlanComparison({
     <div className="mb-4">
       <h2 className="max-w-5xl mx-auto px-4 font-bold mb-4">Plan Comparison</h2>
       <div className="max-w-5xl mx-auto px-4">
-        <div className="bg-white shadow-md rounded p-6 mb-10">
+        <div className="bg-white bg-opacity-50 shadow-md rounded p-6 mb-10">
           {/* Plan Comparison Table */}
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">

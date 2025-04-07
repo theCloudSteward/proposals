@@ -8,7 +8,7 @@ function SingleProjectOption({
 }) {
   return (
       <div className="max-w-5xl mx-auto px-4">
-        <div className="bg-white shadow-md rounded p-6 mb-10">
+        <div className="bg-white bg-opacity-50 shadow-md rounded p-6 mb-10">
           {/* Project-Only Card */}
           <div className="bg-gray-100 p-4 rounded shadow-inner flex flex-col items-center md:flex-row md:justify-between">
             <div>

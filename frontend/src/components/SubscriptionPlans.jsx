@@ -13,10 +13,33 @@ function SubscriptionPlans({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Tier 1: Basic */}
           <div className="bg-white shadow-md rounded p-6 flex flex-col items-center">
-            <div className="text-center">
+            {/* Gradient Title Box */}
+            <div 
+              className="w-full p-3 mb-4 text-center rounded-t" 
+              style={{ background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)' }}
+            >
               <h3 className="text-xl font-semibold text-gray-800">Basic</h3>
               <p className="text-gray-600">A Fresh Start</p>
             </div>
+            
+            {/* Extra details for Basic card */}
+            <div className="mt-2 w-full text-left">
+              <div className="flex items-center">
+                <span className="mr-2 text-lg">➕</span>
+                <span className="text-sm">$800 Single-Time Payment for Project (20% Off)</span>
+              </div>
+              <hr className="my-2 border-gray-300" />
+              <div className="flex items-center">
+                <span className="mr-2 text-lg">✔️</span>
+                <span className="text-sm">Maintain 100% Uptime for All Cloud Steward Customizations</span>
+              </div>
+              <hr className="my-2 border-gray-300" />
+              <div className="flex items-center">
+                <span className="mr-2 text-lg">✔️</span>
+                <span className="text-sm">Resolve Cloud Steward Script Errors within Hours for Free</span>
+              </div>
+            </div>
+
             <div className="mt-4">
               <p className="text-2xl font-bold text-gray-800">
                 ${data.tier_1_subscription_price}
@@ -36,7 +59,11 @@ function SubscriptionPlans({
 
           {/* Tier 2: Standard */}
           <div className="bg-white shadow-md rounded p-6 flex flex-col items-center">
-            <div className="text-center">
+            {/* Gradient Title Box */}
+            <div 
+              className="w-full p-3 mb-4 text-center rounded-t" 
+              style={{ background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)' }}
+            >
               <h3 className="text-xl font-semibold text-gray-800">Standard</h3>
               <p className="text-gray-600">Full System Maintenance</p>
             </div>
@@ -59,7 +86,11 @@ function SubscriptionPlans({
 
           {/* Tier 3: Premium */}
           <div className="bg-white shadow-md rounded p-6 flex flex-col items-center">
-            <div className="text-center">
+            {/* Gradient Title Box */}
+            <div 
+              className="w-full p-3 mb-4 text-center rounded-t" 
+              style={{ background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)' }}
+            >
               <h3 className="text-xl font-semibold text-gray-800">Premium</h3>
               <p className="text-gray-600">VIP Support</p>
             </div>

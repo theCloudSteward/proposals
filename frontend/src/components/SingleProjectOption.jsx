@@ -1,6 +1,7 @@
 import React from 'react';
 
 function SingleProjectOption({
+  data,
   originalProjectPrice,
   isProjectOnly,
   setSelectedOption,
@@ -20,7 +21,7 @@ function SingleProjectOption({
             </div>
             <div className="mt-4 md:mt-0">
               <p className="text-2xl font-bold text-gray-800">
-                ${originalProjectPrice.toFixed(2)}
+                ${data.project_only_price}
               </p>
             </div>
             <button

@@ -142,6 +142,7 @@ function ClientPage() {
           />
 
           <SingleProjectOption
+            data={data}
             originalProjectPrice={originalProjectPrice}
             setSelectedOption={setSelectedOption}
             isProjectOnly={isProjectOnly}

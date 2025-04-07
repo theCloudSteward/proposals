@@ -6,11 +6,6 @@ function PlanComparison({
   setSelectedOption,
   selectedOption
 }) {
-  // Example tier prices (keeping the same as your original code)
-  const basicPrice = originalProjectPrice * 0.8; // 20% less than original
-  const standardPrice = originalProjectPrice;    // Same as original
-  const premiumPrice = originalProjectPrice * 1.5; // 50% more than original
-
   return (
     <div className="mb-4">
       <h2 className="max-w-5xl mx-auto px-4 font-bold mb-4">Plan Comparison</h2>
@@ -25,7 +20,7 @@ function PlanComparison({
                   <th className="p-4 text-center">
                     <h3 className="text-xl font-semibold text-gray-800">Basic</h3>
                     <p className="text-2xl font-bold text-gray-800">
-                      ${basicPrice.toFixed(2)}
+                      ${data.tier_1_subscription_price}
                     </p>
                     <button
                       onClick={() => setSelectedOption('basic')}
@@ -42,7 +37,7 @@ function PlanComparison({
                   <th className="p-4 text-center">
                     <h3 className="text-xl font-semibold text-gray-800">Standard</h3>
                     <p className="text-2xl font-bold text-gray-800">
-                      ${standardPrice.toFixed(2)}
+                      ${data.tier_2_subscription_price}
                     </p>
                     <button
                       onClick={() => setSelectedOption('standard')}
@@ -59,7 +54,7 @@ function PlanComparison({
                   <th className="p-4 text-center">
                     <h3 className="text-xl font-semibold text-gray-800">Premium</h3>
                     <p className="text-2xl font-bold text-gray-800">
-                      ${premiumPrice.toFixed(2)}
+                      ${data.tier_3_subscription_price}
                     </p>
                     <button
                       onClick={() => setSelectedOption('premium')}

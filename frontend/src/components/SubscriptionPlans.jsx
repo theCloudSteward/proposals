@@ -18,7 +18,7 @@ function SubscriptionCard({
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
     // Amplify the effect relative to center (50%, 50%)
-    const factor = 1.5; // Increase this value for a larger effect
+    const factor = 1; // Increase this value for a larger effect
     const offsetX = 50 + (x - 50) * factor;
     const offsetY = 50 + (y - 50) * factor;
     setBgPos(`${offsetX}% ${offsetY}%`);
@@ -98,21 +98,21 @@ function SubscriptionPlans({
           >
             <div className="mt-4 w-full text-left">
               <div className="flex items-center">
-                <span className="mr-2 text-lg">➕</span>
-                <span className="text-sm">$800 Single-Time Payment for Project 
-                  <span class="rounded-md bg-red-600 py-0.5 px-2.5 border border-transparent text-sm text-white transition-all shadow-sm">
+                <span className="mr-2 text-xl">➕</span>
+                <span className="text-sm font-bold">$800 Single-Time Payment for Project 
+                  <span class="rounded-sm bg-opacity-40 bg-red-500 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
                     20% Discount
                   </span>
                 </span>
               </div>
               <hr className="my-2 border-gray-300" />
               <div className="flex items-center">
-                <span className="mr-2 text-lg">✔️</span>
+                <span className="mr-2 text-xl">✔️</span>
                 <span className="text-sm">Maintain 100% Uptime for All Cloud Steward Customizations</span>
               </div>
               <hr className="my-2 border-gray-300" />
               <div className="flex items-center">
-                <span className="mr-2 text-lg">✔️</span>
+                <span className="mr-2 text-xl">✔️</span>
                 <span className="text-sm">Resolve Cloud Steward Script Errors within Hours for Free</span>
               </div>
             </div>

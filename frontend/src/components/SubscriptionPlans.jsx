@@ -102,9 +102,9 @@ function SubscriptionPlans({
                 <span className="text-sm font-bold">
                   $800 One-Time Payment for Project 
                 </span>
-                <div class="rounded-md items-center bg-opacity-60 bg-red-700 mx-1 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-sm">
-                  20% Off
-                </div>
+             <div class="flex justify-center items-center rounded-lg bg-opacity-70 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+              20% Off
+            </div>
               </div>
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">

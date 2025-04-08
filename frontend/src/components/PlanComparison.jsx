@@ -8,32 +8,38 @@ function PlanComparison({
 }) {
   return (
     <div className="my-5 py-5">
-      <h2 className="max-w-5xl mx-auto text-center px-4 font-bold mb-8">Compare Plans</h2>
       <div className="max-w-5xl mx-auto px-4">
-        <div className="bg-white bg-opacity-50 shadow-md rounded p-6 mb-10">
+        <div className="bg-white bg-opacity-50 shadow-md rounded-lg p-6 mb-10">
+          <h2 className="mx-auto text-center px-4 font-bold m-8">Compare Plans</h2>
           {/* Plan Comparison Table */}
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr>
                   <th className="p-4"></th>
-                  <th className="p-4 text-center">
-                    <h3 className="text-xl font-semibold text-gray-800">Basic</h3>
-                    <p className="text-2xl font-bold text-gray-800">
-                      ${data.tier_1_subscription_price}
-                    </p>
+                  <th className="p-4">
+                    <div className="w-full text-center my-6">
+                      <p className="text-3xl font-bold text-gray-800">
+                        ${data.tier_1_subscription_price}
+                        <span className="text-base text-gray-500">/month</span>
+                      </p>
+                    </div>
                   </th>
-                  <th className="p-4 text-center">
-                    <h3 className="text-xl font-semibold text-gray-800">Standard</h3>
-                    <p className="text-2xl font-bold text-gray-800">
-                      ${data.tier_2_subscription_price}
-                    </p>
+                  <th className="p-4">
+                    <div className="w-full text-center my-6">
+                      <p className="text-3xl font-bold text-gray-800">
+                        ${data.tier_2_subscription_price}
+                        <span className="text-base text-gray-500">/month</span>
+                      </p>
+                    </div>
                   </th>
-                  <th className="p-4 text-center">
-                    <h3 className="text-xl font-semibold text-gray-800">Premium</h3>
-                    <p className="text-2xl font-bold text-gray-800">
-                      ${data.tier_3_subscription_price}
-                    </p>
+                  <th className="p-4">
+                    <div className="w-full text-center my-6">
+                      <p className="text-3xl font-bold text-gray-800">
+                        ${data.tier_3_subscription_price}
+                        <span className="text-base text-gray-500">/month</span>
+                      </p>
+                    </div>
                   </th>
                 </tr>
               </thead>

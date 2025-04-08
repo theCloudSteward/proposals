@@ -44,8 +44,8 @@ function PlanComparison({
               </thead>
               <tbody>
                 {/* Features Section */}
-                <tr className="bg-white rounded-tl-md rounded-r-md bg-opacity-40 ">
-                  <td className="p-4 font-semibold text-gray-800">
+                <tr>
+                  <td className="p-4 bg-white rounded-t-md bg-opacity-60 font-semibold text-gray-800">
                     Features
                   </td>
                   <td className="p-4"></td>

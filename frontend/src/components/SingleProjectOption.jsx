@@ -8,7 +8,7 @@ function SingleProjectOption({
 }) {
   return (
     <div className="max-w-5xl mx-auto px-4 my-5 py-5">
-      <div className="bg-white inset-shadow-md bg-opacity-20 border border-dashed border-gray-400 rounded-lg p-6 mb-10">
+      <div className="bg-white inset-shadow-lg bg-opacity-20 border border-dashed border-gray-400 rounded-lg p-6 mb-10">
         <h3 className="text-center text-2xl font-bold py-4 mb-6">
           Only Need This Project?
         </h3>

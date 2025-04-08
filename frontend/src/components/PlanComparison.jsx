@@ -48,21 +48,45 @@ function PlanComparison({
                 </tr>
                 <tr>
                   <td className="p-4 bg-white bg-opacity-30">Project Price</td>
-                  <td className="p-4">${data.project_with_subscription_price} (Discounted)</td>
-                  <td className="p-4">${data.project_with_subscription_price} (Discounted)</td>
-                  <td className="p-4">${data.project_with_subscription_price} (Discounted)</td>
+                  <td className="p-4 font-bold">${data.project_with_subscription_price} 
+                    <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
+                      20% Off
+                    </span>
+                  </td>
+                  <td className="p-4 font-bold">${data.project_with_subscription_price} 
+                    <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
+                      20% Off
+                    </span>
+                  </td>
+                  <td className="p-4 font-bold">${data.project_with_subscription_price} 
+                    <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
+                      20% Off
+                    </span>
+                  </td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">USA Tech Support</td>
-                  <td className="p-4">✔</td>
-                  <td className="p-4">✔</td>
-                  <td className="p-4">✔</td>
-                </tr>
-                <tr>
-                  <td className="p-4 bg-white bg-opacity-30">Support Level</td>
+                  <td className="p-4 bg-white bg-opacity-30">Support Priority</td>
                   <td className="p-4">Basic</td>
                   <td className="p-4">Standard</td>
                   <td className="p-4">Priority</td>
+                </tr>
+                <tr>
+                  <td className="p-4 bg-white bg-opacity-30">USA-Based Tech Support</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
+                </tr>
+                <tr>
+                  <td className="p-4 bg-white bg-opacity-30">Latest SuiteScript 2.1 Technology</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
+                </tr>
+                <tr>
+                  <td className="p-4 bg-white bg-opacity-30">24/7 Error Monitoring</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
                 </tr>
                 <tr>
                   <td className="p-4 bg-white bg-opacity-30">100% Uptime for Cloud Steward Automations</td>

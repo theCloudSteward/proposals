@@ -18,7 +18,8 @@ function PlanComparison({
                 <tr>
                   <th className="p-4"></th>
                   <th className="p-4">
-                    <div className="w-full text-center my-6">
+                    <h3 className="mx-auto p-4 font-bold m-6">Basic</h3>
+                    <div className="w-full">
                       <p className="text-3xl font-bold text-gray-800">
                         ${data.tier_1_subscription_price}
                         <span className="text-base text-gray-500">/month</span>
@@ -26,7 +27,8 @@ function PlanComparison({
                     </div>
                   </th>
                   <th className="p-4">
-                    <div className="w-full text-center my-6">
+                    <h3 className="mx-auto p-4 font-bold m-6">Standard</h3>
+                    <div className="w-full">
                       <p className="text-3xl font-bold text-gray-800">
                         ${data.tier_2_subscription_price}
                         <span className="text-base text-gray-500">/month</span>
@@ -34,7 +36,8 @@ function PlanComparison({
                     </div>
                   </th>
                   <th className="p-4">
-                    <div className="w-full text-center my-6">
+                    <h3 className="mx-auto p-4 font-bold m-6">Premium</h3>
+                    <div className="w-full">
                       <p className="text-3xl font-bold text-gray-800">
                         ${data.tier_3_subscription_price}
                         <span className="text-base text-gray-500">/month</span>

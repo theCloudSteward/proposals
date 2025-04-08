@@ -22,51 +22,18 @@ function PlanComparison({
                     <p className="text-2xl font-bold text-gray-800">
                       ${data.tier_1_subscription_price}
                     </p>
-                    <button
-                      onClick={() => setSelectedOption('basic')}
-                      className={`mt-2 py-2 px-4 rounded transition-colors border 
-                        ${
-                          selectedOption === 'basic'
-                            ? 'bg-[#435B45] border-[#435B45] text-white hover:bg-[#3A513C]'
-                            : 'bg-white text-gray-800 hover:bg-gray-200'
-                        }`}
-                    >
-                      {selectedOption === 'basic' ? 'Selected' : 'Select'}
-                    </button>
                   </th>
                   <th className="p-4 text-center">
                     <h3 className="text-xl font-semibold text-gray-800">Standard</h3>
                     <p className="text-2xl font-bold text-gray-800">
                       ${data.tier_2_subscription_price}
                     </p>
-                    <button
-                      onClick={() => setSelectedOption('standard')}
-                      className={`mt-2 py-2 px-4 rounded transition-colors border 
-                        ${
-                          selectedOption === 'standard'
-                            ? 'bg-[#435B45] border-[#435B45] text-white hover:bg-[#3A513C]'
-                            : 'bg-white text-gray-800 hover:bg-gray-200'
-                        }`}
-                    >
-                      {selectedOption === 'standard' ? 'Selected' : 'Select'}
-                    </button>
                   </th>
                   <th className="p-4 text-center">
                     <h3 className="text-xl font-semibold text-gray-800">Premium</h3>
                     <p className="text-2xl font-bold text-gray-800">
                       ${data.tier_3_subscription_price}
                     </p>
-                    <button
-                      onClick={() => setSelectedOption('premium')}
-                      className={`mt-2 py-2 px-4 rounded transition-colors border 
-                        ${
-                          selectedOption === 'premium'
-                            ? 'bg-[#435B45] border-[#435B45] text-white hover:bg-[#3A513C]'
-                            : 'bg-white text-gray-800 hover:bg-gray-200'
-                        }`}
-                    >
-                      {selectedOption === 'premium' ? 'Selected' : 'Select'}
-                    </button>
                   </th>
                 </tr>
               </thead>

@@ -101,9 +101,9 @@ function SubscriptionPlans({
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
-                  <span class="inline-flex items-center justify-center rounded bg-red-700 bg-opacity-80 my-1 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
-                    20% Off
-                  </span>
+                </span>
+                <span class="inline-flex items-center justify-center rounded bg-red-700 bg-opacity-80 my-2 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
+                  20% Off
                 </span>
               </div>
               <hr className="my-3 border-gray-300" />
@@ -133,9 +133,9 @@ function SubscriptionPlans({
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
-                  <span class="inline-flex items-center justify-center rounded bg-red-700 bg-opacity-80 my-1 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
-                    20% Off
-                  </span>
+                </span>
+                <span class="inline-flex items-center justify-center rounded bg-red-700 bg-opacity-80 my-2 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
+                  20% Off
                 </span>
               </div>
               <hr className="my-3 border-gray-300" />
@@ -166,9 +166,9 @@ function SubscriptionPlans({
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
-                  <span class="inline-flex items-center justify-center rounded bg-red-700 bg-opacity-80 my-1 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
-                    20% Off
-                  </span>
+                </span>
+                <span class="inline-flex items-center justify-center rounded bg-red-700 bg-opacity-80 my-2 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
+                  20% Off
                 </span>
               </div>
               <hr className="my-3 border-gray-300" />

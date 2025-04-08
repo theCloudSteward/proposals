@@ -144,6 +144,7 @@ function SubscriptionPlans({
                 <span className="text-sm">Resolve <strong>All System-Critical</strong> Errors within Hours</span>
               </div>
             </div>
+            <CheckoutButton slug={data.slug} option={'tier_2_subscription_price'} title="Subscribe" />
           </SubscriptionCard>
 
           {/* Premium Card */}
@@ -181,6 +182,7 @@ function SubscriptionPlans({
                 </div>
               </div>
             </div>
+            <CheckoutButton slug={data.slug} option={'tier_3_subscription_price'} title="Subscribe" />
           </SubscriptionCard>
         </div>
       </div>

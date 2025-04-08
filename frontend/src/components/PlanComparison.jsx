@@ -47,16 +47,16 @@ function PlanComparison({
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">Project Scope</td>
-                  <td className="p-4">Core features</td>
-                  <td className="p-4">Full scope</td>
-                  <td className="p-4">Enhanced features</td>
+                  <td className="p-4 bg-white bg-opacity-30">Project Price</td>
+                  <td className="p-4">${data.project_with_subscription_price} (Discounted)</td>
+                  <td className="p-4">${data.project_with_subscription_price} (Discounted)</td>
+                  <td className="p-4">${data.project_with_subscription_price} (Discounted)</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">Payment Type</td>
-                  <td className="p-4">One-time</td>
-                  <td className="p-4">One-time</td>
-                  <td className="p-4">One-time</td>
+                  <td className="p-4 bg-white bg-opacity-30">USA Tech Support</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
                 </tr>
                 <tr>
                   <td className="p-4 bg-white bg-opacity-30">Support Level</td>
@@ -65,13 +65,37 @@ function PlanComparison({
                   <td className="p-4">Priority</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">Custom Features</td>
+                  <td className="p-4 bg-white bg-opacity-30">100% Uptime for Cloud Steward Automations</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
+                </tr>
+                <tr>
+                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">100% Uptime for All System-Critical SuiteScripts and Workflows</td>
+                  <td className="p-4">—</td>
+                  <td className="p-4">✔</td>
+                  <td className="p-4">✔</td>
+                </tr>
+                <tr>
+                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">Optimize Transaction Form Performance</td>
                   <td className="p-4">—</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">Team Collaboration</td>
+                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">Exclusive VIP Discounts for Future Projects</td>
+                  <td className="p-4">—</td>
+                  <td className="p-4">—</td>
+                  <td className="p-4">✔</td>
+                </tr>
+                <tr>
+                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">Monthly System Health Report</td>
+                  <td className="p-4">—</td>
+                  <td className="p-4">—</td>
+                  <td className="p-4">✔</td>
+                </tr>
+                <tr>
+                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">VIP Access to Ben's Personal Phone for Emergencies</td>
                   <td className="p-4">—</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>

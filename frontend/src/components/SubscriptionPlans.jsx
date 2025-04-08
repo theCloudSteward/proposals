@@ -177,10 +177,11 @@ function SubscriptionPlans({
                 <div>
                   <span className="mr-2 text-xl mt-1">✔️</span>
                   <span className="text-sm"><strong>Everything in Standard plus:</strong></span>
-                  <ul className="ml-4 mt-2 list-disc text-sm text-gray-700">
+                  <ul className="ml-4 mt-2 list-disc text-sm text-gray-700 font-bold">
                     <li>Assist in optimizing transaction forms, improving performance by up to 50%</li>
-                    <li className="py-1">Monthly System Health Report</li>
-                    <li>Exclusive VIP access to Ben's personal phone number for emergencies</li>
+                    <li className="pt-2">Exclusive VIP Project Discounts</li>
+                    <li className="pt-2">Monthly System Health Report</li>
+                    <li className="pt-2">VIP access to Ben's personal phone number for emergencies</li>
                   </ul>
                 </div>
               </div>

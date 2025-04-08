@@ -138,9 +138,8 @@ function SubscriptionPlans({
                   20% Off
                 </span>
               </div>
-              <hr className="my-3 border-gray-300" />
               <span className="mr-2 text-xl mt-1">✔️</span>
-              <span className="text-sm"><strong>Everything in Basic plus:</strong></span>
+              <span className="text-sm"><strong>Everything in Basic</strong></span>
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>

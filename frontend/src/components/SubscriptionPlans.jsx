@@ -109,7 +109,7 @@ function SubscriptionPlans({
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
-                <span className="text-sm">100% Uptime for All Cloud Steward Customizations</span>
+                <span className="text-sm">100% Uptime for <strong>All Cloud Steward</strong> Customizations</span>
               </div>
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
@@ -121,7 +121,7 @@ function SubscriptionPlans({
 
           {/* Standard Card */}
           <SubscriptionCard
-            title="Basic"
+            title="Standard"
             subtitle="Full System Maintenance"
             price={data.tier_2_subscription_price}
             option="standard"
@@ -141,19 +141,19 @@ function SubscriptionPlans({
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
-                <span className="text-sm">100% Uptime for All System-Critical SuiteScripts and Workflows</span>
+                <span className="text-sm">100% Uptime for <strong>All System-Critical</strong> SuiteScripts and Workflows</span>
               </div>
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
-                <span className="text-sm">Resolve Cloud Steward Script Errors within Hours</span>
+                <span className="text-sm">Resolve All System-Critical Errors within Hours</span>
               </div>
             </div>
           </SubscriptionCard>
 
           {/* Premium Card */}
           <SubscriptionCard
-            title="Basic"
+            title="Premium"
             subtitle="VIP Support"
             price={data.tier_3_subscription_price}
             option="premium"
@@ -173,12 +173,10 @@ function SubscriptionPlans({
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
-                <span className="text-sm">Maintain 100% Uptime for All Cloud Steward Customizations</span>
-              </div>
-              <hr className="my-3 border-gray-300" />
-              <div className="flex items-center">
-                <span className="mr-2 text-xl">✔️</span>
-                <span className="text-sm">Resolve Cloud Steward Script Errors within Hours for Free</span>
+                <span className="text-sm">Everything in <strong>Standard</strong> plus:</span>
+                <span className="text-sm">  • Monthly System Health Report</span>
+                <span className="text-sm">  • Assist in optimizing transaction forms, improving performance by up to 50%</span>
+                <span className="text-sm">  • Exclusive VIP access to Ben's personal phone number for emergencies</span>
               </div>
             </div>
           </SubscriptionCard>

@@ -35,11 +35,11 @@ def create_checkout_session(request):
     line_items = []
     mode = 'payment'
 
-    if option == 'project-only':
+    if option == 'project_only_price':
         line_items.append({
             'price_data': {
                 'currency': 'usd',
-                'unit_amount': int(page.project_price * 100),
+                'unit_amount': int(page[option] * 100),
                 'product_data': {
                     'name': f"{page.company_name} Project",
                 },
@@ -47,13 +47,12 @@ def create_checkout_session(request):
             'quantity': 1,
         })
     else:
-        discounted_price = page.project_price * 0.8
         line_items.append({
             'price_data': {
                 'currency': 'usd',
-                'unit_amount': int(discounted_price * 100),
+                'unit_amount': int(page.project_with_subscription_price * 100),
                 'product_data': {
-                    'name': f"{page.company_name} Project (20% off)",
+                    'name': f"{page.company_name} Project",
                 },
             },
             'quantity': 1,
@@ -61,7 +60,7 @@ def create_checkout_session(request):
         line_items.append({
             'price_data': {
                 'currency': 'usd',
-                'unit_amount': 29900,
+                'unit_amount': int(page[option] * 100),
                 'recurring': {'interval': 'month'},
                 'product_data': {
                     'name': f"{page.company_name} Subscription",

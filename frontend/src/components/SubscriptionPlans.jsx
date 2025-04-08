@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CheckoutButton from './CheckoutButton';
 
 function SubscriptionCard({
   title,
@@ -61,16 +62,6 @@ function SubscriptionCard({
           </p>
         </div>
         {children}
-        <button
-          onClick={() => setSelectedOption(option)}
-          className={`my-8 py-2 px-4 rounded transition-colors border ${
-            selectedOption === option
-              ? 'bg-[#435B45] border-[#435B45] text-white hover:bg-[#3A513C]'
-              : 'bg-white text-gray-800 hover:bg-gray-200'
-          }`}
-        >
-          {selectedOption === option ? 'Selected' : 'Subscribe'}
-        </button>
       </div>
     </div>
   );
@@ -117,6 +108,7 @@ function SubscriptionPlans({
                 <span className="text-sm">Resolve Any Cloud Steward Script Errors within Hours</span>
               </div>
             </div>
+            <CheckoutButton slug={data.slug} option={'tier_1_subscription_price'} title="Subscribe" />
           </SubscriptionCard>
 
           {/* Standard Card */}

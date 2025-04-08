@@ -97,13 +97,13 @@ function SubscriptionPlans({
             setSelectedOption={setSelectedOption}
           >
             <div className="mt-4 w-full text-left">
-              <div className="p-4 flex items-center bg-white bg-opacity-40 shadow-md rounded-lg">
+              <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
-                  $800 One-Time Payment for Project 
-                </span>
-                <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
-                  20% Off
+                  ${data.project_with_subscription_price} One-Time Payment for Project 
+                  <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+                    20% Off
+                  </span>
                 </span>
               </div>
               <hr className="my-3 border-gray-300" />
@@ -129,13 +129,13 @@ function SubscriptionPlans({
             setSelectedOption={setSelectedOption}
           >
             <div className="mt-4 w-full text-left">
-              <div className="p-4 flex items-center bg-white bg-opacity-40 shadow-md rounded-lg">
+              <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
-                  $800 One-Time Payment for Project 
-                </span>
-                <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
-                  20% Off
+                  ${data.project_with_subscription_price} One-Time Payment for Project 
+                  <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+                    20% Off
+                  </span>
                 </span>
               </div>
               <hr className="my-3 border-gray-300" />
@@ -162,13 +162,13 @@ function SubscriptionPlans({
           >
             <div className="mt-4 w-full text-left">
               {/* Top row: One-time payment text and discount badge */}
-              <div className="p-4 flex items-center bg-white bg-opacity-40 shadow-md rounded-lg">
+              <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
-                  $800 One-Time Payment for Project 
-                </span>
-                <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
-                  20% Off
+                  ${data.project_with_subscription_price} One-Time Payment for Project 
+                  <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+                    20% Off
+                  </span>
                 </span>
               </div>
               <hr className="my-3 border-gray-300" />

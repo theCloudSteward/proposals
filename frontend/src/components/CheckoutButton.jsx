@@ -3,12 +3,13 @@ import React from 'react';
 function CheckoutButton({ slug, option, title }) {
   const handleClick = async () => {
     try {
-      const response = await fetch("/api/create-checkout-session/", {  // exact match
+      const response = await fetch("/api/create-checkout-session/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug, option }),
       });
       const data = await response.json();
+      console.log(data); // Log the response to inspect
       if (data.url) {
         window.location = data.url;
       } else {

@@ -39,7 +39,7 @@ def create_checkout_session(request):
         line_items.append({
             'price_data': {
                 'currency': 'usd',
-                'unit_amount': int(page[option] * 100),
+                'unit_amount': int(page.project_only_price * 100),
                 'product_data': {
                     'name': f"{page.company_name} Project",
                 },
@@ -47,10 +47,14 @@ def create_checkout_session(request):
             'quantity': 1,
         })
     else:
+        # Convert all Decimal fields to int safely
+        project_price = int(page.project_with_subscription_price * 100)
+        subscription_price = int(page[option] * 100)
+
         line_items.append({
             'price_data': {
                 'currency': 'usd',
-                'unit_amount': int(page.project_with_subscription_price * 100),
+                'unit_amount': project_price,
                 'product_data': {
                     'name': f"{page.company_name} Project",
                 },
@@ -60,7 +64,7 @@ def create_checkout_session(request):
         line_items.append({
             'price_data': {
                 'currency': 'usd',
-                'unit_amount': int(page[option] * 100),
+                'unit_amount': subscription_price,
                 'recurring': {'interval': 'month'},
                 'product_data': {
                     'name': f"{page.company_name} Subscription",

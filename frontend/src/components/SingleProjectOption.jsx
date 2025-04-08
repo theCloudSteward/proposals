@@ -8,7 +8,7 @@ function SingleProjectOption({
 }) {
   return (
     <div className="max-w-5xl mx-auto my-5 py-5">
-      <div className="bg-white bg-opacity-10 border border-dotted border-gray-300 rounded-lg p-6 mb-10">
+      <div className="bg-white bg-opacity-20 border border-dashed border-black rounded-lg p-6 mb-10">
         <h2 className="text-center px-4 font-bold mb-8">Project Only?</h2>
         {/* Project-Only Card */}
         <div className="p-4 flex flex-col items-center md:flex-row md:justify-between">

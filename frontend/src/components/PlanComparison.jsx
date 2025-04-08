@@ -18,10 +18,10 @@ function PlanComparison({
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr>
-                  <td className="p-4 bg-white rounded-t-md bg-opacity-60 font-semibold text-gray-800"> Features</td>
-                  <td className="p-3 m-3 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Basic</h3></td>
-                  <td className="p-3 m-3 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Standard</h3></td>
-                  <td className="p-3 m-3 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Premium</h3></td>
+                  <td className="p-4 bg-white rounded-tl-md bg-opacity-60 font-semibold text-gray-800"> Features</td>
+                  <td className="p-3 m-3 text-xl bg-white bg-opacity-60 font-bold"><h3>Basic</h3></td>
+                  <td className="p-3 m-3 text-xl bg-white bg-opacity-60 font-bold"><h3>Standard</h3></td>
+                  <td className="p-3 m-3 text-xl bg-white rounded-r-md bg-opacity-60 font-bold"><h3>Premium</h3></td>
                 </tr>
               </thead>
               <tbody>

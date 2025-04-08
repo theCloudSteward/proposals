@@ -52,7 +52,7 @@ function PlanComparison({
                     <span className="whitespace-nowrap inline-flex items-center gap-2">
                       ${data.project_with_subscription_price}
                       <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold px-2 py-1 border border-transparent text-xs text-white transition-all shadow-sm">
-                        20% Off
+                        {data.project_discount_percent}% Off
                       </span>
                     </span>
                   </td>
@@ -60,7 +60,7 @@ function PlanComparison({
                     <span className="whitespace-nowrap inline-flex items-center gap-2">
                       ${data.project_with_subscription_price}
                       <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold px-2 py-1 border border-transparent text-xs text-white transition-all shadow-sm">
-                        20% Off
+                        {data.project_discount_percent}% Off
                       </span>
                     </span>
                   </td>
@@ -68,7 +68,7 @@ function PlanComparison({
                     <span className="whitespace-nowrap inline-flex items-center gap-2">
                       ${data.project_with_subscription_price}
                       <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold px-2 py-1 border border-transparent text-xs text-white transition-all shadow-sm">
-                        20% Off
+                        {data.project_discount_percent}% Off
                       </span>
                     </span>
                   </td>

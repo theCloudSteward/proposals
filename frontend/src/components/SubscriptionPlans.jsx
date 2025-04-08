@@ -103,7 +103,7 @@ function SubscriptionPlans({
                   ${data.project_with_subscription_price} One-Time Payment for Project 
                 </span>
                 <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
-                  20% Off
+                  {data.project_discount_percent}% Off
                 </span>
               </div>
               <hr className="my-3 border-gray-300" />
@@ -135,7 +135,7 @@ function SubscriptionPlans({
                   ${data.project_with_subscription_price} One-Time Payment for Project 
                 </span>
                 <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
-                  20% Off
+                  {data.project_discount_percent}% Off
                 </span>
               </div>
               <hr className="my-3 border-gray-300" />
@@ -171,7 +171,7 @@ function SubscriptionPlans({
                   ${data.project_with_subscription_price} One-Time Payment for Project 
                 </span>
                 <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
-                  20% Off
+                  {data.project_discount_percent}% Off
                 </span>
               </div>
               <hr className="my-3 border-gray-300" />

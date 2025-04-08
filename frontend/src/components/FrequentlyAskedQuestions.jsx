@@ -13,20 +13,20 @@ function FrequentlyAskedQuestions({
   // Sample Q&A data
   const faqs = [
     {
-      question: "What is included in the project?",
-      answer: "The project includes all core features as outlined in the project details, with no additional monthly fees."
+      question: "Can I cancel my subscription if I change my mind?",
+      answer: "Yes. You can cancel at any time without obligation. Just send an email to ben@thecloudsteward.com."
     },
     {
-      question: "How long will the project take?",
-      answer: "The timeline depends on the scope, but typically ranges from 4 to 12 weeks."
+      question: "Why do you have a subscription model?",
+      answer: "The mission of Cloud Steward is to be the best steward of NetSuite systems. We need to build long-term business relationships to accomplish that."
     },
     {
       question: "Can I upgrade my plan later?",
-      answer: "Yes, you can contact us to discuss upgrading to a higher tier or adding features."
+      answer: "Yes, you can contact us to discuss upgrading to a higher tier."
     },
     {
       question: "What payment methods are accepted?",
-      answer: "We accept credit cards, bank transfers, and PayPal for all project payments."
+      answer: "We accept credit cards and bank transfers through Stripe."
     }
   ];
 
@@ -46,7 +46,7 @@ function FrequentlyAskedQuestions({
                 Frequently Asked Questions
               </h3>
               <p className="text-lg font-semibold text-white">
-                Have more questions? <a className="text-blue" href="https://www.thecloudsteward.com/contact">Contact Ben</a>.
+                Have more questions? <a className="text-blue-600" href="https://www.thecloudsteward.com/contact">Contact Ben</a>.
               </p>
             </div>
 
@@ -56,7 +56,7 @@ function FrequentlyAskedQuestions({
                 <div key={index} className="mb-4">
                   <button
                     onClick={() => toggleAccordion(index)}
-                    className="w-full text-left py-3 px-4 bg-white bg-opacity-90 rounded-md focus:outline-none flex justify-between items-center"
+                    className="w-full text-left py-3 px-4 bg-white bg-opacity-90 rounded-t-md focus:outline-none flex justify-between items-center"
                   >
                     <span className="text-base font-medium text-black">
                       {faq.question}
@@ -66,7 +66,7 @@ function FrequentlyAskedQuestions({
                     </span>
                   </button>
                   {openIndex === index && (
-                    <div className="p-4 bg-white bg-opacity-80 rounded-b text-black">
+                    <div className="p-4 bg-white bg-opacity-80 rounded-b-md text-black">
                       {faq.answer}
                     </div>
                   )}

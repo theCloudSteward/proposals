@@ -45,6 +45,9 @@ function FrequentlyAskedQuestions({
               <h3 className="text-2xl font-semibold text-white">
                 Frequently Asked Questions
               </h3>
+              <p className="text-lg font-semibold text-white">
+                Have more questions? <a href="https://www.thecloudsteward.com/contact">Contact Ben</a>.
+              </p>
             </div>
 
             {/* Right Side: Accordion */}

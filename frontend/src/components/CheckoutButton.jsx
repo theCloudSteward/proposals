@@ -21,14 +21,14 @@ function CheckoutButton({ slug, option, title }) {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <button
         onClick={handleClick}
         className="px-4 py-2 m-12 bg-opacity-80 bg-blue-500 text-white rounded hover:bg-blue-600"
       >
         {title}
       </button>
-      <p className="italic">Secure Checkout with Stripe</p>
+      <p className="italic text-xs mt-1 text-gray-500">Secure Checkout with Stripe</p>
     </div>
   );
 }

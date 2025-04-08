@@ -174,14 +174,12 @@ function SubscriptionPlans({
               <hr className="my-3 border-gray-300" />
               {/* Details section using semantic markup */}
               <div className="flex items-start">
-                <span className="mr-2 text-xl mt-1">✔️</span>
                 <div>
-                  <p className="text-sm">
-                    Everything in <strong>Standard</strong> plus:
-                  </p>
+                  <span className="mr-2 text-xl mt-1">✔️</span>
+                  <span className="text-sm"><strong>Everything in Standard plus:</strong></span>
                   <ul className="ml-4 mt-2 list-disc text-sm text-gray-700">
-                    <li>Monthly System Health Report</li>
                     <li>Assist in optimizing transaction forms, improving performance by up to 50%</li>
+                    <li className="py-1">Monthly System Health Report</li>
                     <li>Exclusive VIP access to Ben's personal phone number for emergencies</li>
                   </ul>
                 </div>

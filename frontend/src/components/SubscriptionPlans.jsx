@@ -161,22 +161,30 @@ function SubscriptionPlans({
             setSelectedOption={setSelectedOption}
           >
             <div className="mt-4 w-full text-left">
-              <div className="flex items-center">
+              {/* Top row: One-time payment text and discount badge */}
+              <div className="flex items-center space-x-2">
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
-                  $800 One-Time Payment for Project 
+                  $800 One-Time Payment for Project
                 </span>
-             <div class="flex justify-center items-center rounded-lg bg-opacity-70 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
-              20% Off
-            </div>
+                <div className="flex justify-center items-center rounded-lg bg-red-600 bg-opacity-70 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+                  20% Off
+                </div>
               </div>
               <hr className="my-3 border-gray-300" />
-              <div className="flex items-center">
-                <span className="mr-2 text-xl">✔️</span>
-                <span className="text-sm">Everything in <strong>Standard</strong> plus:</span>
-                <span className="text-sm">  • Monthly System Health Report</span>
-                <span className="text-sm">  • Assist in optimizing transaction forms, improving performance by up to 50%</span>
-                <span className="text-sm">  • Exclusive VIP access to Ben's personal phone number for emergencies</span>
+              {/* Details section using semantic markup */}
+              <div className="flex items-start">
+                <span className="mr-2 text-xl mt-1">✔️</span>
+                <div>
+                  <p className="text-sm">
+                    Everything in <strong>Standard</strong> plus:
+                  </p>
+                  <ul className="ml-4 mt-2 list-disc text-sm text-gray-700">
+                    <li>Monthly System Health Report</li>
+                    <li>Assist in optimizing transaction forms, improving performance by up to 50%</li>
+                    <li>Exclusive VIP access to Ben's personal phone number for emergencies</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </SubscriptionCard>

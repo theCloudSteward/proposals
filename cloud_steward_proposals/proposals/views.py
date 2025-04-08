@@ -51,28 +51,33 @@ def create_checkout_session(request):
         project_price = int(page.project_with_subscription_price * 100)
         subscription_price = int(page[option] * 100)
 
-        line_items.append({
-            'price_data': {
-                'currency': 'usd',
-                'unit_amount': project_price,
-                'product_data': {
-                    'name': f"{page.company_name} Project",
-                },
-            },
-            'quantity': 1,
-        })
-        line_items.append({
-            'price_data': {
-                'currency': 'usd',
-                'unit_amount': subscription_price,
-                'recurring': {'interval': 'month'},
-                'product_data': {
-                    'name': f"{page.company_name} Subscription",
-                },
-            },
-            'quantity': 1,
-        })
-        mode = 'subscription'
+        try:
+            # Create Subscription
+            subscription_price = int(page[option] * 100)
+            subscription = stripe.Subscription.create(
+                customer=page.stripe_customer_id,  # Replace with your customer ID
+                items=[{
+                    'price': subscription_price,  # Replace with your price ID
+                    'quantity': 1,
+                }],
+                billing='charge_automatically',  # or 'send_invoice' for manual billing
+            )
+
+            # Create Payment Intent for one-time payment
+            project_price = int(page.project_only_price * 100)
+            payment_intent = stripe.PaymentIntent.create(
+                amount=project_price,
+                currency='usd',
+                customer=page.stripe_customer_id,  # Replace with your customer ID
+                payment_method_types=['card'],
+            )
+
+            return Response({
+                "subscription_id": subscription.id,
+                "payment_intent_client_secret": payment_intent.client_secret,
+            })
+        except stripe.error.StripeError as e:
+            return Response({"error": str(e)}, status=400)
 
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],

@@ -7,7 +7,7 @@ function SingleProjectOption({
   setSelectedOption,
 }) {
   return (
-    <div className="max-w-5xl mx-auto my-5 py-5">
+    <div className="max-w-5xl mx-auto px-4 my-5 py-5">
       <div className="bg-white bg-opacity-20 border border-dashed border-gray-400 rounded-lg p-6 mb-10">
         <h3 className="text-center text-2xl font-bold py-4 mb-6">
           Only Need This Project?

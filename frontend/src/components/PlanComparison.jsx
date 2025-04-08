@@ -48,19 +48,28 @@ function PlanComparison({
                 </tr>
                 <tr>
                   <td className="p-4 bg-white font-semibold bg-opacity-30">Project Price</td>
-                  <td className="p-4 font-bold">${data.project_with_subscription_price}
-                    <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold p-1 border border-transparent text-xs text-white transition-all shadow-sm">
-                      20% Off
+                  <td className="p-4 font-bold">
+                    <span className="whitespace-nowrap inline-flex items-center gap-2">
+                      ${data.project_with_subscription_price}
+                      <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold px-2 py-1 border border-transparent text-xs text-white transition-all shadow-sm">
+                        20% Off
+                      </span>
                     </span>
                   </td>
-                  <td className="p-4 font-bold">${data.project_with_subscription_price}
-                    <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold p-1 border border-transparent text-xs text-white transition-all shadow-sm">
-                      20% Off
+                  <td className="p-4 font-bold">
+                    <span className="whitespace-nowrap inline-flex items-center gap-2">
+                      ${data.project_with_subscription_price}
+                      <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold px-2 py-1 border border-transparent text-xs text-white transition-all shadow-sm">
+                        20% Off
+                      </span>
                     </span>
                   </td>
-                  <td className="p-4 font-bold">${data.project_with_subscription_price}
-                    <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold p-1 border border-transparent text-xs text-white transition-all shadow-sm">
-                      20% Off
+                  <td className="p-4 font-bold">
+                    <span className="whitespace-nowrap inline-flex items-center gap-2">
+                      ${data.project_with_subscription_price}
+                      <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold px-2 py-1 border border-transparent text-xs text-white transition-all shadow-sm">
+                        20% Off
+                      </span>
                     </span>
                   </td>
                 </tr>

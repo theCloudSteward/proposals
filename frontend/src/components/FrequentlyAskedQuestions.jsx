@@ -46,7 +46,7 @@ function FrequentlyAskedQuestions({
                 Frequently Asked Questions
               </h3>
               <p className="text-lg font-semibold text-white">
-                Have more questions? <a href="https://www.thecloudsteward.com/contact">Contact Ben</a>.
+                Have more questions? <a className="text-blue" href="https://www.thecloudsteward.com/contact">Contact Ben</a>.
               </p>
             </div>
 
@@ -56,9 +56,9 @@ function FrequentlyAskedQuestions({
                 <div key={index} className="mb-4">
                   <button
                     onClick={() => toggleAccordion(index)}
-                    className="w-full text-left py-3 px-4 bg-white bg-opacity-60 rounded-t focus:outline-none flex justify-between items-center"
+                    className="w-full text-left py-3 px-4 bg-white bg-opacity-90 rounded-md focus:outline-none flex justify-between items-center"
                   >
-                    <span className="text-lg font-medium text-black">
+                    <span className="text-base font-medium text-black">
                       {faq.question}
                     </span>
                     <span className="text-black">
@@ -66,7 +66,7 @@ function FrequentlyAskedQuestions({
                     </span>
                   </button>
                   {openIndex === index && (
-                    <div className="p-4 bg-white bg-opacity-40 rounded-b text-black">
+                    <div className="p-4 bg-white bg-opacity-80 rounded-b text-black">
                       {faq.answer}
                     </div>
                   )}

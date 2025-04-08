@@ -109,6 +109,70 @@ function SubscriptionPlans({
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
+                <span className="text-sm">100% Uptime for All Cloud Steward Customizations</span>
+              </div>
+              <hr className="my-3 border-gray-300" />
+              <div className="flex items-center">
+                <span className="mr-2 text-xl">✔️</span>
+                <span className="text-sm">Resolve Any Cloud Steward Script Errors within Hours</span>
+              </div>
+            </div>
+          </SubscriptionCard>
+
+          {/* Standard Card */}
+          <SubscriptionCard
+            title="Basic"
+            subtitle="Full System Maintenance"
+            price={data.tier_2_subscription_price}
+            option="standard"
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          >
+            <div className="mt-4 w-full text-left">
+              <div className="flex items-center">
+                <span className="mr-2 text-xl">➕</span>
+                <span className="text-sm font-bold">
+                  $800 One-Time Payment for Project 
+                </span>
+             <div class="flex justify-center items-center rounded-lg bg-opacity-70 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+              20% Off
+            </div>
+              </div>
+              <hr className="my-3 border-gray-300" />
+              <div className="flex items-center">
+                <span className="mr-2 text-xl">✔️</span>
+                <span className="text-sm">100% Uptime for All System-Critical SuiteScripts and Workflows</span>
+              </div>
+              <hr className="my-3 border-gray-300" />
+              <div className="flex items-center">
+                <span className="mr-2 text-xl">✔️</span>
+                <span className="text-sm">Resolve Cloud Steward Script Errors within Hours</span>
+              </div>
+            </div>
+          </SubscriptionCard>
+
+          {/* Premium Card */}
+          <SubscriptionCard
+            title="Basic"
+            subtitle="VIP Support"
+            price={data.tier_3_subscription_price}
+            option="premium"
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          >
+            <div className="mt-4 w-full text-left">
+              <div className="flex items-center">
+                <span className="mr-2 text-xl">➕</span>
+                <span className="text-sm font-bold">
+                  $800 One-Time Payment for Project 
+                </span>
+             <div class="flex justify-center items-center rounded-lg bg-opacity-70 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+              20% Off
+            </div>
+              </div>
+              <hr className="my-3 border-gray-300" />
+              <div className="flex items-center">
+                <span className="mr-2 text-xl">✔️</span>
                 <span className="text-sm">Maintain 100% Uptime for All Cloud Steward Customizations</span>
               </div>
               <hr className="my-3 border-gray-300" />
@@ -118,26 +182,6 @@ function SubscriptionPlans({
               </div>
             </div>
           </SubscriptionCard>
-
-          {/* Standard Card */}
-          <SubscriptionCard
-            title="Standard"
-            subtitle="Full System Maintenance"
-            price={data.tier_2_subscription_price}
-            option="standard"
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-          />
-
-          {/* Premium Card */}
-          <SubscriptionCard
-            title="Premium"
-            subtitle="VIP Support"
-            price={data.tier_3_subscription_price}
-            option="premium"
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-          />
         </div>
       </div>
     </div>

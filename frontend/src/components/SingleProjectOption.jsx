@@ -8,9 +8,9 @@ function SingleProjectOption({
 }) {
   return (
     <div className="max-w-5xl mx-auto my-5 py-5">
-      <div className="bg-white bg-opacity-20 border border-dashed border-gray-600 rounded-lg p-6 mb-10">
+      <div className="bg-white bg-opacity-20 border border-dashed border-gray-400 rounded-lg p-6 mb-10">
         <h3 className="text-center text-2xl font-bold py-4 mb-6">
-          Project Only?
+          Only Need This Project?
         </h3>
         {/* Project-Only Card */}
         <div className="p-4 flex flex-col items-center md:flex-row md:justify-between">
@@ -19,10 +19,10 @@ function SingleProjectOption({
               Pay once for the project, no monthly fees.
             </p>
           </div>
-          <div className="mt-4 md:mt-0">
-            <p className="text-2xl font-bold text-gray-800">
+          <div>
+            <p className="text-2xl font-bold text-red-800">
               <strong>${data.project_only_price}</strong>
-              <span className="ml-2 text-base line-through text-red-600">
+              <span className="ml-2 text-base line-through text-gray-600">
                 ${data.project_with_subscription_price}
               </span>
             </p>

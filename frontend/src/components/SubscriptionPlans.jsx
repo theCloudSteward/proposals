@@ -101,7 +101,7 @@ function SubscriptionPlans({
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
-                  <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+                  <span class="inline-flex items-center justify-center rounded bg-red-700 bg-opacity-80 my-1 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
                     20% Off
                   </span>
                 </span>
@@ -133,7 +133,7 @@ function SubscriptionPlans({
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
-                  <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+                  <span class="inline-flex items-center justify-center rounded bg-red-700 bg-opacity-80 my-1 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
                     20% Off
                   </span>
                 </span>
@@ -166,7 +166,7 @@ function SubscriptionPlans({
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
-                  <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+                  <span class="inline-flex items-center justify-center rounded bg-red-700 bg-opacity-80 my-1 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
                     20% Off
                   </span>
                 </span>

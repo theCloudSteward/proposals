@@ -6,16 +6,11 @@ function SingleProjectOption({
   isProjectOnly,
   setSelectedOption,
 }) {
-  // Calculate the actual and discounted price. For example, if project_only_price is 2500,
-  // the discounted price is 20% less (i.e., 2000).
-  const actualPrice = parseFloat(data.project_only_price);
-  const discountedPrice = actualPrice * 0.8;
-
   return (
     <div className="max-w-5xl mx-auto my-5 py-5">
-      <div className="bg-white bg-opacity-30 border border-dashed border-gray-800 rounded-lg p-6 mb-10">
-        <h3 className="text-center text-3xl font-bold py-4 mb-6">
-          Compare Plans
+      <div className="bg-white bg-opacity-20 border border-dashed border-gray-600 rounded-lg p-6 mb-10">
+        <h3 className="text-center text-2xl font-bold py-4 mb-6">
+          Project Only?
         </h3>
         {/* Project-Only Card */}
         <div className="p-4 flex flex-col items-center md:flex-row md:justify-between">
@@ -26,9 +21,9 @@ function SingleProjectOption({
           </div>
           <div className="mt-4 md:mt-0">
             <p className="text-2xl font-bold text-gray-800">
-              ${actualPrice}
+              <strong>${data.project_only_price}</strong>
               <span className="ml-2 text-base line-through text-red-600">
-                ${discountedPrice.toFixed(0)}
+                ${data.project_with_subscription_price}
               </span>
             </p>
           </div>

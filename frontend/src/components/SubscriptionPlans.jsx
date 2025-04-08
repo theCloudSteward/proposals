@@ -97,7 +97,7 @@ function SubscriptionPlans({
             setSelectedOption={setSelectedOption}
           >
             <div className="mt-4 w-full text-left">
-              <div className="flex items-center bg-white bg-opacity-30 shadow-sm rounded-lg">
+              <div className="p-4 flex items-center bg-white bg-opacity-40 shadow-md rounded-lg">
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   $800 One-Time Payment for Project 
@@ -129,14 +129,14 @@ function SubscriptionPlans({
             setSelectedOption={setSelectedOption}
           >
             <div className="mt-4 w-full text-left">
-              <div className="flex items-center">
+              <div className="p-4 flex items-center bg-white bg-opacity-40 shadow-md rounded-lg">
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   $800 One-Time Payment for Project 
                 </span>
-             <div class="flex justify-center items-center rounded-lg bg-opacity-70 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
-              20% Off
-            </div>
+                <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+                  20% Off
+                </span>
               </div>
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
@@ -162,14 +162,14 @@ function SubscriptionPlans({
           >
             <div className="mt-4 w-full text-left">
               {/* Top row: One-time payment text and discount badge */}
-              <div className="flex items-center space-x-2">
+              <div className="p-4 flex items-center bg-white bg-opacity-40 shadow-md rounded-lg">
                 <span className="mr-2 text-xl">➕</span>
                 <span className="text-sm font-bold">
-                  $800 One-Time Payment for Project
+                  $800 One-Time Payment for Project 
                 </span>
-                <div className="flex justify-center items-center rounded-lg bg-red-600 bg-opacity-70 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
+                <span class="flex justify-center items-center rounded-lg bg-opacity-80 bg-red-600 py-0.5 px-1 border border-transparent text-sm text-white transition-all shadow-md">
                   20% Off
-                </div>
+                </span>
               </div>
               <hr className="my-3 border-gray-300" />
               {/* Details section using semantic markup */}

@@ -98,11 +98,11 @@ function SubscriptionPlans({
           >
             <div className="mt-4 w-full text-left">
               <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
-                <span className="mr-2 text-xl">➕</span>
+                <span className="mr-4 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
                 </span>
-                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
+                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
                   20% Off
                 </span>
               </div>
@@ -130,11 +130,11 @@ function SubscriptionPlans({
           >
             <div className="mt-4 w-full text-left">
               <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
-                <span className="mr-2 text-xl">➕</span>
+                <span className="mr-4 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
                 </span>
-                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
+                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
                   20% Off
                 </span>
               </div>
@@ -163,11 +163,11 @@ function SubscriptionPlans({
             <div className="mt-4 w-full text-left">
               {/* Top row: One-time payment text and discount badge */}
               <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
-                <span className="mr-2 text-xl">➕</span>
+                <span className="mr-4 text-xl">➕</span>
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
                 </span>
-                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 px-1 py-0.5 border border-transparent text-xs text-white transition-all shadow-sm">
+                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
                   20% Off
                 </span>
               </div>

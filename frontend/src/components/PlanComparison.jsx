@@ -21,9 +21,9 @@ function PlanComparison({
                   <td className="p-4 bg-white rounded-t-md bg-opacity-60 font-semibold text-gray-800">
                     Features
                   </td>
-                  <td className="p-4"><h3 className="text-xl bg-white rounded-lg bg-opacity-60 font-bold">Basic</h3></td>
-                  <td className="p-4"><h3 className="text-xl bg-white rounded-lg bg-opacity-60 font-bold">Standard</h3></td>
-                  <td className="p-4"><h3 className="text-xl bg-white rounded-lg bg-opacity-60 font-bold">Premium</h3></td>
+                  <td className="p-4 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Basic</h3></td>
+                  <td className="p-4 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Standard</h3></td>
+                  <td className="p-4 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Premium</h3></td>
                 </tr>
               </thead>
               <tbody>

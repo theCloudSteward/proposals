@@ -1,4 +1,3 @@
-import uuid
 from decimal import Decimal
 from django.db import models
 from django.utils import timezone
@@ -26,11 +25,18 @@ class ClientPage(models.Model):
     is_consultant = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(default=thirty_days_from_now)
+    project_discount_percent = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.client_name} - {self.project_name}"
 
     def save(self, *args, **kwargs):
+        if self.project_only_price is not None and self.project_with_subscription_price is not None and self.project_with_subscription_price != 0:
+            percentage_discount = round(((self.project_only_price - self.project_with_subscription_price) / self.project_only_price) * 100)
+            self.project_discount_percent = int(percentage_discount)
+        else:
+            self.project_discount_percent = None
+
         if not self.slug:
             self.slug = generate_slug()
         self.auto_link = f"https://proposals.thecloudsteward.com/{self.slug}"

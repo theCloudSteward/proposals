@@ -46,7 +46,7 @@ function FrequentlyAskedQuestions({
                 Frequently Asked Questions
               </h3>
               <p className="text-lg font-semibold text-white">
-                Have more questions? <a className="text-blue-600" href="https://www.thecloudsteward.com/contact">Contact Ben</a>.
+                Have more questions? <a className="text-blue-300" href="https://www.thecloudsteward.com/contact">Contact Ben</a>.
               </p>
             </div>
 

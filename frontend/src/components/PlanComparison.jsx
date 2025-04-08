@@ -10,7 +10,7 @@ function PlanComparison({
     <div className="my-5 py-5">
       <div className="max-w-5xl mx-auto px-4">
         <div className="bg-white bg-opacity-50 shadow-md rounded-lg p-6 mb-10">
-          <h2 className="text-center text-3xl font-bold py-4">
+          <h2 className="text-center text-3xl font-bold py-4 mb-3">
             Compare Plans
           </h2>
           {/* Plan Comparison Table */}
@@ -44,8 +44,8 @@ function PlanComparison({
               </thead>
               <tbody>
                 {/* Features Section */}
-                <tr className="bg-gray-100">
-                  <td className="p-4 bg-white bg-opacity-90 font-semibold text-gray-800">
+                <tr className="bg-white rounded-md bg-opacity-30">
+                  <td className="p-4 bg-white rounded-t-md bg-opacity-30 font-semibold text-gray-800">
                     Features
                   </td>
                   <td className="p-4"></td>
@@ -53,37 +53,37 @@ function PlanComparison({
                   <td className="p-4"></td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-90">Project Scope</td>
+                  <td className="p-4 bg-white bg-opacity-30">Project Scope</td>
                   <td className="p-4">Core features</td>
                   <td className="p-4">Full scope</td>
                   <td className="p-4">Enhanced features</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-90">Payment Type</td>
+                  <td className="p-4 bg-white bg-opacity-30">Payment Type</td>
                   <td className="p-4">One-time</td>
                   <td className="p-4">One-time</td>
                   <td className="p-4">One-time</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-90">Monthly Fees</td>
+                  <td className="p-4 bg-white bg-opacity-30">Monthly Fees</td>
                   <td className="p-4">None</td>
                   <td className="p-4">None</td>
                   <td className="p-4">None</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-90">Support Level</td>
+                  <td className="p-4 bg-white bg-opacity-30">Support Level</td>
                   <td className="p-4">Basic</td>
                   <td className="p-4">Standard</td>
                   <td className="p-4">Priority</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-90">Custom Features</td>
+                  <td className="p-4 bg-white bg-opacity-30">Custom Features</td>
                   <td className="p-4">—</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-90">Team Collaboration</td>
+                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">Team Collaboration</td>
                   <td className="p-4">—</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>

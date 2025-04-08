@@ -14,7 +14,7 @@ function Footer() {
       <div className="max-w-5xl mx-auto px-4 flex justify-center">
         <button
           onClick={scrollToTop}
-          className="py-2 px-6 bg-white text-gray-800 rounded shadow-md hover:bg-gray-200 transition-colors"
+          className="py-2 px-6 bg-white bg-opacity-60 text-gray-800 rounded shadow-md hover:bg-gray-200 transition-colors"
         >
           Back to Top
         </button>

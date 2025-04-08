@@ -18,7 +18,7 @@ function PlanComparison({
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr>
-                  <td className="p-4 bg-white rounded-tl-md bg-opacity-60 font-semibold text-gray-800"> Features</td>
+                  <td className="p-4 bg-white rounded-tl-md bg-opacity-60 font-bold text-gray-800">Features</td>
                   <td className="p-3 m-3 text-xl bg-white bg-opacity-60 font-bold"><h3>Basic</h3></td>
                   <td className="p-3 m-3 text-xl bg-white bg-opacity-60 font-bold"><h3>Standard</h3></td>
                   <td className="p-3 m-3 text-xl bg-white rounded-r-md bg-opacity-60 font-bold"><h3>Premium</h3></td>
@@ -26,7 +26,7 @@ function PlanComparison({
               </thead>
               <tbody>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">Monthly Fees</td>
+                  <td className="p-4 bg-white font-semibold bg-opacity-30">Monthly Fees</td>
                   <td className="p-4">
                     <p className="text-base font-bold text-gray-800">
                       ${data.tier_1_subscription_price}
@@ -47,79 +47,79 @@ function PlanComparison({
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">Project Price</td>
-                  <td className="p-4 font-bold">${data.project_with_subscription_price} 
-                    <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
+                  <td className="p-4 bg-white font-semibold bg-opacity-30">Project Price</td>
+                  <td className="p-4 font-bold">${data.project_with_subscription_price}
+                    <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold p-1 border border-transparent text-xs text-white transition-all shadow-sm">
                       20% Off
                     </span>
                   </td>
-                  <td className="p-4 font-bold">${data.project_with_subscription_price} 
-                    <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
+                  <td className="p-4 font-bold">${data.project_with_subscription_price}
+                    <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold p-1 border border-transparent text-xs text-white transition-all shadow-sm">
                       20% Off
                     </span>
                   </td>
-                  <td className="p-4 font-bold">${data.project_with_subscription_price} 
-                    <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
+                  <td className="p-4 font-bold">${data.project_with_subscription_price}
+                    <span className="inline-flex items-center justify-center rounded-full bg-green-700 bg-opacity-60 font-bold p-1 border border-transparent text-xs text-white transition-all shadow-sm">
                       20% Off
                     </span>
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">Support Priority</td>
+                  <td className="p-4 bg-white font-semibold bg-opacity-30">Support Priority</td>
                   <td className="p-4">Basic</td>
                   <td className="p-4">Standard</td>
                   <td className="p-4">Priority</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">USA-Based Tech Support</td>
+                  <td className="p-4 bg-white font-semibold bg-opacity-30">USA-Based Tech Support</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">Latest SuiteScript 2.1 Technology</td>
+                  <td className="p-4 bg-white font-semibold bg-opacity-30">Latest SuiteScript 2.1 Technology</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">24/7 Error Monitoring</td>
+                  <td className="p-4 bg-white font-semibold bg-opacity-30">24/7 Error Monitoring</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white bg-opacity-30">100% Uptime for Cloud Steward Automations</td>
+                  <td className="p-4 bg-white font-semibold bg-opacity-30">100% Uptime for Cloud Steward Automations</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">100% Uptime for All System-Critical SuiteScripts and Workflows</td>
+                  <td className="p-4 bg-white font-semibold rounded-b-md bg-opacity-30">100% Uptime for All System-Critical SuiteScripts and Workflows</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">Optimize Transaction Form Performance</td>
+                  <td className="p-4 bg-white font-semibold rounded-b-md bg-opacity-30">Optimize Transaction Form Performance</td>
                   <td className="p-4">—</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">Exclusive VIP Discounts for Future Projects</td>
+                  <td className="p-4 bg-white font-semibold rounded-b-md bg-opacity-30">Exclusive VIP Discounts for Future Projects</td>
                   <td className="p-4">—</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">Monthly System Health Report</td>
+                  <td className="p-4 bg-white font-semibold rounded-b-md bg-opacity-30">Monthly System Health Report</td>
                   <td className="p-4">—</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white rounded-b-md bg-opacity-30">VIP Access to Ben's Personal Phone for Emergencies</td>
+                  <td className="p-4 bg-white font-semibold rounded-b-md bg-opacity-30">VIP Access to Ben's Personal Phone for Emergencies</td>
                   <td className="p-4">—</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>

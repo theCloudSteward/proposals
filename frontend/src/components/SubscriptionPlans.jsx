@@ -102,7 +102,7 @@ function SubscriptionPlans({
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
                 </span>
-                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
+                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 p-3 border border-transparent text-xs text-white transition-all shadow-sm">
                   20% Off
                 </span>
               </div>
@@ -134,7 +134,7 @@ function SubscriptionPlans({
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
                 </span>
-                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
+                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 p-3 border border-transparent text-xs text-white transition-all shadow-sm">
                   20% Off
                 </span>
               </div>
@@ -167,7 +167,7 @@ function SubscriptionPlans({
                 <span className="text-sm font-bold">
                   ${data.project_with_subscription_price} One-Time Payment for Project 
                 </span>
-                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
+                <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 ml-2 p-3 border border-transparent text-xs text-white transition-all shadow-sm">
                   20% Off
                 </span>
               </div>

@@ -18,33 +18,31 @@ function PlanComparison({
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr>
-                  <td className="p-4 bg-white rounded-t-md bg-opacity-60 font-semibold text-gray-800">
-                    Features
-                  </td>
-                  <td className="p-4 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Basic</h3></td>
-                  <td className="p-4 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Standard</h3></td>
-                  <td className="p-4 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Premium</h3></td>
+                  <td className="p-4 bg-white rounded-t-md bg-opacity-60 font-semibold text-gray-800"> Features</td>
+                  <td className="p-3 m-3 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Basic</h3></td>
+                  <td className="p-3 m-3 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Standard</h3></td>
+                  <td className="p-3 m-3 text-xl bg-white rounded-lg bg-opacity-60 font-bold"><h3>Premium</h3></td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td className="p-4 bg-white bg-opacity-30">Monthly Fees</td>
                   <td className="p-4">
-                    <p className="text-3xl font-bold text-gray-800">
+                    <p className="text-base font-bold text-gray-800">
                       ${data.tier_1_subscription_price}
-                      <span className="text-base text-gray-500">/month</span>
+                      <span className="text-xs text-gray-500">/month</span>
                     </p>
                   </td>
                   <td className="p-4">
-                    <p className="text-3xl font-bold text-gray-800">
+                    <p className="text-base font-bold text-gray-800">
                       ${data.tier_2_subscription_price}
-                      <span className="text-base text-gray-500">/month</span>
+                      <span className="text-xs text-gray-500">/month</span>
                     </p>
                   </td>
                   <td className="p-4">
-                     <p className="text-3xl font-bold text-gray-800">
+                     <p className="text-base font-bold text-gray-800">
                       ${data.tier_3_subscription_price}
-                      <span className="text-base text-gray-500">/month</span>
+                      <span className="text-xs text-gray-500">/month</span>
                     </p>
                   </td>
                 </tr>

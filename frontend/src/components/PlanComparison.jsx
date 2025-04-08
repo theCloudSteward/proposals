@@ -18,39 +18,35 @@ function PlanComparison({
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr>
-                  <th className="p-4"></th>
-                  <th className="p-4 text-center">
-                    <h3 className="text-xl font-bold">Basic</h3>
+                  <td className="p-4 bg-white rounded-t-md bg-opacity-60 font-semibold text-gray-800">
+                    Features
+                  </td>
+                  <td className="p-4"><h3 className="text-xl font-bold">Basic</h3></td>
+                  <td className="p-4"><h3 className="text-xl font-bold">Standard</h3></td>
+                  <td className="p-4"><h3 className="text-xl font-bold">Premium</h3></td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-4 bg-white bg-opacity-30">Monthly Fees</td>
+                  <td className="p-4">
                     <p className="text-3xl font-bold text-gray-800">
                       ${data.tier_1_subscription_price}
                       <span className="text-base text-gray-500">/month</span>
                     </p>
-                  </th>
-                  <th className="p-4 text-center">
-                    <h3 className="text-xl font-bold">Standard</h3>
+                  </td>
+                  <td className="p-4">
                     <p className="text-3xl font-bold text-gray-800">
                       ${data.tier_2_subscription_price}
                       <span className="text-base text-gray-500">/month</span>
                     </p>
-                  </th>
-                  <th className="p-4 text-center">
-                    <h3 className="text-xl font-bold">Premium</h3>
-                    <p className="text-3xl font-bold text-gray-800">
+                  </td>
+                  <td className="p-4">
+                     <p className="text-3xl font-bold text-gray-800">
                       ${data.tier_3_subscription_price}
                       <span className="text-base text-gray-500">/month</span>
                     </p>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* Features Section */}
-                <tr>
-                  <td className="p-4 bg-white rounded-t-md bg-opacity-60 font-semibold text-gray-800">
-                    Features
                   </td>
-                  <td className="p-4"></td>
-                  <td className="p-4"></td>
-                  <td className="p-4"></td>
                 </tr>
                 <tr>
                   <td className="p-4 bg-white bg-opacity-30">Project Scope</td>
@@ -63,12 +59,6 @@ function PlanComparison({
                   <td className="p-4">One-time</td>
                   <td className="p-4">One-time</td>
                   <td className="p-4">One-time</td>
-                </tr>
-                <tr>
-                  <td className="p-4 bg-white bg-opacity-30">Monthly Fees</td>
-                  <td className="p-4">None</td>
-                  <td className="p-4">None</td>
-                  <td className="p-4">None</td>
                 </tr>
                 <tr>
                   <td className="p-4 bg-white bg-opacity-30">Support Level</td>

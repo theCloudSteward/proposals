@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 
-function FrequentlyAskedQuestions({
-  data,
-  originalProjectPrice,
-  isProjectOnly,
-  setSelectedOption,
-  selectedOption
-}) {
+function FrequentlyAskedQuestions({}) {
   // State to manage which accordion item is open
   const [openIndex, setOpenIndex] = useState(null);
 
-  // Sample Q&A data
+  // Q&A data
   const faqs = [
     {
       question: "Can I cancel my subscription if I change my mind?",

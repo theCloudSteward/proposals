@@ -12,46 +12,10 @@ import SingleProjectOption from "./components/SingleProjectOption";
 import FrequentlyAskedQuestions from "./components/FrequentlyAskedQuestions";
 import Footer from "./components/Footer";
 
-// Import the CheckoutButton component
-import CheckoutButton from "./components/CheckoutButton";
-
 function ClientPage() {
   const { slug } = useParams();
   const [data, setData] = useState(null);
   const [notFound, setNotFound] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("project-only");
-
-  // Subscription plans
-  const SUBSCRIPTION_PLANS = [
-    {
-      id: "tier1",
-      label: "Tier 1",
-      monthlyPrice: 299,
-      discountPercent: 20,
-      features: [
-        "USA-based tech support",
-        "Free ongoing maintenance for all Cloud Steward scripts",
-        "Resolve script errors within hours",
-        "100% uptime for Cloud Steward scripts",
-        "Peace of mind, knowing that all Cloud Steward scripts are maintained",
-      ],
-    },
-    {
-      id: "tier2",
-      label: "Tier 2",
-      monthlyPrice: 1750,
-      discountPercent: 20,
-      features: [
-        "Everything in Tier 1, plus...",
-        "Monitor ALL script errors across system",
-        "Resolve ANY script errors for free",
-        "24/7 VIP tech support access",
-        "USA-based tech support",
-        "Access to Ben's personal phone number for emergencies",
-        "Peace of mind, knowing that all system scripts are maintained",
-      ],
-    },
-  ];
 
   // Fetch data
   useEffect(() => {
@@ -88,20 +52,6 @@ function ClientPage() {
   }
 
   const pageTitle = `${data.company_name} Proposal`;
-
-  // Price calculations
-  const originalProjectPrice = parseFloat(data.project_price) || 0;
-  const isProjectOnly = selectedOption === "project-only";
-  const activePlan = SUBSCRIPTION_PLANS.find((p) => p.id === selectedOption) || null;
-
-  let finalProjectPrice = originalProjectPrice;
-  let monthlyCost = 0;
-  if (!isProjectOnly && activePlan) {
-    const discount = (activePlan.discountPercent || 0) / 100;
-    finalProjectPrice = originalProjectPrice * (1 - discount);
-    monthlyCost = activePlan.monthlyPrice;
-  }
-
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <Helmet>
@@ -111,47 +61,28 @@ function ClientPage() {
       {/* Gradient section that covers the top of the page */}
       <section
         className="min-h-screen"
-        style={{
-          background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)',
-        }}
+        style={{ background: 'linear-gradient(142deg, rgba(253,240,249,1) 0%, rgba(181,218,247,1) 100%)' }}
       >
         <ClientHeader />
         <main className="flex-grow">
           <ProjectDetails
             data={data}
-            originalProjectPrice={originalProjectPrice}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-            isProjectOnly={isProjectOnly}
           />
           <SubscriptionPlans
             data={data}
-            subscriptionPlans={SUBSCRIPTION_PLANS}
-            originalProjectPrice={originalProjectPrice}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
           />
           <PlanComparison
             data={data}
-            originalProjectPrice={originalProjectPrice}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
           />
           <SingleProjectOption
             data={data}
-            originalProjectPrice={originalProjectPrice}
-            setSelectedOption={setSelectedOption}
-            isProjectOnly={isProjectOnly}
           />
         </main>
       </section>
 
       {/* Section that stops the gradient */}
       <section className="bg-white">
-        <FrequentlyAskedQuestions
-          data={data}
-          originalProjectPrice={originalProjectPrice}
-        />
+        <FrequentlyAskedQuestions/>
         <Footer />
       </section>
     </div>

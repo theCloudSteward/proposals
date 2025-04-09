@@ -1,11 +1,6 @@
 import React from 'react';
 
-function PlanComparison({
-  data,
-  originalProjectPrice,
-  setSelectedOption,
-  selectedOption,
-}) {
+function PlanComparison({ data }) {
   return (
     <div className="my-5 py-5">
       <div className="max-w-5xl mx-auto px-4">

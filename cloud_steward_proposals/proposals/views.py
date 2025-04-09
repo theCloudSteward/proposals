@@ -46,6 +46,15 @@ def create_checkout_session(request):
             },
             'quantity': 1,
         })
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=line_items,
+            mode=mode,
+            # Using double curly braces so that Stripe replaces the placeholder with the actual session ID
+            success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
+        )
+        return Response({"url": session.url})
     else:
         # Convert all Decimal fields to int safely
         project_price = int(page.project_with_subscription_price * 100)
@@ -78,17 +87,6 @@ def create_checkout_session(request):
             })
         except stripe.error.StripeError as e:
             return Response({"error": str(e)}, status=400)
-
-    session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=line_items,
-        mode=mode,
-        # Using double curly braces so that Stripe replaces the placeholder with the actual session ID
-        success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
-        cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
-    )
-
-    return Response({"url": session.url})
 
 # New endpoint to retrieve session details for the success page
 @api_view(['GET'])

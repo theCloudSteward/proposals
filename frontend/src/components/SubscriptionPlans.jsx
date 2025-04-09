@@ -5,9 +5,6 @@ function SubscriptionCard({
   title,
   subtitle,
   price,
-  option,
-  selectedOption,
-  setSelectedOption,
   children, // extra details (for Basic card)
 }) {
   // Default background position is centered
@@ -67,25 +64,17 @@ function SubscriptionCard({
   );
 }
 
-function SubscriptionPlans({
-  data,
-  originalProjectPrice,
-  setSelectedOption,
-  selectedOption,
-}) {
+function SubscriptionPlans({ data }) {
   return (
     <div className="my-10 py-10">
-      <h2 className="max-w-5xl mx-auto text-center px-4 font-bold mb-8">Membership Pricing</h2>
+      <h2 className="max-w-5xl mx-auto text-center px-4 font-bold mb-8">Support Plans</h2>
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Basic Card with extra details */}
           <SubscriptionCard
             title="Basic"
-            subtitle="A Fresh Start"
+            subtitle="Essential Error Support"
             price={data.tier_1_subscription_price}
-            option="basic"
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
           >
             <div className="mt-4 w-full text-left">
               <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
@@ -114,11 +103,8 @@ function SubscriptionPlans({
           {/* Standard Card */}
           <SubscriptionCard
             title="Standard"
-            subtitle="Full System Maintenance"
+            subtitle="Full System Support"
             price={data.tier_2_subscription_price}
-            option="standard"
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
           >
             <div className="mt-4 w-full text-left">
               <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
@@ -152,9 +138,6 @@ function SubscriptionPlans({
             title="Premium"
             subtitle="VIP Support"
             price={data.tier_3_subscription_price}
-            option="premium"
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
           >
             <div className="mt-4 w-full text-left">
               {/* Top row: One-time payment text and discount badge */}

@@ -1,12 +1,7 @@
 import React from 'react';
 import CheckoutButton from './CheckoutButton';
 
-function SingleProjectOption({
-  data,
-  originalProjectPrice,
-  isProjectOnly,
-  setSelectedOption,
-}) {
+function SingleProjectOption({ data }) {
   return (
     <div className="max-w-5xl mx-auto px-4 my-5 py-5">
       <div className="bg-white inset-shadow-lg bg-opacity-20 border border-dashed border-gray-400 rounded-lg p-6 mb-10">

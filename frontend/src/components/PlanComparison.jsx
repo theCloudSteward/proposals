@@ -99,7 +99,7 @@ function PlanComparison({ data }) {
                   <td className="p-4">✔</td>
                 </tr>
                 <tr>
-                  <td className="p-4 bg-white font-semibold rounded-b-md bg-opacity-30">100% Uptime for All System-Critical SuiteScripts and Workflows</td>
+                  <td className="p-4 bg-white font-semibold rounded-b-md bg-opacity-30">100% Uptime for All Essential System Scripts and Workflows</td>
                   <td className="p-4">—</td>
                   <td className="p-4">✔</td>
                   <td className="p-4">✔</td>

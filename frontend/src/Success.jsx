@@ -57,11 +57,7 @@ const Success = () => {
             <p className="font-medium">Oops! Something went wrong.</p>
             <p>{error}</p>
             <p className="mt-2">
-              Please try refreshing the page or{' '}
-              <a href="/contact" className="text-blue-500 underline">
-                contact support
-              </a>{' '}
-              for assistance.
+              Please try refreshing the page or contact support for assistance.
             </p>
           </div>
         )}

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-// Our new sub-components
+// Our sub-components
 import ClientHeader from "./components/ClientHeader";
 import ProjectDetails from "./components/ProjectDetails";
 import SubscriptionPlans from "./components/SubscriptionPlans";
@@ -33,7 +33,8 @@ function ClientPage() {
       .catch((err) => console.error(err));
   }, [slug]);
 
-  const faviconPath = process.env.PUBLIC_URL;
+  // Use process.env.PUBLIC_URL only if needed dynamically for meta tags.
+  const publicUrl = process.env.PUBLIC_URL;
 
   if (notFound) {
     return (
@@ -43,7 +44,7 @@ function ClientPage() {
           <meta name="description" content="The requested proposal page does not exist or has expired." />
           <meta property="og:title" content="Page Not Found" />
           <meta property="og:description" content="The requested proposal page does not exist or has expired." />
-          <meta property="og:image" content={`${faviconPath}/android-chrome-192x192.png`} />
+          <meta property="og:image" content={`${publicUrl}/android-chrome-192x192.png`} />
         </Helmet>
         <h1 className="text-3xl">This page does not exist or has expired.</h1>
       </div>
@@ -58,7 +59,7 @@ function ClientPage() {
           <meta name="description" content="Loading the proposal page..." />
           <meta property="og:title" content="Loading..." />
           <meta property="og:description" content="Loading the proposal page..." />
-          <meta property="og:image" content={`${faviconPath}/android-chrome-192x192.png`} />
+          <meta property="og:image" content={`${publicUrl}/android-chrome-192x192.png`} />
         </Helmet>
         <p className="text-lg text-gray-700 font-bold">Loading...</p>
       </div>
@@ -75,7 +76,7 @@ function ClientPage() {
         <meta name="description" content={pageDescription} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={`${faviconPath}/android-chrome-192x192.png`} />
+        <meta property="og:image" content={`${publicUrl}/android-chrome-192x192.png`} />
         <meta property="og:type" content="website" />
       </Helmet>
 

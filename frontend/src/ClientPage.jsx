@@ -36,17 +36,6 @@ function ClientPage() {
   if (notFound) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 font-sans">
-        <Helmet>
-          <title>Page Not Found</title>
-          <meta name="description" content="The requested proposal page does not exist or has expired." />
-          <meta property="og:title" content="Page Not Found" />
-          <meta property="og:description" content="The requested proposal page does not exist or has expired." />
-          <meta property="og:image" content="/android-chrome-192x192.png" />
-          <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        </Helmet>
         <h1 className="text-3xl">
           This page does not exist or has expired.
         </h1>
@@ -57,38 +46,16 @@ function ClientPage() {
   if (!data) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans">
-        <Helmet>
-          <title>Loading...</title>
-          <meta name="description" content="Loading the proposal page..." />
-          <meta property="og:title" content="Loading..." />
-          <meta property="og:description" content="Loading the proposal page..." />
-          <meta property="og:image" content="/android-chrome-192x192.png" />
-          <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        </Helmet>
         <p className="text-lg text-gray-700 font-bold">Loading...</p>
       </div>
     );
   }
 
   const pageTitle = `${data.company_name} Proposal`;
-  const pageDescription = `View the proposal for ${data.company_name}, including project details and subscription plans.`;
-  
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <Helmet>
         <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content="/android-chrome-192x192.png" />
-        <meta property="og:type" content="website" />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </Helmet>
 
       {/* Gradient section that covers the top of the page */}
@@ -98,16 +65,24 @@ function ClientPage() {
       >
         <ClientHeader />
         <main className="flex-grow">
-          <ProjectDetails data={data} />
-          <SubscriptionPlans data={data} />
-          <PlanComparison data={data} />
-          <SingleProjectOption data={data} />
+          <ProjectDetails
+            data={data}
+          />
+          <SubscriptionPlans
+            data={data}
+          />
+          <PlanComparison
+            data={data}
+          />
+          <SingleProjectOption
+            data={data}
+          />
         </main>
       </section>
 
       {/* Section that stops the gradient */}
       <section className="bg-white">
-        <FrequentlyAskedQuestions />
+        <FrequentlyAskedQuestions/>
         <Footer />
       </section>
     </div>

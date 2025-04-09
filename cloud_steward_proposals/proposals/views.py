@@ -20,7 +20,7 @@ class ClientPageViewSet(ReadOnlyModelViewSet):
         serializer = self.get_serializer(client_page)
         return Response(serializer.data)
 
-# Checkout session creation view – updated to handle one-time and subscription payments
+# Checkout session creation view – updated to use Stripe's default success page
 @api_view(['POST'])
 @authentication_classes([])  # CRITICAL!
 @permission_classes([AllowAny])  # CRITICAL!
@@ -51,7 +51,6 @@ def create_checkout_session(request):
                     'quantity': 1,
                 }],
                 mode='payment',
-                success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
             )
             return Response({"url": session.url})
@@ -100,7 +99,6 @@ def create_checkout_session(request):
                 subscription_data={
                     'trial_period_days': 30,  # Subscription billing starts after 30 days
                 },
-                success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
             )
             return Response({"url": session.url})

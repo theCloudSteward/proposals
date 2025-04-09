@@ -91,10 +91,10 @@ const Success = () => {
           </div>
         )}
         <nav className="mt-6 flex justify-between text-sm">
-          <a href="/" className="text-blue-500 hover:underline">
+          <a href="https://www.thecloudsteward.com/" className="text-blue-500 hover:underline">
             Return Home
           </a>
-          <a href="/contact" className="text-blue-500 hover:underline">
+          <a href="https://www.thecloudsteward.com/contact" className="text-blue-500 hover:underline">
             Contact Support
           </a>
         </nav>

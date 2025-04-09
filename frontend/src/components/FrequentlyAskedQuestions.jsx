@@ -11,16 +11,12 @@ function FrequentlyAskedQuestions({}) {
       answer: "Yes. You can cancel at any time without obligation. Just send an email to ben@thecloudsteward.com."
     },
     {
-      question: "Why do you have a subscription model?",
-      answer: "The mission of Cloud Steward is to be the best steward of NetSuite systems. We need to build long-term business relationships to accomplish that."
-    },
-    {
       question: "Can I upgrade my plan later?",
       answer: "Yes, you can contact us to discuss upgrading to a higher tier."
     },
     {
       question: "What payment methods are accepted?",
-      answer: "We accept credit cards and bank transfers through Stripe."
+      answer: "We accept credit/debit card payments through Stripe."
     }
   ];
 

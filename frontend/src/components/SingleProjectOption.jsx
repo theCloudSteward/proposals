@@ -14,6 +14,9 @@ function SingleProjectOption({ data }) {
             <p className="font-bold text-gray-600">
               Pay once for the project, no monthly fees.
             </p>
+            <p className="text-gray-400">
+              This option includes 30-days support for project automations.
+            </p>
           </div>
           <div>
             <p className="text-2xl font-bold text-red-800">

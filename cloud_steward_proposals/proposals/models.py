@@ -28,7 +28,7 @@ class ClientPage(models.Model):
     project_discount_percent = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.client_name} - {self.project_name}"
+        return f"{self.client_name or 'Unknown'} - {self.project_name or 'Unnamed Project'}"
 
     def save(self, *args, **kwargs):
         if self.project_only_price is not None and self.project_with_subscription_price is not None and self.project_with_subscription_price != 0:

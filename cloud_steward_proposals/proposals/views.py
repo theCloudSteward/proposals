@@ -69,7 +69,7 @@ def create_checkout_session(request):
                 unit_amount=project_price,
                 currency='usd',
                 product_data={
-                    'name': f"{page.company_name} One-Time Project Fee",
+                    'name': "One-Time Project Fee",
                 },
             )
 
@@ -79,7 +79,7 @@ def create_checkout_session(request):
                 currency='usd',
                 recurring={'interval': 'month'},
                 product_data={
-                    'name': f"{page.company_name} Monthly Subscription",
+                    'name': "Support Plan Subscription",
                 },
             )
 

@@ -1,4 +1,3 @@
-// Success.jsx
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -10,14 +9,15 @@ const Success = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Set the tab title
+  // Set the browser tab title
   useEffect(() => {
     document.title = "Payment Successful";
   }, []);
 
+  // Fetch session details from the backend
   useEffect(() => {
     if (!sessionId) {
-      setError('No session ID provided.');
+      setError('Missing session ID. Please check the URL or contact support.');
       setLoading(false);
       return;
     }
@@ -26,7 +26,7 @@ const Success = () => {
       try {
         const response = await fetch(`/api/order/success?session_id=${sessionId}`);
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`Failed to fetch session details. Status: ${response.status}`);
         }
         const data = await response.json();
         if (data.error) {
@@ -35,7 +35,7 @@ const Success = () => {
         setSessionDetails(data);
         setLoading(false);
       } catch (err) {
-        setError(err.message);
+        setError(`Unable to retrieve payment details: ${err.message}`);
         setLoading(false);
       }
     }
@@ -45,15 +45,25 @@ const Success = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-green-600 mb-4 text-center">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+        <h1 className="text-3xl font-bold text-green-600 mb-6 text-center">
           Payment Successful!
         </h1>
         {loading && (
           <p className="text-gray-600 text-center">Loading your order details...</p>
         )}
         {error && (
-          <p className="text-red-500 font-medium text-center">Error: {error}</p>
+          <div className="mb-4 p-4 bg-red-100 text-red-700 rounded">
+            <p className="font-medium">Oops! Something went wrong.</p>
+            <p>{error}</p>
+            <p className="mt-2">
+              Please try refreshing the page or{' '}
+              <a href="/contact" className="text-blue-500 underline">
+                contact support
+              </a>{' '}
+              for assistance.
+            </p>
+          </div>
         )}
         {sessionDetails && (
           <div className="space-y-4">
@@ -75,7 +85,7 @@ const Success = () => {
                 rel="noopener noreferrer"
                 className="inline-block w-full px-4 py-2 text-center text-white bg-blue-600 rounded hover:bg-blue-700 transition"
               >
-                Download Receipt
+                View Receipt
               </a>
             ) : (
               <p className="text-gray-500 italic">
@@ -85,16 +95,10 @@ const Success = () => {
           </div>
         )}
         <nav className="mt-6 flex justify-between text-sm">
-          <a
-            href="https://www.thecloudsteward.com/"
-            className="text-blue-500 hover:underline"
-          >
+          <a href="/" className="text-blue-500 hover:underline">
             Return Home
           </a>
-          <a
-            href="https://www.thecloudsteward.com/contact"
-            className="text-blue-500 hover:underline"
-          >
+          <a href="/contact" className="text-blue-500 hover:underline">
             Contact Support
           </a>
         </nav>

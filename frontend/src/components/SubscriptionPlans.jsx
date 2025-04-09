@@ -89,6 +89,11 @@ function SubscriptionPlans({ data }) {
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
+                <span className="text-sm">24/7 Error Monitoring</span>
+              </div>
+              <hr className="my-3 border-gray-300" />
+              <div className="flex items-center">
+                <span className="mr-2 text-xl">✔️</span>
                 <span className="text-sm">100% Uptime for <strong>All Cloud Steward</strong> Customizations</span>
               </div>
               <hr className="my-3 border-gray-300" />

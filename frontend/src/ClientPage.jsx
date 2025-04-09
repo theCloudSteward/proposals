@@ -16,8 +16,9 @@ function ClientPage() {
   const { slug } = useParams();
   const [data, setData] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  const [error, setError] = useState(null); // Added error state for better handling
 
-  // Fetch data
+  // Fetch data with improved error handling
   useEffect(() => {
     fetch(`/api/pages/${slug}/`)
       .then((res) => {
@@ -25,17 +26,39 @@ function ClientPage() {
           setNotFound(true);
           return null;
         }
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
         return res.json();
       })
       .then((pageData) => {
         if (pageData) setData(pageData);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setError(err); // Capture errors instead of just logging them
+      });
   }, [slug]);
 
-  // Use process.env.PUBLIC_URL only if needed dynamically for meta tags.
-  const publicUrl = process.env.PUBLIC_URL;
+  // Use process.env.PUBLIC_URL with a fallback for dynamic paths
+  const publicUrl = process.env.PUBLIC_URL || "";
 
+  // Handle error state first
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 font-sans">
+        <Helmet>
+          <title>Error</title>
+          <meta name="description" content="An error occurred while loading the proposal." />
+          <meta property="og:title" content="Error" />
+          <meta property="og:description" content="An error occurred while loading the proposal." />
+          <meta property="og:image" content={`${publicUrl}/android-chrome-192x192.png`} />
+        </Helmet>
+        <h1 className="text-3xl">An error occurred: {error.message}</h1>
+      </div>
+    );
+  }
+
+  // Handle 404 case
   if (notFound) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 font-sans">
@@ -51,6 +74,7 @@ function ClientPage() {
     );
   }
 
+  // Handle loading state
   if (!data) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans">
@@ -66,6 +90,7 @@ function ClientPage() {
     );
   }
 
+  // Main content when data is loaded
   const pageTitle = `${data.company_name} Proposal`;
   const pageDescription = `View the proposal for ${data.company_name}, including project details and subscription plans.`;
 

@@ -9,5 +9,5 @@ urlpatterns = [
     path('api/order/success/', get_checkout_session_details, name='order-success'),
     path('api/', include('proposals.urls')),
     # Comment out the catch-all for now
-    # re_path(r'^(?!(admin|api|static)/).*$', TemplateView.as_view(template_name='index.html')),
+    re_path(r'^(?!(admin|api|static)/).*$', TemplateView.as_view(template_name='index.html')),
 ]

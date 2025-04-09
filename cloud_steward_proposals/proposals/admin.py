@@ -21,3 +21,4 @@ class ClientPageAdmin(admin.ModelAdmin):
         'created_at',
         'expires_at',
     )
+    readonly_fields = ('auto_link',)

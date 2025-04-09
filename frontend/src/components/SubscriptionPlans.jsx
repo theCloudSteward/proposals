@@ -80,7 +80,7 @@ function SubscriptionPlans({ data }) {
               <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
                 <span className="mr-4 text-xl">➕</span>
                 <span className="text-sm font-bold">
-                  ${data.project_with_subscription_price} One-Time Payment for Project 
+                  ${data.project_with_subscription_price} One-Time Project Fee
                 </span>
                 <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
                   {data.project_discount_percent}% Off
@@ -110,7 +110,7 @@ function SubscriptionPlans({ data }) {
               <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
                 <span className="mr-4 text-xl">➕</span>
                 <span className="text-sm font-bold">
-                  ${data.project_with_subscription_price} One-Time Payment for Project 
+                  ${data.project_with_subscription_price} One-Time Project Fee
                 </span>
                 <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
                   {data.project_discount_percent}% Off
@@ -144,7 +144,7 @@ function SubscriptionPlans({ data }) {
               <div className="p-3 flex items-center bg-white bg-opacity-30 shadow-md rounded-lg">
                 <span className="mr-4 text-xl">➕</span>
                 <span className="text-sm font-bold">
-                  ${data.project_with_subscription_price} One-Time Payment for Project 
+                  ${data.project_with_subscription_price} One-Time Project Fee
                 </span>
                 <span className="inline-flex items-center justify-center rounded-lg bg-green-700 bg-opacity-60 font-bold ml-2 p-2 border border-transparent text-xs text-white transition-all shadow-sm">
                   {data.project_discount_percent}% Off

@@ -8,5 +8,7 @@ urlpatterns = [
     path('api/create-checkout-session/', create_checkout_session, name='create-checkout-session'),
     path('api/order/success/', get_checkout_session_details, name='order-success'),
     path('api/', include('proposals.urls')),
-    re_path(r'^(?!api/|c/success).*$', TemplateView.as_view(template_name='index.html')),
+
+    # Catch-all for frontend routing, but EXCLUDE /api/ and /admin/
+    re_path(r'^(?!api/|admin/).*$', TemplateView.as_view(template_name='index.html')),
 ]

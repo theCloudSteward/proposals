@@ -18,6 +18,7 @@ const Success = () => {
   useEffect(() => {
     if (!sessionId) {
       setError('Missing session ID. Please check the URL or contact support.');
+      console.error('Missing session ID. Please check the URL or contact support');
       setLoading(false);
       return;
     }
@@ -26,10 +27,12 @@ const Success = () => {
       try {
         const response = await fetch(`/api/order/success?session_id=${sessionId}`);
         if (!response.ok) {
+          console.error(`Failed to fetch session details. Status: ${response.status}`);
           throw new Error(`Failed to fetch session details. Status: ${response.status}`);
         }
         const data = await response.json();
         if (data.error) {
+          console.error(`data.error: ${data.error}`);
           throw new Error(data.error);
         }
         setSessionDetails(data);

@@ -127,12 +127,12 @@ function SubscriptionPlans({ data }) {
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
-                <span className="text-sm">100% Uptime for <strong>All Essential System Scripts and Workflows</strong></span>
+                <span className="text-sm">100% Uptime for <strong>All Essential Scripts and Workflows</strong></span>
               </div>
               <hr className="my-3 border-gray-300" />
               <div className="flex items-center">
                 <span className="mr-2 text-xl">✔️</span>
-                <span className="text-sm">Resolve <strong>All Essential System</strong> Errors within Hours</span>
+                <span className="text-sm">Resolve <strong>All Essential Automation</strong> Errors within Hours</span>
               </div>
             </div>
             <CheckoutButton slug={data.slug} option={'tier_2_subscription_price'} title="Subscribe" />

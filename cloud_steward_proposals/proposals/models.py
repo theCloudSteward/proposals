@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.db import models
 from django.utils import timezone
+import uuid
 
 def thirty_days_from_now():
     return timezone.now() + timezone.timedelta(days=30)
@@ -31,11 +32,17 @@ class ClientPage(models.Model):
         return f"{self.client_name or 'Unknown'} - {self.project_name or 'Unnamed Project'}"
 
     def save(self, *args, **kwargs):
-        if self.project_only_price is not None and self.project_with_subscription_price is not None and self.project_with_subscription_price != 0:
-            percentage_discount = round(((self.project_only_price - self.project_with_subscription_price) / self.project_only_price) * 100)
+        if (
+            self.project_only_price not in (None, 0) and
+            self.project_with_subscription_price not in (None, 0)
+        ):
+            percentage_discount = round(
+                ((self.project_only_price - self.project_with_subscription_price) / self.project_only_price) * 100
+            )
             self.project_discount_percent = int(percentage_discount)
         else:
             self.project_discount_percent = None
+
 
         if not self.slug:
             self.slug = generate_slug()

@@ -137,9 +137,12 @@ def get_checkout_session_details(request):
         receipt_url = None
         customer_name = ""
 
-        # 2) If this was a one-time payment (mode="payment"), session.payment_intent will be set.
+        # ------------------------
+        # 2) One-time payment flow
+        # ------------------------
         if session.payment_intent:
             logger.debug("Session is one-time payment. PaymentIntent: %r", session.payment_intent)
+
             pi_id = (session.payment_intent.id
                      if isinstance(session.payment_intent, stripe.PaymentIntent)
                      else session.payment_intent)
@@ -151,7 +154,18 @@ def get_checkout_session_details(request):
             charges = payment_intent.get('charges', {}).get('data', [])
             logger.debug("PaymentIntent charges: %r", charges)
 
-            if charges:
+            # If charges is empty but latest_charge is present, retrieve that directly
+            if not charges:
+                latest_charge_id = payment_intent.get('latest_charge')
+                logger.debug("No charges in PaymentIntent; latest_charge=%s", latest_charge_id)
+                if latest_charge_id:
+                    logger.debug("Retrieving Charge %s directly", latest_charge_id)
+                    charge_obj = stripe.Charge.retrieve(latest_charge_id)
+                    logger.debug("Charge object:\n%r", charge_obj)
+                    receipt_url = charge_obj.get('receipt_url')
+                    logger.debug("Fallback receipt_url: %s", receipt_url)
+            else:
+                # If we do have charges
                 receipt_url = charges[0].get('receipt_url')
                 logger.debug("Found receipt_url: %s", receipt_url)
 
@@ -159,18 +173,18 @@ def get_checkout_session_details(request):
             currency = payment_intent.get('currency')
             logger.debug("Amount total: %s, currency: %s", amount_total, currency)
 
-        # 3) If this was a subscription (mode="subscription"), session.subscription will be set.
+        # ------------------------------
+        # 3) Subscription payment flow
+        # ------------------------------
         elif session.subscription:
             logger.debug("Session is subscription. Subscription: %r", session.subscription)
+
             sub_id = (session.subscription.id
                       if isinstance(session.subscription, stripe.Subscription)
                       else session.subscription)
 
             logger.debug("Retrieving Subscription %s with expand=['latest_invoice.payment_intent']", sub_id)
-            subscription = stripe.Subscription.retrieve(
-                sub_id,
-                expand=['latest_invoice.payment_intent']
-            )
+            subscription = stripe.Subscription.retrieve(sub_id, expand=['latest_invoice.payment_intent'])
             logger.debug("Retrieved Subscription:\n%r", subscription)
 
             invoice = subscription.get('latest_invoice')
@@ -192,7 +206,16 @@ def get_checkout_session_details(request):
                     charges = payment_intent.get('charges', {}).get('data', [])
                     logger.debug("Subscription PaymentIntent charges: %r", charges)
 
-                    if charges:
+                    if not charges:
+                        latest_charge_id = payment_intent.get('latest_charge')
+                        logger.debug("No charges in PaymentIntent; latest_charge=%s", latest_charge_id)
+                        if latest_charge_id:
+                            logger.debug("Retrieving Charge %s directly (subscription fallback)", latest_charge_id)
+                            charge_obj = stripe.Charge.retrieve(latest_charge_id)
+                            logger.debug("Charge object:\n%r", charge_obj)
+                            receipt_url = charge_obj.get('receipt_url')
+                            logger.debug("Fallback receipt_url (sub): %s", receipt_url)
+                    else:
                         receipt_url = charges[0].get('receipt_url')
                         logger.debug("Found subscription receipt_url: %s", receipt_url)
 

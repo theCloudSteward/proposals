@@ -11,4 +11,5 @@ urlpatterns = [
     
     # Catch-all for frontend routes (only after other routes are tried)
     # re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html')),
+    re_path(r'^(?!api/).*$', TemplateView.as_view(template_name='index.html')),
 ]

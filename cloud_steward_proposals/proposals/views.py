@@ -120,6 +120,8 @@ def get_checkout_session_details(request):
             session_id,
             expand=['payment_intent', 'subscription']
         )
+        print("session.payment_intent:", session.payment_intent)
+        print("session.subscription:", session.subscription)
 
         amount_total = None
         currency = None

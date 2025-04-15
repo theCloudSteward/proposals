@@ -25,6 +25,7 @@ const Success = () => {
 
     async function fetchSessionDetails() {
       try {
+        console.log('sessionId', sessionId);
         const response = await fetch(`/api/order/success?session_id=${sessionId}`);
         if (!response.ok) {
           console.error(`Failed to fetch session details. Status: ${response.status}`);

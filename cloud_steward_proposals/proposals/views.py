@@ -124,95 +124,99 @@ def get_checkout_session_details(request):
     logger.debug("get_checkout_session_details called with session_id=%s", session_id)
 
     try:
-        # Retrieve the Checkout Session. Expand payment_intent and subscription.
-        logger.debug("Retrieving Checkout Session with expand=['payment_intent', 'subscription']")
-        session = stripe.checkout.Session.retrieve(
-            session_id,
-            expand=['payment_intent', 'subscription']
-        )
+        # First retrieve the session without forcing an expansion on payment_intent.
+        session = stripe.checkout.Session.retrieve(session_id)
         logger.debug("Retrieved Checkout Session object:\n%r", session)
-
+        
+        # Determine the session mode.
+        mode = session.get("mode")
+        logger.debug("Session mode: %s", mode)
+        
         amount_total = None
         currency = None
         receipt_url = None
         customer_name = ""
 
-        # One-time payment flow
-        if session.payment_intent:
-            logger.debug("Session is one-time payment. PaymentIntent: %r", session.payment_intent)
-            pi_id = (session.payment_intent.id
-                     if isinstance(session.payment_intent, stripe.PaymentIntent)
-                     else session.payment_intent)
+        if mode == "payment":
+            # Retrieve Checkout Session in payment mode with payment_intent expansion.
+            logger.debug("Retrieving Checkout Session for one-time payment with expand=['payment_intent']")
+            session = stripe.checkout.Session.retrieve(session_id, expand=["payment_intent"])
+            logger.debug("Session after expansion:\n%r", session)
+            payment_intent = session.get("payment_intent")
+            if not payment_intent:
+                raise Exception("No PaymentIntent available in session.")
+            pi_id = (payment_intent.id
+                     if isinstance(payment_intent, stripe.PaymentIntent)
+                     else payment_intent)
             logger.debug("Retrieving PaymentIntent %s with expand=['charges']", pi_id)
-            payment_intent = stripe.PaymentIntent.retrieve(pi_id, expand=['charges'])
+            payment_intent = stripe.PaymentIntent.retrieve(pi_id, expand=["charges"])
             logger.debug("Retrieved PaymentIntent:\n%r", payment_intent)
-            charges = payment_intent.get('charges', {}).get('data', [])
+            charges = payment_intent.get("charges", {}).get("data", [])
             logger.debug("PaymentIntent charges: %r", charges)
             if not charges:
-                latest_charge_id = payment_intent.get('latest_charge')
+                latest_charge_id = payment_intent.get("latest_charge")
                 logger.debug("No charges in PaymentIntent; latest_charge=%s", latest_charge_id)
                 if latest_charge_id:
                     logger.debug("Retrieving Charge %s directly", latest_charge_id)
                     charge_obj = stripe.Charge.retrieve(latest_charge_id)
                     logger.debug("Charge object:\n%r", charge_obj)
-                    receipt_url = charge_obj.get('receipt_url')
+                    receipt_url = charge_obj.get("receipt_url")
                     logger.debug("Fallback receipt_url: %s", receipt_url)
             else:
-                receipt_url = charges[0].get('receipt_url')
+                receipt_url = charges[0].get("receipt_url")
                 logger.debug("Found receipt_url: %s", receipt_url)
-            amount_total = payment_intent.get('amount')
-            currency = payment_intent.get('currency')
+            amount_total = payment_intent.get("amount")
+            currency = payment_intent.get("currency")
             logger.debug("Amount total: %s, currency: %s", amount_total, currency)
 
-        # Subscription payment flow
-        elif session.subscription:
-            logger.debug("Session is subscription. Subscription: %r", session.subscription)
-            sub_id = (session.subscription.id
-                      if isinstance(session.subscription, stripe.Subscription)
-                      else session.subscription)
-            logger.debug("Retrieving Subscription %s with expand=['latest_invoice.payment_intent']", sub_id)
-            subscription = stripe.Subscription.retrieve(
-                sub_id,
-                expand=['latest_invoice.payment_intent']
-            )
+        elif mode == "subscription":
+            # For subscriptions, expand subscription.latest_invoice.payment_intent.
+            logger.debug("Retrieving Checkout Session for subscription with expand=['subscription.latest_invoice.payment_intent']")
+            session = stripe.checkout.Session.retrieve(session_id, expand=["subscription.latest_invoice.payment_intent"])
+            logger.debug("Session after expansion:\n%r", session)
+            subscription_id = session.get("subscription")
+            if not subscription_id:
+                raise Exception("No Subscription available in session.")
+            logger.debug("Retrieving Subscription %s with expand=['latest_invoice.payment_intent']", subscription_id)
+            subscription = stripe.Subscription.retrieve(subscription_id, expand=["latest_invoice.payment_intent"])
             logger.debug("Retrieved Subscription:\n%r", subscription)
-            invoice = subscription.get('latest_invoice')
+            invoice = subscription.get("latest_invoice")
             if invoice:
                 logger.debug("Subscription latest_invoice: %r", invoice)
-                amount_total = invoice.get('amount_paid')
-                currency = invoice.get('currency')
-                payment_intent_data = invoice.get('payment_intent')
+                amount_total = invoice.get("amount_paid")
+                currency = invoice.get("currency")
+                payment_intent_data = invoice.get("payment_intent")
                 if payment_intent_data:
                     pi_id = (payment_intent_data.id
                              if isinstance(payment_intent_data, stripe.PaymentIntent)
                              else payment_intent_data)
                     logger.debug("Invoice references PaymentIntent ID: %s", pi_id)
-                    payment_intent = stripe.PaymentIntent.retrieve(pi_id, expand=['charges'])
+                    payment_intent = stripe.PaymentIntent.retrieve(pi_id, expand=["charges"])
                     logger.debug("Subscription PaymentIntent:\n%r", payment_intent)
-                    charges = payment_intent.get('charges', {}).get('data', [])
+                    charges = payment_intent.get("charges", {}).get("data", [])
                     logger.debug("Subscription PaymentIntent charges: %r", charges)
                     if not charges:
-                        latest_charge_id = payment_intent.get('latest_charge')
+                        latest_charge_id = payment_intent.get("latest_charge")
                         logger.debug("No charges in PaymentIntent; latest_charge=%s", latest_charge_id)
                         if latest_charge_id:
                             logger.debug("Retrieving Charge %s directly (subscription fallback)", latest_charge_id)
                             charge_obj = stripe.Charge.retrieve(latest_charge_id)
                             logger.debug("Charge object:\n%r", charge_obj)
-                            receipt_url = charge_obj.get('receipt_url')
+                            receipt_url = charge_obj.get("receipt_url")
                             logger.debug("Fallback receipt_url (sub): %s", receipt_url)
                     else:
-                        receipt_url = charges[0].get('receipt_url')
+                        receipt_url = charges[0].get("receipt_url")
                         logger.debug("Found subscription receipt_url: %s", receipt_url)
 
-        # Fetch customer name from either session.customer or session.customer_details
-        if session.get('customer'):
-            logger.debug("session.customer exists: %s", session['customer'])
-            customer = stripe.Customer.retrieve(session['customer'])
+        # Retrieve customer name either from customer or customer_details.
+        if session.get("customer"):
+            logger.debug("session.customer exists: %s", session["customer"])
+            customer = stripe.Customer.retrieve(session["customer"])
             logger.debug("Retrieved customer:\n%r", customer)
-            customer_name = customer.get('name', "")
-        elif session.get('customer_details'):
-            logger.debug("session.customer_details exists: %r", session.get('customer_details'))
-            customer_name = session.get('customer_details').get('name', "")
+            customer_name = customer.get("name", "")
+        elif session.get("customer_details"):
+            logger.debug("session.customer_details exists: %r", session.get("customer_details"))
+            customer_name = session.get("customer_details").get("name", "")
 
         result = {
             "customer_name": customer_name,

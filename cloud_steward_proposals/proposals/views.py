@@ -115,6 +115,7 @@ def get_checkout_session_details(request):
         return Response({"error": "No session ID provided"}, status=400)
 
     try:
+        # 1) Retrieve the Checkout Session. Expand payment_intent and subscription so we know which path to follow.
         session = stripe.checkout.Session.retrieve(
             session_id,
             expand=['payment_intent', 'subscription']
@@ -125,37 +126,47 @@ def get_checkout_session_details(request):
         receipt_url = None
         customer_name = ""
 
-        # --- One-time or immediate payment ---
+        # 2) If this was a one-time payment (mode="payment"), session.payment_intent will be set.
         if session.payment_intent:
+            # session.payment_intent might already be a dict, but to be safe, handle both object or ID.
+            pi_id = session.payment_intent.id if isinstance(session.payment_intent, stripe.PaymentIntent) else session.payment_intent
+
             payment_intent = stripe.PaymentIntent.retrieve(
-                session.payment_intent.id if isinstance(session.payment_intent, stripe.PaymentIntent) else session.payment_intent,
+                pi_id,
                 expand=['charges']
             )
             charges = payment_intent.get('charges', {}).get('data', [])
-            receipt_url = charges[0].get('receipt_url') if charges else None
+            if charges:
+                receipt_url = charges[0].get('receipt_url')
             amount_total = payment_intent.get('amount')
             currency = payment_intent.get('currency')
 
-        # --- Subscription (delayed billing or trial) ---
+        # 3) If this was a subscription (mode="subscription"), session.subscription will be set.
         elif session.subscription:
+            sub_id = session.subscription.id if isinstance(session.subscription, stripe.Subscription) else session.subscription
+
             subscription = stripe.Subscription.retrieve(
-                session.subscription.id if isinstance(session.subscription, stripe.Subscription) else session.subscription,
+                sub_id,
                 expand=['latest_invoice.payment_intent']
             )
             invoice = subscription.get('latest_invoice')
             if invoice:
                 amount_total = invoice.get('amount_paid')
                 currency = invoice.get('currency')
-                payment_intent = invoice.get('payment_intent')
-                if payment_intent:
+                payment_intent_data = invoice.get('payment_intent')
+                if payment_intent_data:
+                    pi_id = (payment_intent_data.id
+                             if isinstance(payment_intent_data, stripe.PaymentIntent)
+                             else payment_intent_data)
                     payment_intent = stripe.PaymentIntent.retrieve(
-                        payment_intent.id if isinstance(payment_intent, stripe.PaymentIntent) else payment_intent,
+                        pi_id,
                         expand=['charges']
                     )
                     charges = payment_intent.get('charges', {}).get('data', [])
-                    receipt_url = charges[0].get('receipt_url') if charges else None
+                    if charges:
+                        receipt_url = charges[0].get('receipt_url')
 
-        # Optional: retrieve customer details
+        # 4) Optionally fetch customer info if session.customer is set
         if session.get('customer'):
             customer = stripe.Customer.retrieve(session['customer'])
             customer_name = customer.get('name', "")

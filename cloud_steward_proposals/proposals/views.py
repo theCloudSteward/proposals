@@ -57,10 +57,8 @@ def create_checkout_session(request):
                     'quantity': 1,
                 }],
                 mode='payment',
-                customer_email=email,  # ensure receipt can be emailed
-                payment_intent_data={
-                    'receipt_email': email  # triggers Stripe to send a receipt
-                } if email else {},
+                customer_email=email,  # ensures receipt can be emailed
+                payment_intent_data={'receipt_email': email} if email else {},
                 success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
             )
@@ -73,6 +71,7 @@ def create_checkout_session(request):
             subscription_price = int(getattr(page, option) * 100)
             project_price = int(page.project_with_subscription_price * 100)
 
+            # Create a one-time price for the project fee.
             one_time_price = stripe.Price.create(
                 unit_amount=project_price,
                 currency='usd',
@@ -81,6 +80,7 @@ def create_checkout_session(request):
                 },
             )
 
+            # Create a recurring price for the subscription, naming it by plan_title.
             recurring_price = stripe.Price.create(
                 unit_amount=subscription_price,
                 currency='usd',
@@ -90,6 +90,9 @@ def create_checkout_session(request):
                 },
             )
 
+            # Create the Checkout Session in subscription mode.
+            # Note: Removed the 'subscription_data': {'trial_period_days': 30}
+            # so that both one-time fee and subscription are billed immediately.
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[
@@ -98,9 +101,6 @@ def create_checkout_session(request):
                 ],
                 mode='subscription',
                 customer_email=email,
-                subscription_data={
-                    'trial_period_days': 30,
-                },
                 success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
             )
@@ -177,29 +177,25 @@ def get_checkout_session_details(request):
             # Retrieve the PaymentIntent from the invoice.
             payment_intent_data = invoice.get("payment_intent")
             if payment_intent_data:
-                # PaymentIntent may be just an ID.
                 pi_id = payment_intent_data if isinstance(payment_intent_data, str) else payment_intent_data.id
                 logger.debug("Retrieving PaymentIntent %s with expand=['charges'] for subscription", pi_id)
                 payment_intent = stripe.PaymentIntent.retrieve(pi_id, expand=["charges"])
                 logger.debug("Retrieved Subscription PaymentIntent:\n%r", payment_intent)
-                # Only use this PaymentIntent if its amount is > 0 (i.e. one-time fee was charged)
-                if payment_intent.get("amount", 0) > 0:
-                    charges = payment_intent.get("charges", {}).get("data", [])
-                    logger.debug("Subscription PaymentIntent charges: %r", charges)
-                    if not charges:
-                        latest_charge_id = payment_intent.get("latest_charge")
-                        logger.debug("No charges in PaymentIntent; latest_charge=%s", latest_charge_id)
-                        if latest_charge_id:
-                            logger.debug("Retrieving Charge %s directly (subscription fallback)", latest_charge_id)
-                            charge_obj = stripe.Charge.retrieve(latest_charge_id)
-                            logger.debug("Retrieved Charge object (sub):\n%r", charge_obj)
-                            receipt_url = charge_obj.get("receipt_url")
-                            logger.debug("Fallback subscription receipt_url: %s", receipt_url)
-                    else:
-                        receipt_url = charges[0].get("receipt_url")
-                        logger.debug("Found subscription receipt_url: %s", receipt_url)
+                charges = payment_intent.get("charges", {}).get("data", [])
+                logger.debug("Subscription PaymentIntent charges: %r", charges)
+                # Now that both charges should be processed immediately, we expect a receipt.
+                if charges:
+                    receipt_url = charges[0].get("receipt_url")
+                    logger.debug("Found subscription receipt_url: %s", receipt_url)
                 else:
-                    logger.debug("PaymentIntent amount is 0. No one-time fee was charged.")
+                    latest_charge_id = payment_intent.get("latest_charge")
+                    logger.debug("No charges in PaymentIntent; latest_charge=%s", latest_charge_id)
+                    if latest_charge_id:
+                        logger.debug("Retrieving Charge %s directly (subscription fallback)", latest_charge_id)
+                        charge_obj = stripe.Charge.retrieve(latest_charge_id)
+                        logger.debug("Retrieved Charge object (sub):\n%r", charge_obj)
+                        receipt_url = charge_obj.get("receipt_url")
+                        logger.debug("Fallback subscription receipt_url: %s", receipt_url)
             else:
                 logger.debug("Invoice has no payment_intent field.")
 

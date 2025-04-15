@@ -118,95 +118,85 @@ def get_checkout_session_details(request):
 
     logger.debug("get_checkout_session_details called with session_id=%s", session_id)
     try:
-        # First, fetch the session w/o expansions to see the mode
-        base_session = stripe.checkout.Session.retrieve(session_id)
-        logger.debug("First retrieval of Checkout Session:\n%r", base_session)
+        # 1) Retrieve the Checkout Session with expansions for subscription & latest_invoice
+        #    but do NOT expand 'charge' (since that's unsupported):
+        session = stripe.checkout.Session.retrieve(
+            session_id,
+            expand=["subscription.latest_invoice"]  # only this is allowed
+        )
+        logger.debug("Retrieved Checkout Session:\n%r", session)
 
-        mode = base_session.get("mode")
+        mode = session.get("mode")
         logger.debug("Session mode: %s", mode)
-
-        # Decide expansions
-        if mode == "payment":
-            # We'll expand the PaymentIntent
-            expansions = ["payment_intent"]
-        elif mode == "subscription":
-            # We'll expand subscription.latest_invoice.charge
-            expansions = ["subscription.latest_invoice.charge"]
-        else:
-            expansions = []
-
-        # Retrieve the session with expansions
-        if expansions:
-            session = stripe.checkout.Session.retrieve(session_id, expand=expansions)
-        else:
-            session = base_session
 
         amount_total = None
         currency = None
         receipt_url = None
 
+        # -------------------------------------------------------------------
+        # CASE 1: One-time 'payment' mode
+        # -------------------------------------------------------------------
         if mode == "payment":
-            payment_intent_obj = session.get("payment_intent")
-            if isinstance(payment_intent_obj, dict):
-                # Already expanded
-                charges = payment_intent_obj.get("charges", {}).get("data", [])
-                if charges:
-                    receipt_url = charges[0].get("receipt_url")
-                else:
-                    # Fallback: retrieve charge from latest_charge
-                    latest_charge_id = payment_intent_obj.get("latest_charge")
-                    if latest_charge_id:
-                        charge_obj = stripe.Charge.retrieve(latest_charge_id)
-                        receipt_url = charge_obj.get("receipt_url")
-                amount_total = payment_intent_obj.get("amount")
-                currency = payment_intent_obj.get("currency")
-            elif isinstance(payment_intent_obj, str):
-                # Retrieve PaymentIntent separately
-                pi = stripe.PaymentIntent.retrieve(payment_intent_obj, expand=["charges"])
-                charges = pi.get("charges", {}).get("data", [])
-                if charges:
-                    receipt_url = charges[0].get("receipt_url")
-                else:
-                    latest_charge_id = pi.get("latest_charge")
-                    if latest_charge_id:
-                        charge_obj = stripe.Charge.retrieve(latest_charge_id)
-                        receipt_url = charge_obj.get("receipt_url")
-                amount_total = pi.get("amount")
-                currency = pi.get("currency")
+            # Normal logic: expand PaymentIntent or retrieve it to find charges
+            payment_intent_id = session.get("payment_intent")
+            if not payment_intent_id:
+                raise Exception("No PaymentIntent for payment-mode session.")
 
-        elif mode == "subscription":
-            # The subscription is expanded with its latest invoice, which may have .charge expanded
-            sub = session.get("subscription")  # Might be a dict if expanded
-            if not sub or not isinstance(sub, dict):
-                raise Exception("No subscription data found in session.")
-            invoice = sub.get("latest_invoice")
-            if invoice:
-                logger.debug("Subscription latest_invoice: %r", invoice)
-                amount_total = invoice.get("amount_paid")
-                currency = invoice.get("currency")
-
-                # The .charge might be present if it was expanded
-                charge_obj = invoice.get("charge")
-                if isinstance(charge_obj, dict):
-                    # We have the entire Charge object
-                    receipt_url = charge_obj.get("receipt_url")
-                else:
-                    # Maybe it's just an ID or None
-                    charge_id = invoice.get("charge")
-                    if charge_id:
-                        # Retrieve separately
-                        ch = stripe.Charge.retrieve(charge_id)
-                        receipt_url = ch.get("receipt_url")
+            # Retrieve PaymentIntent & expand charges:
+            pi = stripe.PaymentIntent.retrieve(payment_intent_id, expand=["charges"])
+            logger.debug("PaymentIntent: %r", pi)
+            charges = pi.get("charges", {}).get("data", [])
+            if charges:
+                # We have at least one charge => get receipt_url
+                receipt_url = charges[0].get("receipt_url")
             else:
-                logger.debug("No latest invoice found on subscription.")
+                # fallback: retrieve charge from latest_charge if needed
+                latest_charge_id = pi.get("latest_charge")
+                if latest_charge_id:
+                    charge_obj = stripe.Charge.retrieve(latest_charge_id)
+                    receipt_url = charge_obj.get("receipt_url")
 
-        # Extract customer name
+            amount_total = pi.get("amount")
+            currency = pi.get("currency")
+
+        # -------------------------------------------------------------------
+        # CASE 2: Subscription mode
+        # -------------------------------------------------------------------
+        elif mode == "subscription":
+            subscription_info = session.get("subscription")
+            if not subscription_info:
+                raise Exception("No subscription found in session object.")
+
+            # subscription_info might be a dict if it was expanded. 
+            # (We've done `expand=["subscription.latest_invoice"]`.)
+            latest_invoice = subscription_info.get("latest_invoice")
+            if not latest_invoice:
+                logger.debug("No latest invoice found on subscription.")
+            else:
+                logger.debug("Subscription latest_invoice: %r", latest_invoice)
+                amount_total = latest_invoice.get("amount_paid")
+                currency = latest_invoice.get("currency")
+
+                # 2) The .charge is typically just an ID if it exists at all:
+                invoice_charge_id = latest_invoice.get("charge")
+                if invoice_charge_id:
+                    # 3) Retrieve the Charge by ID => get the receipt_url
+                    charge_obj = stripe.Charge.retrieve(invoice_charge_id)
+                    logger.debug("Retrieved invoice's charge object: %r", charge_obj)
+                    receipt_url = charge_obj.get("receipt_url")
+
+        # -------------------------------------------------------------------
+        # Extract a "customer name" (if you like)
+        # -------------------------------------------------------------------
         customer_name = ""
-        if "customer_details" in session and session["customer_details"]:
-            customer_name = session["customer_details"].get("name", "")
-        elif "customer" in session and session["customer"]:
-            cust_obj = stripe.Customer.retrieve(session["customer"])
-            customer_name = cust_obj.get("name", "")
+        # If 'customer_details' exist, that usually has the name:
+        if session.get("customer_details"):
+            details = session["customer_details"]
+            customer_name = details.get("name", "")
+        elif session.get("customer"):
+            # fallback: retrieve full Customer if you want
+            cust = stripe.Customer.retrieve(session["customer"])
+            customer_name = cust.get("name", "")
 
         result = {
             "customer_name": customer_name,
@@ -214,7 +204,6 @@ def get_checkout_session_details(request):
             "currency": currency,
             "receipt_url": receipt_url,
         }
-
         logger.debug("Final response data: %r", result)
         return Response(result)
 

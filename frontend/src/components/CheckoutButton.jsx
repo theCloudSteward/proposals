@@ -1,6 +1,6 @@
 import React from 'react';
 
-function CheckoutButton({ slug, option, subscriptionTitle, buttonTitle, }) {
+function CheckoutButton({ slug, option, subscriptionTitle, buttonTitle }) {
   const handleClick = async () => {
     try {
       const response = await fetch("/api/create-checkout-session/", {

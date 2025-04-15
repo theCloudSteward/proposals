@@ -26,7 +26,8 @@ function SingleProjectOption({ data }) {
               </span>
             </p>
           </div>
-          <CheckoutButton slug={data.slug} option={'project_only_price'} title="Purchase" />
+          <CheckoutButton slug={data.slug} option={'project_only_price'} buttonTitle="Purchase" />
+
         </div>
       </div>
     </div>

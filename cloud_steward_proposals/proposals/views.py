@@ -88,7 +88,6 @@ def create_checkout_session(request):
                 },
             )
 
-            # Subscription
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[
@@ -97,6 +96,7 @@ def create_checkout_session(request):
                 ],
                 mode='subscription',
                 customer_email=email,
+                # No trial => immediate charge for both the project fee + subscription
                 success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
             )
@@ -120,102 +120,81 @@ def get_checkout_session_details(request):
     logger.debug("get_checkout_session_details called with session_id=%s", session_id)
 
     try:
-        # ---------------------------------------------------------------------
-        # 1) Retrieve the Checkout Session with ALL expansions we might need:
-        #    - payment_intent (for one-time mode="payment")
-        #    - subscription.latest_invoice.charge
-        #    - subscription.latest_invoice.payment_intent (for mode="subscription")
-        # ---------------------------------------------------------------------
-        session = stripe.checkout.Session.retrieve(
-            session_id,
-            expand=[
-                "payment_intent",
-                "subscription.latest_invoice.charge",
-                "subscription.latest_invoice.payment_intent",
-            ],
-        )
-        logger.debug("Retrieved Checkout Session object:\n%r", session)
+        # Step 1: Retrieve the session WITHOUT expansions to see which mode it is.
+        base_session = stripe.checkout.Session.retrieve(session_id)
+        logger.debug("First retrieval of Checkout Session:\n%r", base_session)
 
-        mode = session.get("mode")
+        mode = base_session.get("mode")
         logger.debug("Session mode: %s", mode)
+
+        # Decide which expansions we can safely request:
+        expansions = []
+        if mode == "payment":
+            # We can expand the top-level payment_intent for one-time checks
+            expansions = ["payment_intent"]
+        elif mode == "subscription":
+            # We can expand subscription.latest_invoice.payment_intent for subscription checks
+            expansions = ["subscription.latest_invoice.payment_intent"]
+
+        # Step 2: Retrieve the session AGAIN with only the allowed expansions
+        if expansions:
+            session = stripe.checkout.Session.retrieve(session_id, expand=expansions)
+        else:
+            # fallback if something unexpected
+            session = base_session
 
         amount_total = None
         currency = None
         receipt_url = None
+        customer_name = ""
 
-        # ---------------------------------------------------------------------
-        # 2) If mode="payment", we expect session.payment_intent to be expanded
-        # ---------------------------------------------------------------------
+        # Now handle each mode
         if mode == "payment":
             pi = session.get("payment_intent")
             if pi and isinstance(pi, dict):
-                # PaymentIntent is already expanded
+                # PaymentIntent is expanded
                 charges = pi.get("charges", {}).get("data", [])
                 if charges:
                     receipt_url = charges[0].get("receipt_url")
                 else:
-                    # Fallback to latest_charge if no charges array
+                    # fallback to latest_charge
                     latest_charge_id = pi.get("latest_charge")
                     if latest_charge_id:
-                        logger.debug("Retrieving Charge %s directly (fallback)", latest_charge_id)
                         charge_obj = stripe.Charge.retrieve(latest_charge_id)
                         receipt_url = charge_obj.get("receipt_url")
 
                 amount_total = pi.get("amount")
                 currency = pi.get("currency")
 
-        # ---------------------------------------------------------------------
-        # 3) If mode="subscription", we expect session.subscription to be expanded
-        #    with subscription.latest_invoice.charge and .payment_intent
-        # ---------------------------------------------------------------------
         elif mode == "subscription":
-            subscription = session.get("subscription")
-            if subscription and isinstance(subscription, dict):
-                # We have an expanded subscription
-                invoice = subscription.get("latest_invoice") or {}
+            # subscription might or might not be expanded, but we only expanded subscription.latest_invoice.payment_intent
+            sub = session.get("subscription")
+            if sub and isinstance(sub, dict):
+                # subscription is present
+                invoice = sub.get("latest_invoice") or {}
                 amount_total = invoice.get("amount_paid")
                 currency = invoice.get("currency")
 
-                # 3A) If the invoice has a PaymentIntent
-                pi = invoice.get("payment_intent")
-                if pi and isinstance(pi, dict):
+                payment_intent_data = invoice.get("payment_intent")
+                if payment_intent_data and isinstance(payment_intent_data, dict):
                     # PaymentIntent is expanded
-                    charges = pi.get("charges", {}).get("data", [])
+                    charges = payment_intent_data.get("charges", {}).get("data", [])
                     if charges:
                         receipt_url = charges[0].get("receipt_url")
                     else:
-                        # fallback to latest_charge if no charges array
-                        latest_charge_id = pi.get("latest_charge")
+                        latest_charge_id = payment_intent_data.get("latest_charge")
                         if latest_charge_id:
-                            logger.debug("Retrieving Charge %s directly (fallback sub)", latest_charge_id)
                             charge_obj = stripe.Charge.retrieve(latest_charge_id)
                             receipt_url = charge_obj.get("receipt_url")
+                # else: no PaymentIntent => maybe invoice got paid by a different route?
 
-                # 3B) If no PaymentIntent, fallback to invoice.charge
-                elif "charge" in invoice and invoice["charge"]:
-                    # invoice.charge might be a dict or a string
-                    if isinstance(invoice["charge"], dict):
-                        # Already expanded
-                        receipt_url = invoice["charge"].get("receipt_url")
-                    else:
-                        # It's an ID; retrieve the charge
-                        charge_id = invoice["charge"]
-                        logger.debug("invoice.charge = %s (string). Retrieving charge...", charge_id)
-                        charge_obj = stripe.Charge.retrieve(charge_id)
-                        receipt_url = charge_obj.get("receipt_url")
-
-        # ---------------------------------------------------------------------
-        # 4) Optionally retrieve the customer name from the session
-        #    session.customer is an ID; session.customer_details is inline data
-        # ---------------------------------------------------------------------
-        customer_name = ""
+        # Attempt to get the customer name from session
+        # session.customer_details might exist, or session.customer is an ID
         if session.get("customer_details"):
-            logger.debug("Using session.customer_details for name")
             customer_name = session["customer_details"].get("name", "")
         elif session.get("customer"):
-            logger.debug("Fetching full Customer object for name")
-            customer = stripe.Customer.retrieve(session["customer"])
-            customer_name = customer.get("name", "")
+            cust_obj = stripe.Customer.retrieve(session["customer"])
+            customer_name = cust_obj.get("name", "")
 
         result = {
             "customer_name": customer_name,

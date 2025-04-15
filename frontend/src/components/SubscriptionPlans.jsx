@@ -102,7 +102,7 @@ function SubscriptionPlans({ data }) {
                 <span className="text-sm">Resolve Any Cloud Steward Script Errors within Hours</span>
               </div>
             </div>
-            <CheckoutButton slug={data.slug} option={'tier_1_subscription_price'} title="Subscribe" />
+            <CheckoutButton slug={data.slug} option='tier_1_subscription_price' subscriptionTitle='Basic Support Plan' buttonTitle="Subscribe" />
           </SubscriptionCard>
 
           {/* Standard Card */}
@@ -135,7 +135,7 @@ function SubscriptionPlans({ data }) {
                 <span className="text-sm">Resolve <strong>All Essential Automation</strong> Errors within Hours</span>
               </div>
             </div>
-            <CheckoutButton slug={data.slug} option={'tier_2_subscription_price'} title="Subscribe" />
+            <CheckoutButton slug={data.slug} option='tier_2_subscription_price' subscriptionTitle='Standard Support Plan' buttonTitle="Subscribe" />
           </SubscriptionCard>
 
           {/* Premium Card */}
@@ -170,7 +170,7 @@ function SubscriptionPlans({ data }) {
                 </div>
               </div>
             </div>
-            <CheckoutButton slug={data.slug} option={'tier_3_subscription_price'} title="Subscribe" />
+            <CheckoutButton slug={data.slug} option='tier_3_subscription_price' subscriptionTitle='Premium Support Plan' buttonTitle="Subscribe" />
           </SubscriptionCard>
         </div>
       </div>

@@ -1,15 +1,19 @@
 import React from 'react';
 
-function CheckoutButton({ slug, option, title }) {
+function CheckoutButton({ slug, option, subscriptionTitle, buttonTitle, }) {
   const handleClick = async () => {
     try {
       const response = await fetch("/api/create-checkout-session/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug, option }),
+        body: JSON.stringify({
+          slug,
+          option,
+          plan_title: subscriptionTitle,  // <-- Pass the plan title here
+        }),
       });
       const data = await response.json();
-      console.log(data); // Log the response to inspect
+      console.log(data);
       if (data.url) {
         window.location = data.url;
       } else {
@@ -26,7 +30,7 @@ function CheckoutButton({ slug, option, title }) {
         onClick={handleClick}
         className="px-4 py-2 mt-12 bg-opacity-80 bg-blue-600 text-white shadow-md rounded hover:bg-blue-700"
       >
-        {title}
+        {buttonTitle}
       </button>
       <p className="italic text-xs mt-6 text-gray-400">Secure Checkout with Stripe</p>
     </div>

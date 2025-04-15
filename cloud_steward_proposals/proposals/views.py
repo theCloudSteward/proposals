@@ -33,7 +33,8 @@ def create_checkout_session(request):
     data = request.data
     slug = data.get('slug')
     option = data.get('option')
-    email = data.get('email')  # Optional but recommended
+    email = data.get('email')
+    plan_title = data.get('plan_title') or "Support Plan Subscription"  # fallback
 
     if not slug or not option:
         return Response({"error": "Missing slug or option"}, status=400)
@@ -85,7 +86,7 @@ def create_checkout_session(request):
                 currency='usd',
                 recurring={'interval': 'month'},
                 product_data={
-                    'name': "Support Plan Subscription",
+                    'name': plan_title,
                 },
             )
 

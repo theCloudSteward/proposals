@@ -10,7 +10,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from .models import ClientPage
 from .serializers import ClientPageSerializer
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)  # <-- This is your logger
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -43,7 +43,7 @@ def create_checkout_session(request):
 
     try:
         if option == 'project_only_price':
-            project_price = int(page.project_only_price * 100)
+            project_price = int(page.project_only_price * 100)  # Convert to cents
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[{
@@ -57,7 +57,7 @@ def create_checkout_session(request):
                     'quantity': 1,
                 }],
                 mode='payment',
-                customer_email=email,
+                customer_email=email,  # ensures receipt can be emailed
                 payment_intent_data={'receipt_email': email} if email else {},
                 success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
@@ -65,12 +65,15 @@ def create_checkout_session(request):
             return Response({"url": session.url})
 
         else:
+            # Verify the option exists on the page.
             if not hasattr(page, option):
                 return Response({"error": f"Invalid option: {option}"}, status=400)
 
+            # Pricing conversions.
             subscription_price = int(getattr(page, option) * 100)
             project_price = int(page.project_with_subscription_price * 100)
 
+            # Create a one-time price for the project fee.
             one_time_price = stripe.Price.create(
                 unit_amount=project_price,
                 currency='usd',
@@ -79,6 +82,7 @@ def create_checkout_session(request):
                 },
             )
 
+            # Create a recurring price for the subscription, naming it as provided.
             recurring_price = stripe.Price.create(
                 unit_amount=subscription_price,
                 currency='usd',
@@ -88,6 +92,8 @@ def create_checkout_session(request):
                 },
             )
 
+            # Create the Checkout Session in subscription mode.
+            # Note: The trial_period_days key has been removed so billing occurs immediately.
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[
@@ -96,7 +102,6 @@ def create_checkout_session(request):
                 ],
                 mode='subscription',
                 customer_email=email,
-                # No trial => immediate charge for both the project fee + subscription
                 success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
             )
@@ -118,78 +123,95 @@ def get_checkout_session_details(request):
         return Response({"error": "No session ID provided"}, status=400)
 
     logger.debug("get_checkout_session_details called with session_id=%s", session_id)
-
     try:
-        # Step 1: Retrieve the session WITHOUT expansions to see which mode it is.
+        # Step 1: Retrieve the session without expansions to check its mode.
         base_session = stripe.checkout.Session.retrieve(session_id)
         logger.debug("First retrieval of Checkout Session:\n%r", base_session)
 
         mode = base_session.get("mode")
         logger.debug("Session mode: %s", mode)
 
-        # Decide which expansions we can safely request:
-        expansions = []
+        # Depending on mode, set allowed expansions.
         if mode == "payment":
-            # We can expand the top-level payment_intent for one-time checks
-            expansions = ["payment_intent"]
+            allowed_expansions = ["payment_intent"]
         elif mode == "subscription":
-            # We can expand subscription.latest_invoice.payment_intent for subscription checks
-            expansions = ["subscription.latest_invoice.payment_intent"]
-
-        # Step 2: Retrieve the session AGAIN with only the allowed expansions
-        if expansions:
-            session = stripe.checkout.Session.retrieve(session_id, expand=expansions)
+            # Only expand the latest invoice; do not expand the payment_intent on the invoice.
+            allowed_expansions = ["subscription.latest_invoice"]
         else:
-            # fallback if something unexpected
+            allowed_expansions = []
+
+        # Step 2: Retrieve the session again with the allowed expansions.
+        if allowed_expansions:
+            session = stripe.checkout.Session.retrieve(session_id, expand=allowed_expansions)
+        else:
             session = base_session
 
         amount_total = None
         currency = None
         receipt_url = None
-        customer_name = ""
 
-        # Now handle each mode
         if mode == "payment":
+            # Payment mode: PaymentIntent is expanded.
             pi = session.get("payment_intent")
-            if pi and isinstance(pi, dict):
-                # PaymentIntent is expanded
+            if not pi:
+                raise Exception("No PaymentIntent available in session.")
+            # If the PaymentIntent was expanded, it will be a dict.
+            if isinstance(pi, dict):
                 charges = pi.get("charges", {}).get("data", [])
+                logger.debug("PaymentIntent charges: %r", charges)
                 if charges:
                     receipt_url = charges[0].get("receipt_url")
                 else:
-                    # fallback to latest_charge
+                    # Fallback: retrieve charge using latest_charge field.
                     latest_charge_id = pi.get("latest_charge")
                     if latest_charge_id:
                         charge_obj = stripe.Charge.retrieve(latest_charge_id)
                         receipt_url = charge_obj.get("receipt_url")
-
                 amount_total = pi.get("amount")
                 currency = pi.get("currency")
+            else:
+                # PaymentIntent is not expanded – retrieve it separately.
+                pi_obj = stripe.PaymentIntent.retrieve(pi, expand=["charges"])
+                charges = pi_obj.get("charges", {}).get("data", [])
+                if charges:
+                    receipt_url = charges[0].get("receipt_url")
+                else:
+                    latest_charge_id = pi_obj.get("latest_charge")
+                    if latest_charge_id:
+                        charge_obj = stripe.Charge.retrieve(latest_charge_id)
+                        receipt_url = charge_obj.get("receipt_url")
+                amount_total = pi_obj.get("amount")
+                currency = pi_obj.get("currency")
 
         elif mode == "subscription":
-            # subscription might or might not be expanded, but we only expanded subscription.latest_invoice.payment_intent
+            # Subscription mode: get the subscription and its latest invoice.
             sub = session.get("subscription")
-            if sub and isinstance(sub, dict):
-                # subscription is present
-                invoice = sub.get("latest_invoice") or {}
-                amount_total = invoice.get("amount_paid")
-                currency = invoice.get("currency")
+            if not sub or not isinstance(sub, dict):
+                raise Exception("No subscription details available in session.")
+            invoice = sub.get("latest_invoice")
+            if not invoice:
+                raise Exception("No latest invoice in subscription.")
+            logger.debug("Subscription latest_invoice: %r", invoice)
+            amount_total = invoice.get("amount_paid")
+            currency = invoice.get("currency")
+            # If the invoice includes a PaymentIntent field as just an ID, retrieve it separately.
+            payment_intent_id = invoice.get("payment_intent")
+            if payment_intent_id:
+                pi_obj = stripe.PaymentIntent.retrieve(payment_intent_id, expand=["charges"])
+                charges = pi_obj.get("charges", {}).get("data", [])
+                logger.debug("Retrieved PaymentIntent for invoice: %r", pi_obj)
+                if charges:
+                    receipt_url = charges[0].get("receipt_url")
+                else:
+                    latest_charge_id = pi_obj.get("latest_charge")
+                    if latest_charge_id:
+                        charge_obj = stripe.Charge.retrieve(latest_charge_id)
+                        receipt_url = charge_obj.get("receipt_url")
+            else:
+                logger.debug("Invoice has no payment_intent field.")
 
-                payment_intent_data = invoice.get("payment_intent")
-                if payment_intent_data and isinstance(payment_intent_data, dict):
-                    # PaymentIntent is expanded
-                    charges = payment_intent_data.get("charges", {}).get("data", [])
-                    if charges:
-                        receipt_url = charges[0].get("receipt_url")
-                    else:
-                        latest_charge_id = payment_intent_data.get("latest_charge")
-                        if latest_charge_id:
-                            charge_obj = stripe.Charge.retrieve(latest_charge_id)
-                            receipt_url = charge_obj.get("receipt_url")
-                # else: no PaymentIntent => maybe invoice got paid by a different route?
-
-        # Attempt to get the customer name from session
-        # session.customer_details might exist, or session.customer is an ID
+        # Retrieve the customer name from session.
+        customer_name = ""
         if session.get("customer_details"):
             customer_name = session["customer_details"].get("name", "")
         elif session.get("customer"):

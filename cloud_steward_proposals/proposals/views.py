@@ -8,8 +8,8 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from .models import ClientPage
 from .serializers import ClientPageSerializer
 
-# Initialize Stripe with your secret key
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
 
 class ClientPageViewSet(ReadOnlyModelViewSet):
     queryset = ClientPage.objects.all()
@@ -21,14 +21,15 @@ class ClientPageViewSet(ReadOnlyModelViewSet):
         serializer = self.get_serializer(client_page)
         return Response(serializer.data)
 
-# Checkout session creation view – handles one-time and subscription payments
+
 @api_view(['POST'])
-@authentication_classes([])  # CRITICAL!
-@permission_classes([AllowAny])  # CRITICAL!
+@authentication_classes([])
+@permission_classes([AllowAny])
 def create_checkout_session(request):
     data = request.data
     slug = data.get('slug')
     option = data.get('option')
+    email = data.get('email')  # Optional but recommended
 
     if not slug or not option:
         return Response({"error": "Missing slug or option"}, status=400)
@@ -37,7 +38,6 @@ def create_checkout_session(request):
 
     try:
         if option == 'project_only_price':
-            # One-time payment for project_only_price
             project_price = int(page.project_only_price * 100)  # Convert to cents
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
@@ -52,20 +52,22 @@ def create_checkout_session(request):
                     'quantity': 1,
                 }],
                 mode='payment',
+                customer_email=email,  # ensure receipt can be emailed
+                payment_intent_data={
+                    'receipt_email': email  # triggers Stripe to send a receipt
+                } if email else {},
                 success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
             )
             return Response({"url": session.url})
+
         else:
-            # Validate the subscription option
             if not hasattr(page, option):
                 return Response({"error": f"Invalid option: {option}"}, status=400)
 
-            # Get prices and convert to cents
             subscription_price = int(getattr(page, option) * 100)
             project_price = int(page.project_with_subscription_price * 100)
 
-            # Create one-time price for immediate project fee
             one_time_price = stripe.Price.create(
                 unit_amount=project_price,
                 currency='usd',
@@ -74,7 +76,6 @@ def create_checkout_session(request):
                 },
             )
 
-            # Create recurring price for subscription
             recurring_price = stripe.Price.create(
                 unit_amount=subscription_price,
                 currency='usd',
@@ -84,22 +85,16 @@ def create_checkout_session(request):
                 },
             )
 
-            # Create checkout session with both prices and a 30-day trial for subscription
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[
-                    {
-                        'price': one_time_price.id,
-                        'quantity': 1,
-                    },
-                    {
-                        'price': recurring_price.id,
-                        'quantity': 1,
-                    },
+                    {'price': one_time_price.id, 'quantity': 1},
+                    {'price': recurring_price.id, 'quantity': 1},
                 ],
                 mode='subscription',
+                customer_email=email,
                 subscription_data={
-                    'trial_period_days': 30,  # Subscription billing starts after 30 days
+                    'trial_period_days': 30,
                 },
                 success_url=f"https://proposals.thecloudsteward.com/success?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"https://proposals.thecloudsteward.com/{slug}",
@@ -111,85 +106,58 @@ def create_checkout_session(request):
     except Exception as e:
         return Response({"error": str(e)}, status=500)
 
-# New endpoint to retrieve session details for the success page.
-# This version supports both one-time immediate payments and subscriptions (with trial / delayed charges).
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_checkout_session_details(request):
     session_id = request.GET.get('session_id')
     if not session_id:
         return Response({"error": "No session ID provided"}, status=400)
+
     try:
-        # Retrieve the Checkout Session expanding both payment_intent and subscription for flexibility.
         session = stripe.checkout.Session.retrieve(
             session_id,
             expand=['payment_intent', 'subscription']
         )
 
-        # Initialize response variables
-        payment_intent = None
-        receipt_url = None
         amount_total = None
         currency = None
+        receipt_url = None
+        customer_name = ""
 
-        # Case 1: When there is an immediate payment_intent (for one-time or immediate charge)
+        # --- One-time or immediate payment ---
         if session.payment_intent:
-            if isinstance(session.payment_intent, str):
-                payment_intent = stripe.PaymentIntent.retrieve(
-                    session.payment_intent,
-                    expand=['charges']
-                )
-            else:
-                payment_intent = session.payment_intent
-                if not payment_intent.get('charges'):
-                    payment_intent = stripe.PaymentIntent.retrieve(
-                        payment_intent.id,
-                        expand=['charges']
-                    )
+            payment_intent = stripe.PaymentIntent.retrieve(
+                session.payment_intent.id if isinstance(session.payment_intent, stripe.PaymentIntent) else session.payment_intent,
+                expand=['charges']
+            )
             charges = payment_intent.get('charges', {}).get('data', [])
-            receipt_url = charges[0].get('receipt_url') if charges and charges[0].get('receipt_url') else None
+            receipt_url = charges[0].get('receipt_url') if charges else None
             amount_total = payment_intent.get('amount')
             currency = payment_intent.get('currency')
 
-        # Case 2: If no immediate PaymentIntent exists, check if it's a subscription session.
+        # --- Subscription (delayed billing or trial) ---
         elif session.subscription:
-            subscription = session.subscription
-            if isinstance(subscription, str):
-                subscription = stripe.Subscription.retrieve(
-                    subscription,
-                    expand=['latest_invoice.payment_intent']
-                )
-            else:
-                if not subscription.get('latest_invoice'):
-                    subscription = stripe.Subscription.retrieve(
-                        subscription.id,
-                        expand=['latest_invoice.payment_intent']
-                    )
+            subscription = stripe.Subscription.retrieve(
+                session.subscription.id if isinstance(session.subscription, stripe.Subscription) else session.subscription,
+                expand=['latest_invoice.payment_intent']
+            )
             invoice = subscription.get('latest_invoice')
             if invoice:
                 amount_total = invoice.get('amount_paid')
                 currency = invoice.get('currency')
                 payment_intent = invoice.get('payment_intent')
                 if payment_intent:
-                    if isinstance(payment_intent, str):
-                        payment_intent = stripe.PaymentIntent.retrieve(
-                            payment_intent,
-                            expand=['charges']
-                        )
-                    else:
-                        if not payment_intent.get('charges'):
-                            payment_intent = stripe.PaymentIntent.retrieve(
-                                payment_intent.id,
-                                expand=['charges']
-                            )
+                    payment_intent = stripe.PaymentIntent.retrieve(
+                        payment_intent.id if isinstance(payment_intent, stripe.PaymentIntent) else payment_intent,
+                        expand=['charges']
+                    )
                     charges = payment_intent.get('charges', {}).get('data', [])
-                    receipt_url = charges[0].get('receipt_url') if charges and charges[0].get('receipt_url') else None
+                    receipt_url = charges[0].get('receipt_url') if charges else None
 
-        # Retrieve customer details if available
-        customer_name = ""
-        customer_id = session.get('customer')
-        if customer_id:
-            customer = stripe.Customer.retrieve(customer_id)
+        # Optional: retrieve customer details
+        if session.get('customer'):
+            customer = stripe.Customer.retrieve(session['customer'])
             customer_name = customer.get('name', "")
 
         return Response({
@@ -198,5 +166,6 @@ def get_checkout_session_details(request):
             "currency": currency,
             "receipt_url": receipt_url,
         })
+
     except Exception as e:
         return Response({"error": str(e)}, status=400)

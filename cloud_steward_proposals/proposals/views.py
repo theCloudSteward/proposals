@@ -1,3 +1,4 @@
+import logging
 import stripe
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -5,8 +6,11 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
+
 from .models import ClientPage
 from .serializers import ClientPageSerializer
+
+logger = logging.getLogger(__name__)  # <-- This is your logger
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -102,8 +106,10 @@ def create_checkout_session(request):
             return Response({"url": session.url})
 
     except stripe.error.StripeError as e:
+        logger.exception("Stripe error during create_checkout_session")
         return Response({"error": str(e)}, status=400)
     except Exception as e:
+        logger.exception("Unhandled exception during create_checkout_session")
         return Response({"error": str(e)}, status=500)
 
 
@@ -114,14 +120,17 @@ def get_checkout_session_details(request):
     if not session_id:
         return Response({"error": "No session ID provided"}, status=400)
 
+    logger.debug("get_checkout_session_details called with session_id=%s", session_id)
+
     try:
         # 1) Retrieve the Checkout Session. Expand payment_intent and subscription so we know which path to follow.
+        logger.debug("Retrieving Checkout Session with expand=['payment_intent', 'subscription']")
         session = stripe.checkout.Session.retrieve(
             session_id,
             expand=['payment_intent', 'subscription']
         )
-        print("session.payment_intent:", session.payment_intent)
-        print("session.subscription:", session.subscription)
+
+        logger.debug("Retrieved Checkout Session object:\n%r", session)
 
         amount_total = None
         currency = None
@@ -130,55 +139,83 @@ def get_checkout_session_details(request):
 
         # 2) If this was a one-time payment (mode="payment"), session.payment_intent will be set.
         if session.payment_intent:
-            # session.payment_intent might already be a dict, but to be safe, handle both object or ID.
-            pi_id = session.payment_intent.id if isinstance(session.payment_intent, stripe.PaymentIntent) else session.payment_intent
+            logger.debug("Session is one-time payment. PaymentIntent: %r", session.payment_intent)
+            pi_id = (session.payment_intent.id
+                     if isinstance(session.payment_intent, stripe.PaymentIntent)
+                     else session.payment_intent)
 
-            payment_intent = stripe.PaymentIntent.retrieve(
-                pi_id,
-                expand=['charges']
-            )
+            logger.debug("Retrieving PaymentIntent %s with expand=['charges']", pi_id)
+            payment_intent = stripe.PaymentIntent.retrieve(pi_id, expand=['charges'])
+            logger.debug("Retrieved PaymentIntent:\n%r", payment_intent)
+
             charges = payment_intent.get('charges', {}).get('data', [])
+            logger.debug("PaymentIntent charges: %r", charges)
+
             if charges:
                 receipt_url = charges[0].get('receipt_url')
+                logger.debug("Found receipt_url: %s", receipt_url)
+
             amount_total = payment_intent.get('amount')
             currency = payment_intent.get('currency')
+            logger.debug("Amount total: %s, currency: %s", amount_total, currency)
 
         # 3) If this was a subscription (mode="subscription"), session.subscription will be set.
         elif session.subscription:
-            sub_id = session.subscription.id if isinstance(session.subscription, stripe.Subscription) else session.subscription
+            logger.debug("Session is subscription. Subscription: %r", session.subscription)
+            sub_id = (session.subscription.id
+                      if isinstance(session.subscription, stripe.Subscription)
+                      else session.subscription)
 
+            logger.debug("Retrieving Subscription %s with expand=['latest_invoice.payment_intent']", sub_id)
             subscription = stripe.Subscription.retrieve(
                 sub_id,
                 expand=['latest_invoice.payment_intent']
             )
+            logger.debug("Retrieved Subscription:\n%r", subscription)
+
             invoice = subscription.get('latest_invoice')
             if invoice:
+                logger.debug("Subscription latest_invoice: %r", invoice)
                 amount_total = invoice.get('amount_paid')
                 currency = invoice.get('currency')
                 payment_intent_data = invoice.get('payment_intent')
+
                 if payment_intent_data:
                     pi_id = (payment_intent_data.id
                              if isinstance(payment_intent_data, stripe.PaymentIntent)
                              else payment_intent_data)
-                    payment_intent = stripe.PaymentIntent.retrieve(
-                        pi_id,
-                        expand=['charges']
-                    )
+                    logger.debug("Invoice references PaymentIntent ID: %s", pi_id)
+
+                    payment_intent = stripe.PaymentIntent.retrieve(pi_id, expand=['charges'])
+                    logger.debug("Subscription PaymentIntent:\n%r", payment_intent)
+
                     charges = payment_intent.get('charges', {}).get('data', [])
+                    logger.debug("Subscription PaymentIntent charges: %r", charges)
+
                     if charges:
                         receipt_url = charges[0].get('receipt_url')
+                        logger.debug("Found subscription receipt_url: %s", receipt_url)
 
         # 4) Optionally fetch customer info if session.customer is set
         if session.get('customer'):
+            logger.debug("session.customer exists: %s", session['customer'])
             customer = stripe.Customer.retrieve(session['customer'])
+            logger.debug("Retrieved customer:\n%r", customer)
             customer_name = customer.get('name', "")
 
-        return Response({
+        result = {
             "customer_name": customer_name,
             "amount_total": amount_total,
             "currency": currency,
             "receipt_url": receipt_url,
-        })
+        }
 
+        logger.debug("Final response data: %r", result)
+        return Response(result)
+
+    except stripe.error.StripeError as se:
+        logger.exception("Stripe error in get_checkout_session_details for session_id=%s", session_id)
+        return Response({"error": str(se)}, status=400)
     except Exception as e:
+        logger.exception("Unhandled exception in get_checkout_session_details for session_id=%s", session_id)
         return Response({"error": str(e)}, status=400)

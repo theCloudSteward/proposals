@@ -1,3 +1,5 @@
+# cloud_steward_proposals/urls.py
+
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
@@ -6,10 +8,10 @@ from proposals.views import create_checkout_session, get_checkout_session_detail
 from proposals.webhooks import stripe_webhook
 
 urlpatterns = [
-    # Django admin
+    # Admin
     path('admin/', admin.site.urls),
 
-    # Your API endpoints
+    # Checkout API
     path(
         'api/create-checkout-session/',
         create_checkout_session,
@@ -20,15 +22,21 @@ urlpatterns = [
         get_checkout_session_details,
         name='order-success'
     ),
+
+    # Stripe will POST your webhook events here
+    path(
+        'api/stripe/webhook/',
+        stripe_webhook,
+        name='stripe-webhook'
+    ),
+
+    # Any other “api/…” routes live in proposals/urls.py
     path('api/', include('proposals.urls')),
 
-    # Stripe → Django webhook receiver
-    # Must come before the React catch-all below
-    path('stripe/webhook/', stripe_webhook, name='stripe-webhook'),
-
-    # React front‑end catch‑all (do NOT match anything starting with "api/")
+    # Finally: serve React for everything else
     re_path(
         r'^(?!api/).*$', 
-        TemplateView.as_view(template_name='index.html')
+        TemplateView.as_view(template_name='index.html'),
+        name='react-catchall'
     ),
 ]

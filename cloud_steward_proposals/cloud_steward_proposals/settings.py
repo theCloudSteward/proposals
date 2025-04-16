@@ -6,7 +6,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import logging
-logging.disable(logging.INFO) # You can re‑enable later with logging.disable(logging.NOTSET)
+# logging.disable(logging.INFO) # You can re‑enable later with logging.disable(logging.NOTSET)
 
 # BASE_DIR explicitly defined
 BASE_DIR = Path(__file__).resolve().parent.parent

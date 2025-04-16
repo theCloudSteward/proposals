@@ -1,4 +1,14 @@
 # cloud_steward_proposals/urls.py
+#
+# ├── cloud_steward_proposals   ← Django “project” pkg (this file lives here)
+# │   ├── urls.py               ← **THIS FILE**
+# │   └── settings.py
+# ├── proposals                 ← Django “app” pkg
+# │   ├── views.py
+# │   └── webhooks.py           ← stripe_webhook lives here
+#
+# The import below (“proposals.webhooks”) is correct because “proposals”
+# is a top‑level Python package (it has an __init__.py and is in INSTALLED_APPS).
 
 from django.contrib import admin
 from django.urls import path, include, re_path
@@ -9,39 +19,51 @@ from proposals.views import (
     create_checkout_session,
     get_checkout_session_details,
 )
-from proposals.webhooks import stripe_webhook
+from proposals.webhooks import stripe_webhook          # <-- ✅ CORRECT import
 
 
 urlpatterns = [
-    # Admin
-    path('admin/', admin.site.urls),
+    # ---------------------------------------------------------------------
+    # 1.  Admin
+    # ---------------------------------------------------------------------
+    path("admin/", admin.site.urls),
 
-    # 1) Checkout endpoints
+    # ---------------------------------------------------------------------
+    # 2.  Checkout endpoints (called by your React front‑end)
+    # ---------------------------------------------------------------------
     path(
-        'api/create-checkout-session/',
+        "api/create-checkout-session/",
         create_checkout_session,
-        name='create-checkout-session',
+        name="create-checkout-session",
     ),
     path(
-        'api/order/success/',
+        "api/order/success/",
         get_checkout_session_details,
-        name='order-success',
+        name="order-success",
     ),
 
-    # 2) Stripe webhook endpoint (must be CSRF exempt)
+    # ---------------------------------------------------------------------
+    # 3.  Stripe Webhook endpoint
+    #     ‑ must be CSRF‑exempt because Stripe is an external service
+    # ---------------------------------------------------------------------
     path(
-        'api/stripe/webhook/',
+        "api/stripe/webhook/",
         csrf_exempt(stripe_webhook),
-        name='stripe-webhook',
+        name="stripe-webhook",
     ),
 
-    # 3) All other API routes in your proposals app
-    path('api/', include('proposals.urls')),
+    # ---------------------------------------------------------------------
+    # 4.  Other API routes in the “proposals” app
+    # ---------------------------------------------------------------------
+    path("api/", include("proposals.urls")),
 
-    # 4) Catch‑all for React/front‑end routes
+    # ---------------------------------------------------------------------
+    # 5.  Catch‑all: anything **not** starting with /api/ should render
+    #     the React SPA’s index.html.  Keep this *last*.
+    # ---------------------------------------------------------------------
     re_path(
-        r'^(?!api/).*$', 
-        TemplateView.as_view(template_name='index.html'),
-        name='react-catchall',
+        r"^(?!api/).*$",
+        TemplateView.as_view(template_name="index.html"),
+        name="react-catchall",
     ),
 ]

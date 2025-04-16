@@ -8,10 +8,10 @@ from proposals.views import create_checkout_session, get_checkout_session_detail
 from proposals.webhooks import stripe_webhook
 
 urlpatterns = [
-    # Admin
+    # Django admin
     path('admin/', admin.site.urls),
 
-    # Checkout API
+    # Your checkout endpoints
     path(
         'api/create-checkout-session/',
         create_checkout_session,
@@ -23,17 +23,17 @@ urlpatterns = [
         name='order-success'
     ),
 
-    # Stripe will POST your webhook events here
+    # Stripe webhook endpoint (must be under /api/ so it doesn't get caught by React)
     path(
         'api/stripe/webhook/',
         stripe_webhook,
         name='stripe-webhook'
     ),
 
-    # Any other “api/…” routes live in proposals/urls.py
+    # All other API routes in proposals/urls.py
     path('api/', include('proposals.urls')),
 
-    # Finally: serve React for everything else
+    # Finally: catch‑all for React front end
     re_path(
         r'^(?!api/).*$', 
         TemplateView.as_view(template_name='index.html'),

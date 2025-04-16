@@ -90,14 +90,6 @@ const Success = () => {
               ! Your payment has been processed successfully.
             </p>
 
-            <p className="text-gray-700">
-              Total Charged:{' '}
-              <span className="font-semibold">
-                ${(sessionDetails.amount_total / 100).toFixed(2)}{' '}
-                {sessionDetails.currency?.toUpperCase()}
-              </span>
-            </p>
-
             {/* ---------- receipt link OR friendly fallback ---------- */}
             {sessionDetails.receipt_url ? (
               <a

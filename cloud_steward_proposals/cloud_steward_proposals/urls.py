@@ -1,21 +1,24 @@
 # cloud_steward_proposals/urls.py
 
+import os
 from django.contrib import admin
 from django.urls import path, include, re_path
-from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
-
+from django.views.static import serve as static_serve
 from django.conf import settings
 from django.conf.urls.static import static
 
 from proposals.views import create_checkout_session, get_checkout_session_details
 from proposals.webhooks import stripe_webhook
 
+# Adjust this to point at your React `build/` directory
+REACT_BUILD_DIR = os.path.join(settings.BASE_DIR, 'frontend', 'build')
+
 urlpatterns = [
-    # Admin
+    # Django admin
     path('admin/', admin.site.urls),
 
-    # Checkout API
+    # Stripe checkout API
     path(
         'api/create-checkout-session/',
         create_checkout_session,
@@ -34,29 +37,47 @@ urlpatterns = [
         name='stripe-webhook'
     ),
 
-    # Any other API endpoints
+    # All other API routes
     path('api/', include('proposals.urls')),
 
-    # Serve favicon & manifest directly (so they’re not routed to index.html)
-    path('favicon.ico',  TemplateView.as_view(template_name='favicon.ico')),
-    path('manifest.json', TemplateView.as_view(template_name='manifest.json')),
+    # Serve React static assets (JS/CSS/images)
+    re_path(
+        r'^static/(?P<path>.*)$',
+        static_serve,
+        {'document_root': os.path.join(REACT_BUILD_DIR, 'static')}
+    ),
 
-    # Front‑end “success” page
+    # Serve favicon & manifest from your build/
+    path(
+        'favicon.ico',
+        static_serve,
+        {'document_root': REACT_BUILD_DIR, 'path': 'favicon.ico'}
+    ),
+    path(
+        'manifest.json',
+        static_serve,
+        {'document_root': REACT_BUILD_DIR, 'path': 'manifest.json'}
+    ),
+
+    # “Success” landing page for React to pick up (matches /success?session_id=…)
     re_path(
         r'^success/?$',
-        TemplateView.as_view(template_name='index.html'),
+        static_serve,
+        {'document_root': REACT_BUILD_DIR, 'path': 'index.html'},
         name='react-success'
     ),
 
-    # Everything else (except API, static, media, favicon, manifest) → React
+    # Everything else (except api/, static/, media/, favicon.ico, manifest.json)
+    # should return index.html so React Router can handle it
     re_path(
         r'^(?!api/|static/|media/|favicon\.ico|manifest\.json).*$',
-        TemplateView.as_view(template_name='index.html'),
+        static_serve,
+        {'document_root': REACT_BUILD_DIR, 'path': 'index.html'},
         name='react-catchall'
     ),
 ]
 
-# In DEBUG mode, serve static & media via Django
+# During development, still have Django serve your own STATIC/MEDIA
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,  document_root=settings.MEDIA_ROOT)

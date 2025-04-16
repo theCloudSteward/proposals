@@ -30,6 +30,9 @@ class ClientPageViewSet(ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
+# ---------------------------------------------------------------------------
+#  CHECKOUT ‑ SESSION CREATION
+# ---------------------------------------------------------------------------
 @api_view(["POST"])
 @authentication_classes([])
 @permission_classes([AllowAny])
@@ -46,9 +49,9 @@ def create_checkout_session(request):
     page = get_object_or_404(ClientPage, slug=slug)
 
     try:
-        # --------------------------------------------------------------
-        # CASE 1: One-time payment (project_only_price)
-        # --------------------------------------------------------------
+        # -------------------------------------------------------------------
+        # 1) ONE‑TIME PAYMENT FLOW
+        # -------------------------------------------------------------------
         if option == "project_only_price":
             project_price = int(page.project_only_price * 100)
             session = stripe.checkout.Session.create(
@@ -67,7 +70,6 @@ def create_checkout_session(request):
                 ],
                 mode="payment",
                 customer_email=email,
-                # Ensure Stripe emails a receipt
                 payment_intent_data={"receipt_email": email} if email else {},
                 success_url=(
                     "https://proposals.thecloudsteward.com/"
@@ -77,25 +79,24 @@ def create_checkout_session(request):
             )
             return Response({"url": session.url})
 
-        # --------------------------------------------------------------
-        # CASE 2: Subscription flow (one-time fee + recurring subscription)
-        # --------------------------------------------------------------
+        # -------------------------------------------------------------------
+        # 2) SUBSCRIPTION FLOW  – with 30‑day FREE TRIAL
+        # -------------------------------------------------------------------
         else:
-            # Validate that the chosen "option" is a valid attribute on page
             if not hasattr(page, option):
                 return Response({"error": f"Invalid option: {option}"}, status=400)
 
             subscription_price = int(getattr(page, option) * 100)
             project_price = int(page.project_with_subscription_price * 100)
 
-            # Create a one-time Price object
+            # One‑time project fee
             one_time_price = stripe.Price.create(
                 unit_amount=project_price,
                 currency="usd",
-                product_data={"name": "One-Time Project Fee"},
+                product_data={"name": "One‑Time Project Fee"},
             )
 
-            # Create a recurring Price object for the subscription
+            # Recurring monthly price
             recurring_price = stripe.Price.create(
                 unit_amount=subscription_price,
                 currency="usd",
@@ -103,7 +104,7 @@ def create_checkout_session(request):
                 product_data={"name": plan_title},
             )
 
-            # Create a Checkout Session in subscription mode (no trial)
+            # Checkout Session — subscription mode **with free 30‑day trial**
             session = stripe.checkout.Session.create(
                 payment_method_types=["card"],
                 line_items=[
@@ -112,6 +113,7 @@ def create_checkout_session(request):
                 ],
                 mode="subscription",
                 customer_email=email,
+                subscription_data={"trial_period_days": 30},
                 success_url=(
                     "https://proposals.thecloudsteward.com/"
                     "success?session_id={CHECKOUT_SESSION_ID}"
@@ -128,6 +130,9 @@ def create_checkout_session(request):
         return Response({"error": str(e)}, status=500)
 
 
+# ---------------------------------------------------------------------------
+#  CHECKOUT ‑ SESSION DETAILS / RECEIPT LOOK‑UP
+# ---------------------------------------------------------------------------
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def get_checkout_session_details(request):
@@ -137,11 +142,9 @@ def get_checkout_session_details(request):
 
     logger.debug("get_checkout_session_details called with session_id=%s", session_id)
     try:
-        # Retrieve the Checkout Session and expand subscription + its latest_invoice
-        # Do NOT attempt to expand 'charge' directly, as Stripe won't allow it here.
+        # Fetch Session, expand latest invoice for subs
         session = stripe.checkout.Session.retrieve(
-            session_id,
-            expand=["subscription.latest_invoice"],
+            session_id, expand=["subscription.latest_invoice"]
         )
         logger.debug("Retrieved Checkout Session:\n%r", session)
 
@@ -152,84 +155,63 @@ def get_checkout_session_details(request):
         currency = None
         receipt_url = None
 
-        # ---------------------------------------------------------
-        # ONE-TIME PAYMENT MODE
-        # ---------------------------------------------------------
+        # -------------------------------------------------------------------
+        # ONE‑TIME PAYMENT
+        # -------------------------------------------------------------------
         if mode == "payment":
             payment_intent_id = session.get("payment_intent")
-            if not payment_intent_id:
-                raise Exception("No PaymentIntent for payment-mode session.")
+            if payment_intent_id:
+                pi = stripe.PaymentIntent.retrieve(payment_intent_id, expand=["charges"])
+                charges = pi.get("charges", {}).get("data", [])
+                if charges:
+                    receipt_url = charges[0].get("receipt_url")
+                amount_total = pi.get("amount")
+                currency = pi.get("currency")
 
-            # Retrieve PaymentIntent and expand charges
-            pi = stripe.PaymentIntent.retrieve(
-                payment_intent_id,
-                expand=["charges"],
-            )
-            logger.debug("PaymentIntent: %r", pi)
-
-            charges = pi.get("charges", {}).get("data", [])
-            if charges:
-                receipt_url = charges[0].get("receipt_url")
-            else:
-                # fallback if no direct charges
-                latest_charge_id = pi.get("latest_charge")
-                if latest_charge_id:
-                    charge_obj = stripe.Charge.retrieve(latest_charge_id)
-                    receipt_url = charge_obj.get("receipt_url")
-
-            amount_total = pi.get("amount")
-            currency = pi.get("currency")
-
-        # ---------------------------------------------------------
-        # SUBSCRIPTION MODE
-        # ---------------------------------------------------------
+        # -------------------------------------------------------------------
+        # SUBSCRIPTION
+        # -------------------------------------------------------------------
         elif mode == "subscription":
             subscription_info = session.get("subscription")
-            if not subscription_info:
-                raise Exception("No subscription found in session object.")
-
-            # Because we expanded ["subscription.latest_invoice"], subscription_info
-            # should be a dict with "latest_invoice"
-            latest_invoice = subscription_info.get("latest_invoice")
+            latest_invoice = (
+                subscription_info.get("latest_invoice") if subscription_info else None
+            )
             if latest_invoice:
-                logger.debug("Subscription latest_invoice: %r", latest_invoice)
-
                 amount_total = latest_invoice.get("amount_paid")
                 currency = latest_invoice.get("currency")
-
-                # If there's a separate charge ID on the invoice, we can retrieve it
                 invoice_charge_id = latest_invoice.get("charge")
                 if invoice_charge_id:
                     charge_obj = stripe.Charge.retrieve(invoice_charge_id)
-                    logger.debug(
-                        "Retrieved invoice's charge object for subscription: %r",
-                        charge_obj,
-                    )
                     receipt_url = charge_obj.get("receipt_url")
-                else:
-                    logger.debug(
-                        "No charge reference found in the subscription's invoice. "
-                        "Use hosted_invoice_url if needed."
-                    )
-                    # Fallback: invoice_pdf or hosted_invoice_url can act as a "receipt":
-                    # receipt_url = latest_invoice.get("hosted_invoice_url")
-                    # or:
-                    # receipt_url = latest_invoice.get("invoice_pdf")
 
-        # Retrieve some customer name if available
+        # -------------------------------------------------------------------
+        # CUSTOMER NAME (optional)
+        # -------------------------------------------------------------------
         customer_name = ""
         if session.get("customer_details"):
-            details = session["customer_details"]
-            customer_name = details.get("name", "")
+            customer_name = session["customer_details"].get("name", "")
         elif session.get("customer"):
-            cust = stripe.Customer.retrieve(session["customer"])
-            customer_name = cust.get("name", "")
+            customer_name = stripe.Customer.retrieve(session["customer"]).get(
+                "name", ""
+            )
+
+        # -------------------------------------------------------------------
+        #  NEW  ➜  Friendly fallback message when no receipt yet
+        # -------------------------------------------------------------------
+        fallback_message = None
+        if not receipt_url:
+            fallback_message = (
+                "Thank you for your purchase. You should receive a confirmation "
+                "email shortly with your receipt."
+            )
 
         result = {
             "customer_name": customer_name,
             "amount_total": amount_total,
             "currency": currency,
             "receipt_url": receipt_url,
+            # Only present when we truly have no receipt link:
+            "message": fallback_message,
         }
         logger.debug("Final response data: %r", result)
         return Response(result)
